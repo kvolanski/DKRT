@@ -1,5 +1,7 @@
 package br.edu.fapi.dkrt.cliente;
 
+import br.edu.fapi.dkrt.endereco.EnderecoDTO;
+
 import java.util.Date;
 
 public class ClienteDTO {
@@ -11,6 +13,7 @@ public class ClienteDTO {
     private boolean ativo;
     private Date dataCadastroCliente;
     private Date dataAlteracaoCliente;
+    private EnderecoDTO endereco;
 
 
     public String getNome() {
@@ -67,5 +70,13 @@ public class ClienteDTO {
 
     public void setDataAlteracaoCliente(Date dataAlteracaoCliente) {
         this.dataAlteracaoCliente = dataAlteracaoCliente;
+    }
+
+    public EnderecoDTO getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(EnderecoDTO endereco) {
+        this.endereco = endereco;
     }
 }
