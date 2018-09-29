@@ -1,5 +1,7 @@
 package br.edu.fapi.dkrt.cliente;
 
+import java.util.Date;
+
 public class ClienteDTO {
 
     private String nome;
@@ -7,6 +9,9 @@ public class ClienteDTO {
     private String cpf;
     private String telefone;
     private boolean ativo;
+    private Date dataCadastroCliente;
+    private Date dataAlteracaoCliente;
+
 
     public String getNome() {
         return nome;
@@ -46,5 +51,21 @@ public class ClienteDTO {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public Date getDataCadastroCliente() {
+        return dataCadastroCliente;
+    }
+
+    public void setDataCadastroCliente(Date dataCadastroCliente) {
+        this.dataCadastroCliente = dataCadastroCliente;
+    }
+
+    public Date getDataAlteracaoCliente() {
+        return dataAlteracaoCliente;
+    }
+
+    public void setDataAlteracaoCliente(Date dataAlteracaoCliente) {
+        this.dataAlteracaoCliente = dataAlteracaoCliente;
     }
 }

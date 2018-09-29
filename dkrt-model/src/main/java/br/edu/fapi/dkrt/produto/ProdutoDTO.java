@@ -1,11 +1,15 @@
 package br.edu.fapi.dkrt.produto;
 
+import java.util.Date;
+
 public class ProdutoDTO {
 
     private String nome;
     private String descricao;
     private double preco;
     private int quantidade;
+    private Date dataCadastroProduto;
+    private Date dataAlteracaoProduto;
 
     public String getNome() {
         return nome;
@@ -37,5 +41,21 @@ public class ProdutoDTO {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public Date getDataCadastroProduto() {
+        return dataCadastroProduto;
+    }
+
+    public void setDataCadastroProduto(Date dataCadastroProduto) {
+        this.dataCadastroProduto = dataCadastroProduto;
+    }
+
+    public Date getDataAlteracaoProduto() {
+        return dataAlteracaoProduto;
+    }
+
+    public void setDataAlteracaoProduto(Date dataAlteracaoProduto) {
+        this.dataAlteracaoProduto = dataAlteracaoProduto;
     }
 }
