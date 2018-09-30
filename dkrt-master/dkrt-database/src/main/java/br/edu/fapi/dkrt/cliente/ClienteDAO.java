@@ -8,7 +8,7 @@ public interface ClienteDAO {
 
     int createCliente (ClienteDTO clienteDTO);
 
-    int createEndereco (EnderecoDTO enderecoDTO);
+    int createEndereco (ClienteDTO clienteDTO, int idCliente);
 
 
 }
