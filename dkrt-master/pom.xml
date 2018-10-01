@@ -15,6 +15,7 @@
         <module>dkrt-business</module>
         <module>dkrt-controller</module>
         <module>dkrt-view</module>
+        <module>dkrt-web</module>
     </modules>
 
     
