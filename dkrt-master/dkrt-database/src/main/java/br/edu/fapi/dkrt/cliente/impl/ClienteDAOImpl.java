@@ -14,7 +14,7 @@ public class ClienteDAOImpl implements ClienteDAO {
         int idCliente;
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO cliente (nome,nomeSocial,cpf,telefone,ativo," +
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO cliente (cliente_nome,cliente_nomeSocial,cliente_cpf,cliente_telefone,cliente_ativo," +
                     ",dataCadastroCliente,dataAlteracaoCliente) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
@@ -48,7 +48,7 @@ public class ClienteDAOImpl implements ClienteDAO {
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("INSERT INTO endereco (cep,rua,numero,complemento,bairro,cidade,estado, cliente_id)" +
+                    ("INSERT INTO endereco (endereco_cep,endereco_rua,endereco_numero,endereco_complemento,endereco_bairro,endereco_cidade,endereco_estado, cliente_id)" +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, clienteDTO.getEndereco().getCep());

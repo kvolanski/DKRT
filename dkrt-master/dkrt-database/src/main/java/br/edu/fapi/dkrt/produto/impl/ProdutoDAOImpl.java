@@ -13,7 +13,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
         try(Connection connection = MySqlConnectionProvider.abrirConexao()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("INSERT INTO produto (nome,descricao,preco,quantidade,dataCadastroProduto,dataAlteracaoProduto)" +
+                    ("INSERT INTO produto (produto_nome,produto_descricao,produto_preco,produto_quantidade,produto_dataCadastroProduto,produto_dataAlteracaoProduto)" +
                             " VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
 
