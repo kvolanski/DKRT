@@ -1,6 +1,6 @@
 package br.edu.fapi.dkrt.usuario;
 
-public class Usuario {
+public class UsuarioDTO {
     private String email;
     private String senha;
 

@@ -13,7 +13,7 @@
 <body>
 
 <center>
-<form>
+<form method="get" action="login">
 
     <input type="text" id="login" style="width: 300px;">
     <br><br>
