@@ -11,7 +11,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 
     public int createCliente(ClienteDTO clienteDTO) {
-        int idCliente;
+        int idCliente = 0;
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO cliente (cliente_nome,cliente_nomeSocial,cliente_cpf,cliente_telefone,cliente_ativo," +

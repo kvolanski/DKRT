@@ -9,6 +9,7 @@ public class EnderecoDTO {
     private String bairro;
     private String cidade;
     private String estado;
+    private int idCliente;
 
     public String getCep() {
         return cep;
@@ -64,5 +65,13 @@ public class EnderecoDTO {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 }
