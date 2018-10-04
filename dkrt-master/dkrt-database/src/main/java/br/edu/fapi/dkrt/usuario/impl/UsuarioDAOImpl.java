@@ -14,7 +14,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     @Override
     public int createUsuario(UsuarioDTO usuario) {
         try (Connection connection = MySqlConnectionProvider.abrirConexao()){
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO usuarios (login, senha)" +
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO usuario (usuario_email, usuario_senha)" +
                     "VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException e){
             System.out.println("Falha na conexao");
