@@ -4,4 +4,6 @@ public interface UsuarioDAO {
 
     int createUsuario(UsuarioDTO usuario);
 
+    UsuarioDTO buscarUsuario(UsuarioDTO usuarioDTO);
+
 }

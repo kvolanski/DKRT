@@ -21,4 +21,9 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
         return 0;
     }
+
+    @Override
+    public UsuarioDTO buscarUsuario(UsuarioDTO usuarioDTO) {
+        return null;
+    }
 }
