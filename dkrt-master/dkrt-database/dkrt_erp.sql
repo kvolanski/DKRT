@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 04-Out-2018 às 21:29
+-- Generation Time: 05-Out-2018 às 05:39
 -- Versão do servidor: 10.1.36-MariaDB
 -- versão do PHP: 7.2.10
 
@@ -59,6 +59,38 @@ CREATE TABLE `endereco` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `orcamento`
+--
+
+CREATE TABLE `orcamento` (
+  `orcamento_id` int(11) NOT NULL,
+  `orcamento_valorTotal` float NOT NULL,
+  `orcamento_status` varchar(15) NOT NULL,
+  `orcamento_desconto` int(11) NOT NULL,
+  `orcamento_dataGeracao` date NOT NULL,
+  `orcamento_dataExpiracao` date NOT NULL,
+  `pedido_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pedido`
+--
+
+CREATE TABLE `pedido` (
+  `pedido_id` int(11) NOT NULL,
+  `pedido_nomeProduto` varchar(30) NOT NULL,
+  `pedido_quantidade` int(11) NOT NULL,
+  `pedido_valorUnitario` float NOT NULL,
+  `pedido_valorTotal` float NOT NULL,
+  `venda_id` int(11) DEFAULT NULL,
+  `orcamento_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `produto`
 --
 
@@ -83,6 +115,23 @@ CREATE TABLE `usuario` (
   `usuario_senha` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `venda`
+--
+
+CREATE TABLE `venda` (
+  `venda_id` int(11) NOT NULL,
+  `venda_valorTotal` float NOT NULL,
+  `venda_formaDePagamento` varchar(30) NOT NULL,
+  `venda_parcelas` int(3) NOT NULL,
+  `venda_status` varchar(15) NOT NULL,
+  `venda_desconto` int(11) NOT NULL,
+  `venda_dataDeVenda` date NOT NULL,
+  `cliente_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -100,6 +149,18 @@ ALTER TABLE `endereco`
   ADD PRIMARY KEY (`endereco_id`);
 
 --
+-- Indexes for table `orcamento`
+--
+ALTER TABLE `orcamento`
+  ADD PRIMARY KEY (`orcamento_id`);
+
+--
+-- Indexes for table `pedido`
+--
+ALTER TABLE `pedido`
+  ADD PRIMARY KEY (`pedido_id`);
+
+--
 -- Indexes for table `produto`
 --
 ALTER TABLE `produto`
@@ -110,6 +171,12 @@ ALTER TABLE `produto`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`usuario_id`);
+
+--
+-- Indexes for table `venda`
+--
+ALTER TABLE `venda`
+  ADD PRIMARY KEY (`venda_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -128,6 +195,18 @@ ALTER TABLE `endereco`
   MODIFY `endereco_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `orcamento`
+--
+ALTER TABLE `orcamento`
+  MODIFY `orcamento_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pedido`
+--
+ALTER TABLE `pedido`
+  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `produto`
 --
 ALTER TABLE `produto`
@@ -138,6 +217,12 @@ ALTER TABLE `produto`
 --
 ALTER TABLE `usuario`
   MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `venda`
+--
+ALTER TABLE `venda`
+  MODIFY `venda_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
