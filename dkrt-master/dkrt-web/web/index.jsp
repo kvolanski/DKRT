@@ -13,11 +13,11 @@
 <body>
 
 <center>
-<form method="get" action="login">
+<form method="post" action="login">
 
-    <input type="text" id="login" style="width: 300px;">
+    <input type="text" name="usuario" style="width: 300px;">
     <br><br>
-    <input type="password" id="senha" style="width: 300px;">
+    <input type="password" name="senha" style="width: 300px;">
     <br><br>
     <input type="submit" value="Logar">
 
