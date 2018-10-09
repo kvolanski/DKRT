@@ -7,17 +7,20 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<script src="functions.js"></script>
+
 <head>
-    <title>Title</title>
+    <title>DKRT</title>
 </head>
 <body>
 
 <center>
 <form method="post" action="login">
-
-    <input type="text" name="usuario" style="width: 300px;">
+    Login
+    <input type="text" name="usuario" style="width: 300px;" required>
     <br><br>
-    <input type="password" name="senha" style="width: 300px;">
+    Senha
+    <input type="password" name="senha" style="width: 300px;" required>
     <br><br>
     <input type="submit" value="Logar">
 
