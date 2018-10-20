@@ -15,7 +15,7 @@
 <body>
 
 <center>
-<form method="post" action="login">
+<form method="post" action="controller?acao=login">
     Login
     <input type="text" name="usuario" style="width: 300px;" required>
     <br><br>
