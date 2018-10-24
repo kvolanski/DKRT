@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="../estilo/estilo.css" type="text/css">
+    <style>
+        <%@include file="../estilo/estilo.css" %>
+    </style>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
-
-
 
 
     <title>D.K.R.T</title>
@@ -54,7 +59,8 @@
     </ul>
 </div>
 
-<br><br><br><h1 class="geral">RELATÓRIO ESTOQUE</h1><br>
+<br><br><br>
+<h1 class="geral">RELATÓRIO ESTOQUE</h1><br>
 
 <span class="geral">
 
@@ -85,17 +91,17 @@
 
                      <table class="tabela">
 
-                            <tr >
-                            <td >ID</td>
-                            <td >NOME</td>
-                            <td >DESCRIÇÃO</td>
-                            <td >PREÇO DE VENDA</td>
-                            <td >DATA DE CADASTRO</td>
-                            <td >HORA DE ALTERÇÃO</td>
-                            <td >ENTRADA</td>
-                            <td >SAÍDA</td>
-                            <td >QUANTIDADE TOTAL</td>
-                            <td >ATIVO</td>
+                            <tr>
+                            <td>ID</td>
+                            <td>NOME</td>
+                            <td>DESCRIÇÃO</td>
+                            <td>PREÇO DE VENDA</td>
+                            <td>DATA DE CADASTRO</td>
+                            <td>HORA DE ALTERÇÃO</td>
+                            <td>ENTRADA</td>
+                            <td>SAÍDA</td>
+                            <td>QUANTIDADE TOTAL</td>
+                            <td>ATIVO</td>
 
                             </tr>
                             <tr>
@@ -126,7 +132,8 @@
                          </table>
                     </center>
                     <br><br>
-                        <input value="Imprimir" type="button" class="btn btn-success" onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
+                        <input value="Imprimir" type="button" class="btn btn-success"
+                               onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
 
 
                 </div>
@@ -135,9 +142,9 @@
 
 
                      <br><br><label>Data Inicio</label>
-                        <input  type="date" value="2018-09-15">
+                        <input type="date" value="2018-09-15">
                      <label>Data Final</label>
-                        <input  type="date" value="2018-09-15">
+                        <input type="date" value="2018-09-15">
 
                     <br>
 
@@ -150,17 +157,17 @@
 
                          <table class="tabela">
 
-                            <tr >
-                            <td >ID</td>
-                            <td >NOME</td>
-                            <td >DESCRIÇÃO</td>
-                            <td >PREÇO DE VENDA</td>
-                            <td >DATA DE CADASTRO</td>
-                            <td >DATA DE ALTERAÇÃO</td>
-                            <td >ENTRADA</td>
-                            <td >SAÍDA</td>
-                            <td >QUANTIDADE TOTAL</td>
-                            <td >ATIVO</td>
+                            <tr>
+                            <td>ID</td>
+                            <td>NOME</td>
+                            <td>DESCRIÇÃO</td>
+                            <td>PREÇO DE VENDA</td>
+                            <td>DATA DE CADASTRO</td>
+                            <td>DATA DE ALTERAÇÃO</td>
+                            <td>ENTRADA</td>
+                            <td>SAÍDA</td>
+                            <td>QUANTIDADE TOTAL</td>
+                            <td>ATIVO</td>
 
                             </tr>
                             <tr>
@@ -191,7 +198,8 @@
                          </table>
                     </center>
                     <br><br>
-                       <input value="Imprimir" type="button" class="btn btn-success" onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
+                       <input value="Imprimir" type="button" class="btn btn-success"
+                              onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
 
                 </div>
 
@@ -209,17 +217,17 @@
 
                                      <table class="tabela">
 
-                            <tr >
-                            <td >ID</td>
-                            <td >NOME</td>
-                            <td >DESCRIÇÃO</td>
-                            <td >PREÇO DE VENDA</td>
-                            <td >DATA DE CADASTRO</td>
-                            <td >DIA DE ALTERÇÃO</td>
-                            <td >ENTRADA</td>
-                            <td >SAÍDA</td>
-                            <td >QUANTIDADE TOTAL</td>
-                            <td >ATIVO</td>
+                            <tr>
+                            <td>ID</td>
+                            <td>NOME</td>
+                            <td>DESCRIÇÃO</td>
+                            <td>PREÇO DE VENDA</td>
+                            <td>DATA DE CADASTRO</td>
+                            <td>DIA DE ALTERÇÃO</td>
+                            <td>ENTRADA</td>
+                            <td>SAÍDA</td>
+                            <td>QUANTIDADE TOTAL</td>
+                            <td>ATIVO</td>
 
                             </tr>
                             <tr>
@@ -251,7 +259,8 @@
                          </table>
                     </center>
                     <br><br>
-                          <input value="Imprimir" type="button" class="btn btn-success" onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
+                          <input value="Imprimir" type="button" class="btn btn-success"
+                                 onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
                 </div>
 
                 <div id="anual" style="visibility:hidden; margin-top: -297px">
@@ -266,17 +275,17 @@
 
                         <table class="tabela">
 
-                            <tr >
-                            <td >ID</td>
-                            <td >NOME</td>
-                            <td >DESCRIÇÃO</td>
-                            <td >PREÇO DE VENDA</td>
-                            <td >DATA DE CADASTRO</td>
-                            <td >DATA DE ALTERÇÃO</td>
-                            <td >ENTRADA</td>
-                            <td >SAÍDA</td>
-                            <td >QUANTIDADE TOTAL</td>
-                            <td >ATIVO</td>
+                            <tr>
+                            <td>ID</td>
+                            <td>NOME</td>
+                            <td>DESCRIÇÃO</td>
+                            <td>PREÇO DE VENDA</td>
+                            <td>DATA DE CADASTRO</td>
+                            <td>DATA DE ALTERÇÃO</td>
+                            <td>ENTRADA</td>
+                            <td>SAÍDA</td>
+                            <td>QUANTIDADE TOTAL</td>
+                            <td>ATIVO</td>
 
                             </tr>
                             <tr>
@@ -308,7 +317,8 @@
                     </center>
                     <br><br>
 
-					    <input value="Imprimir" type="button" class="btn btn-success" onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
+					    <input value="Imprimir" type="button" class="btn btn-success"
+                               onclick="alert('IMPRESSÃO REALZIADA COM SUCESSO   ')"/>
 
 
                 </div>
@@ -316,42 +326,40 @@
 
 
 <script type="text/javascript">
-    function optionCheck(){
+    function optionCheck() {
         var option = document.getElementById("tipo").value;
 
-        if(option == "diario"){
-            document.getElementById("diario").style.visibility ="visible";
-            document.getElementById("periodo").style.visibility ="hidden";
-            document.getElementById("mensal").style.visibility ="hidden";
-            document.getElementById("anual").style.visibility ="hidden";
+        if (option == "diario") {
+            document.getElementById("diario").style.visibility = "visible";
+            document.getElementById("periodo").style.visibility = "hidden";
+            document.getElementById("mensal").style.visibility = "hidden";
+            document.getElementById("anual").style.visibility = "hidden";
 
 
         }
-        if(option == "periodo"){
+        if (option == "periodo") {
 
-            document.getElementById("periodo").style.visibility ="visible";
-            document.getElementById("diario").style.visibility ="hidden";
-            document.getElementById("mensal").style.visibility ="hidden";
-            document.getElementById("anual").style.visibility ="hidden";
+            document.getElementById("periodo").style.visibility = "visible";
+            document.getElementById("diario").style.visibility = "hidden";
+            document.getElementById("mensal").style.visibility = "hidden";
+            document.getElementById("anual").style.visibility = "hidden";
         }
-        if(option == "mensal"){
+        if (option == "mensal") {
 
-            document.getElementById("mensal").style.visibility ="visible";
-            document.getElementById("diario").style.visibility ="hidden";
-            document.getElementById("periodo").style.visibility ="hidden";
-            document.getElementById("anual").style.visibility ="hidden";
+            document.getElementById("mensal").style.visibility = "visible";
+            document.getElementById("diario").style.visibility = "hidden";
+            document.getElementById("periodo").style.visibility = "hidden";
+            document.getElementById("anual").style.visibility = "hidden";
         }
-        if(option == "anual"){
+        if (option == "anual") {
 
-            document.getElementById("anual").style.visibility ="visible";
-            document.getElementById("diario").style.visibility ="hidden";
-            document.getElementById("mensal").style.visibility ="hidden";
-            document.getElementById("periodo").style.visibility ="hidden";
+            document.getElementById("anual").style.visibility = "visible";
+            document.getElementById("diario").style.visibility = "hidden";
+            document.getElementById("mensal").style.visibility = "hidden";
+            document.getElementById("periodo").style.visibility = "hidden";
         }
     }
 </script>
-
-
 
 
 </body>
