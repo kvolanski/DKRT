@@ -1,31 +1,29 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Archibald
-  Date: 01/10/2018
-  Time: 10:19
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<script src="functions.js"></script>
-
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-    <title>DKRT</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style><%@include file="WEB-INF/estilo/estilo.css"%></style>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+    <title>login</title>
 </head>
 <body>
 
-<center>
-<form method="post" action="controller?acao=login">
-    Login
-    <input type="text" name="usuario" style="width: 300px;" required>
-    <br><br>
-    Senha
-    <input type="password" name="senha" style="width: 300px;" required>
-    <br><br>
-    <input type="submit" value="Logar">
+<img src="logo.png" class="logo"/>
+        <div class="login">
 
-</form>
-</center>
+            <label>USUÁRIO<input type="text" name="user" placeholder="USUÁRIO" required class="form-control" value="admin"></label><br><br>
+            <label>SENHA<input type="password" name="user" placeholder="SENHA" required CLASS="form-control" value="admin"></label><br>
+            <a href="home.html"><input value="ENTRAR" type="button" class="btn btn-success"/></a><br>
+        </div>
+
 
 </body>
 </html>

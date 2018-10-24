@@ -1,0 +1,113 @@
+.drop_menu {
+	background:#EDEDED;
+	padding:0;
+	margin:0;
+	list-style-type:none;
+	height:35px;
+}
+.drop_menu li { 
+	float:left;
+}
+.drop_menu li a {
+	padding:9px 20px;
+	display:block;
+	color:#333;
+	text-decoration:none;
+	font:15px arial, verdana, sans-serif;
+}
+/* Submenu */
+.drop_menu ul {
+	position:absolute;
+	left:-9999px;
+	top:-9999px;
+	list-style-type:none;
+}
+.drop_menu li:hover {
+	position:relative; background:#ADD8E6; 
+}
+.drop_menu li:hover ul {
+	left:0px;
+	top:30px;
+	background:#EDEDED;
+	padding:0px;
+}
+
+.drop_menu li:hover ul li a {
+	padding:5px;
+	display:block;
+	width:168px;
+	text-indent:15px;
+}
+.drop_menu li:hover ul li a:hover {
+	background-color:#EDEDED;
+    color: #6D6D6D;
+    border-bottom:3px solid #EA0000;
+}
+.geral{
+	
+	text-align: center;
+}
+
+.btn{
+	width: 100px;	
+}
+
+.icons{
+	font-size: 30px;
+}
+
+.transparente{
+	opacity: 0.0 !important;
+}
+
+
+tabela {
+	border-collapse:collapse;
+	border:1px solid #CCC;
+}
+
+.tabela tr {
+	border:1px solid #CCC;
+}
+
+.tabela td {
+	width:100px;
+	height:40px;
+	padding:10px;
+	border:1px solid #CCC;
+	text-align: center;
+}
+
+.font{
+	font-size: 14px;
+	left: 655px	!important;
+	position: absolute;
+
+}
+
+.tipo{
+	font-size: 14px;
+	right: 655px	!important;
+	position: absolute;
+
+}
+
+.login{
+    padding: 20%;
+    text-align: center;
+}
+
+.logo{
+    width:60%;
+    position: absolute;
+    left: 20%;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.logohome{
+    width:55%;
+    position: absolute;
+    left: 22%;
+    z-index: -1;
+}
