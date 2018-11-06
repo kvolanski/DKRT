@@ -1,8 +1,17 @@
 package br.edu.fapi.dkrt.model.usuario;
 
 public class UsuarioDTO {
+    private int id;
     private String email;
     private String senha;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

@@ -17,20 +17,17 @@
             crossorigin="anonymous"></script>
 
 
-    <title>login</title>
+    <title>DKRT - Login</title>
 </head>
 <body>
 
 <img src="logo.png" class="logo"/>
 <div class="login">
-
-    <label>USUÁRIO<input type="text" name="user" placeholder="USUÁRIO" required class="form-control"
-                         value="admin"></label><br><br>
-    <label>SENHA<input type="password" name="user" placeholder="SENHA" required CLASS="form-control"
-                       value="admin"></label><br>
-    <a href="home.html"><input value="ENTRAR" type="button" class="btn btn-success"/></a><br>
+    <form method="post" action="controller?acao=login">
+        <label>USUÁRIO<input type="text" name="loginUsuario" placeholder="Usuário" required class="form-control"></label><br><br>
+        <label>SENHA<input type="password" name="senhaUsuario" placeholder="Senha" required CLASS="form-control"></label><br><br>
+        <input value="Logar" type="submit" class="btn btn-success"/><br>
+    </form>
 </div>
-
-
 </body>
 </html>

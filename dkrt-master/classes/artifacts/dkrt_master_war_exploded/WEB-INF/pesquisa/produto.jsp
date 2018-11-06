@@ -46,43 +46,9 @@
 </head>
 
 <body>
-<div class="drop">
-    <ul class="drop_menu">
-        <li><a href='#'>CADASTRO</a>
-            <ul>
-                <li><a href='../cadastro/produto.html'>Pruduto</a></li>
-                <li><a href='../cadastro/cliente.html'>Cliente</a></li>
-            </ul>
-        </li>
-        <li><a href='#'>VENDAS</a>
-            <ul>
-                <li><a href='../venda/vender.html'>Efetuar Venda</a></li>
-                <li><a href='../venda/cancelar.html'>Cancelar Venda</a></li>
-            </ul>
-        </li>
-        <li><a href='#'>ORÇAMENTOS</a>
-            <ul>
-                <li><a href='../orcamento/orcamento.html'>Gerar orçamento</a></li>
-                <li><a href='../orcamento/orcsalvo.html'>Orçamentos Salvos</a></li>
-            </ul>
-        </li>
-        <li><a href='#'>RELATÓRIOS</a>
-            <ul>
-                <li><a href='../relatorio/venda.html'>Venda</a></li>
-                <li><a href='../relatorio/estoque.html'>Estoque</a></li>
-            </ul>
-        </li>
-        <li><a href='#'>PESQUISAR</a>
-            <ul>
-                <li><a href='cliente.html'>Cliente</a></li>
-                <li><a href='produto.html'>Produto</a></li>
-            </ul>
-        </li>
-        <li><a href='../index.html' onclick="alert('VOCÊ ESTA SAINDO DO SISTEMA, ATE MAIS')">SAIR</a></li>
-    </ul>
-</div>
 
-<br><br><br>
+<%@include file="/WEB-INF/navbar/navbar.jsp" %>
+
 <h1 class="geral">PESQUISAR PRODUTO</h1><br>
 
 <span class="geral">

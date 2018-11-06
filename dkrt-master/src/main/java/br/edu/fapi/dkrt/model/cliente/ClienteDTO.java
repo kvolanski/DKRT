@@ -5,15 +5,15 @@ import br.edu.fapi.dkrt.model.endereco.EnderecoDTO;
 import java.util.Date;
 
 public class ClienteDTO {
-
     private String nome;
     private String nomeSocial;
     private String cpf;
+    private Date dtNascimento;
     private String telefone;
     private boolean ativo;
     private Date dataCadastroCliente;
     private Date dataAlteracaoCliente;
-    private EnderecoDTO endereco;
+    private EnderecoDTO enderecoDTO;
 
 
     public String getNome() {
@@ -34,6 +34,14 @@ public class ClienteDTO {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public Date getDtNascimento() {
+        return dtNascimento;
+    }
+
+    public void setDtNascimento(Date dtNascimento) {
+        this.dtNascimento = dtNascimento;
     }
 
     public void setCpf(String cpf) {
@@ -72,11 +80,11 @@ public class ClienteDTO {
         this.dataAlteracaoCliente = dataAlteracaoCliente;
     }
 
-    public EnderecoDTO getEndereco() {
-        return endereco;
+    public EnderecoDTO getEnderecoDTO() {
+        return enderecoDTO;
     }
 
-    public void setEndereco(EnderecoDTO endereco) {
-        this.endereco = endereco;
+    public void setEnderecoDTO(EnderecoDTO enderecoDTO) {
+        this.enderecoDTO = enderecoDTO;
     }
 }

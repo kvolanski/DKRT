@@ -1,6 +1,7 @@
 package br.edu.fapi.dkrt.servlets.login;
 
 import br.edu.fapi.dkrt.model.usuario.UsuarioDTO;
+import br.edu.fapi.dkrt.services.login.LoginService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,15 +16,19 @@ public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("usuario");
-        String senha = req.getParameter("senha");
+        LoginService loginService = new LoginService();
+        String email = req.getParameter("loginUsuario");
+        String senha = req.getParameter("senhaUsuario");
 
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setEmail(email);
+        usuarioDTO.setSenha(senha);
 
-//        UsuarioDTO usuarioDTO = new UsuarioDTO();
-//        usuarioDTO.setEmail(email);
-//        usuarioDTO.setSenha(senha);
-
-        req.getRequestDispatcher("WEB-INF/menu.jsp").forward(req, resp);
+        if (loginService.validaLogin(usuarioDTO)) {
+            req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
+        }
     }
 
 }

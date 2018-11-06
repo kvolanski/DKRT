@@ -6,7 +6,4 @@ public interface ClienteDAO {
 
     int createCliente(ClienteDTO clienteDTO);
 
-    int createEndereco(ClienteDTO clienteDTO, int idCliente);
-
-
 }

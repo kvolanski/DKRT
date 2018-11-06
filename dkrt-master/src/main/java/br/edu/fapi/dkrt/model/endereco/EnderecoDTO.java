@@ -1,15 +1,24 @@
 package br.edu.fapi.dkrt.model.endereco;
 
-public class EnderecoDTO {
+import br.edu.fapi.dkrt.model.uf.UfDTO;
 
+public class EnderecoDTO {
+    private int id;
     private String cep;
     private String rua;
     private String numero;
     private String complemento;
     private String bairro;
     private String cidade;
-    private String estado;
-    private int idCliente;
+    private UfDTO ufDTO;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCep() {
         return cep;
@@ -59,19 +68,11 @@ public class EnderecoDTO {
         this.cidade = cidade;
     }
 
-    public String getEstado() {
-        return estado;
+    public UfDTO getUfDTO() {
+        return ufDTO;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setUfDTO(UfDTO ufDTO) {
+        this.ufDTO = ufDTO;
     }
 }

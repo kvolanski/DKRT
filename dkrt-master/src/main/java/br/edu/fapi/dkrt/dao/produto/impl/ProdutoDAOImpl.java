@@ -27,6 +27,8 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
         return 0;
