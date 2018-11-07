@@ -13,10 +13,11 @@ public class EnderecoDAOImpl implements EnderecoDAO {
         EnderecoDTO enderecoBusca = new EnderecoDTO();
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM enderecos WHERE endereco_rua = ?" +
-                    " AND endereco_numero = ?");
+                    " AND endereco_numero = ? AND endereco_cep = ?");
 
             preparedStatement.setString(1, enderecoDTO.getRua());
             preparedStatement.setString(2, enderecoDTO.getNumero());
+            preparedStatement.setString(3, enderecoDTO.getCep());
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

@@ -28,23 +28,24 @@
 	 <form method="post" action="controller?acao=cadastro&tipo=cliente">
 				<label>Codigo: <input type="button" name="codigo" class="form-control" value="1"
                                       disabled="disabled"/></label><br>
-				<label>Nome: <input type="text" name="nomeCliente" class="form-control"/></label>
-				<label>CPF: <input type="text" name="cpfCliente" class="form-control"/></label>
-				<label>Dt. Nascimento: <input type="text" name="dtNascCliente" class="form-control"/></label>
-				<label>Telefone: <input type="text" name="telefoneCliente" class="form-control"/></label> <br>
+				<label>Nome: <input type="text" name="nomeCliente" class="form-control" required/></label>
+				<label>CPF: <input type="text" name="cpfCliente" class="form-control" required/></label>
+				<label>Dt. Nascimento: <input type="text" name="dtNascCliente" class="form-control" required/></label>
+				<label>Telefone: <input type="text" name="telefoneCliente" class="form-control" required/></label> <br>
 				<label>CEP: <input type="text" name="cepEnderecoCliente"
-                                   class="form-control" <%--onblur="pesquisacep(this.value);"--%>/></label>
-				<label>Rua: <input type="text" name="ruaEnderecoCliente" id="rua" class="form-control"/></label>
-				<label>Numero: <input type="text" name="numeroEnderecoCliente" class="form-control"/></label><br>
-				<label>Complemento: <input type="text" name="complementoEnderecoCliente" class="form-control"/></label><br>
+                                   class="form-control" <%--onblur="pesquisacep(this.value);"--%> required/></label>
+				<label>Rua: <input type="text" name="ruaEnderecoCliente" id="rua" class="form-control" required/></label>
+				<label>Numero: <input type="text" name="numeroEnderecoCliente" class="form-control" required/></label><br>
+				<label>Complemento: <input type="text" name="complementoEnderecoCliente"
+                                           class="form-control"/></label><br>
 				<label>Bairro: <input type="text" name="bairroEnderecoCliente" id="bairro"
-                                      class="form-control"/></label>
+                                      class="form-control" required/></label>
 				<label>Cidade: <input type="text" name="cidadeEnderecoCliente" id="cidade"
-                                      class="form-control"/></label>
+                                      class="form-control" required/></label>
 				<%--<label>Estado: <input type="text" name="estadoEnderecoCliente" id="uf" class="form-control"/></label>--%>
          <br><br>Uf:
          <select name="clienteUfId" class="form-control">
-            <option>Selecione uma opção</option>
+            <option value="0">Selecione uma opção</option>
             <c:forEach var="uf" items="${listaUfs}">
                 <c:if test="${uf.sigla != 'N/A'}">
                     <option value="${uf.id}">${uf.sigla}</option>
@@ -56,8 +57,15 @@
 			<input value="Limpar Dados" type="reset" class="btn btn-danger"/>
 			<input value="Cadastrar" type="submit" class="btn btn-success"/>
 	</form>
-	
+<input type="hidden" id="condicao" value="${condicao}">
 
+    <script>
+        var condicao = document.getElementById("condicao").value;
+
+        if (condicao == "sucesso"){
+            alert("Cadastro realizado com sucesso");
+        }
+    </script>
 	
 	
 </span>

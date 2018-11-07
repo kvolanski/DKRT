@@ -53,14 +53,27 @@ public class CadastroClienteService {
                 }
             }
 
+            if (!clienteBusiness.verificarNumeroPalavra(clienteDTO.getNome())){
+                if ("sucesso".equalsIgnoreCase(condicao)){
+                    condicao = "nomeCliente ";
+                } else {
+                    condicao += "nomeCliente ";
+                }
+            }
+
+            if (clienteDTO.getEnderecoDTO().getUfDTO().getId() == 0){
+                if ("sucesso".equalsIgnoreCase(condicao)){
+                    condicao = "ufIncorreto ";
+                } else {
+                    condicao += "ufIncorreto ";
+                }
+            }
+
             if ("sucesso".equalsIgnoreCase(condicao)) {
                 EnderecoDTO enderecoBusca = enderecoDAO.buscaEndereco(clienteDTO.getEnderecoDTO(), clienteDTO.getEnderecoDTO().getUfDTO().getId());
                 clienteDTO.setEnderecoDTO(enderecoBusca);
                 clienteDAO.createCliente(clienteDTO);
             }
-
-            System.out.println(condicao);
-
         }
         return condicao;
     }

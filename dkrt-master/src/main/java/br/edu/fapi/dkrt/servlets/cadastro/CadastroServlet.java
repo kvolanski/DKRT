@@ -71,7 +71,11 @@ public class CadastroServlet extends HttpServlet {
             String condicao = cadastroClienteService.cadastrarCliente(clienteDTO);
 
             if ("sucesso".equalsIgnoreCase(condicao)) {
+                req.getSession().setAttribute("condicao", condicao);
                 req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
+            } else {
+                req.getSession().setAttribute("condicao", condicao);
+                req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
             }
         }
 
@@ -85,6 +89,7 @@ public class CadastroServlet extends HttpServlet {
         if ("cliente".equalsIgnoreCase(tipo)) {
             UfDAO ufDAO = new UfDAOImpl();
             List<UfDTO> listaUfs = ufDAO.buscarListaUfs();
+            req.getSession().setAttribute("condicao", "");
             req.getSession().setAttribute("listaUfs", listaUfs);
             req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
         }
