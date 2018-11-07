@@ -51,7 +51,22 @@
         <br><br>
     </c:if>
 
-    <a href="controller?acao=cadastro&tipo=cliente"><button>Voltar</button></a>
+    <c:if test="${fn:containsIgnoreCase(condicao, 'numNegativo')}">
+        <div>Quantidade em estoque e/ou preço do produto não pode(m) ser negativo(s).</div>
+        <br><br>
+    </c:if>
+
+    <c:if test="${tipoCadastro == 'cliente'}">
+        <a href="controller?acao=cadastro&tipo=cliente">
+            <button>Voltar</button>
+        </a>
+    </c:if>
+
+    <c:if test="${tipoCadastro == 'produto'}">
+        <a href="controller?acao=cadastro&tipo=produto">
+            <button>Voltar</button>
+        </a>
+    </c:if>
 </center>
 
 

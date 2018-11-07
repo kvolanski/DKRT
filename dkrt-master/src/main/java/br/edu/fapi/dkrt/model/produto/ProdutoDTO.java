@@ -3,13 +3,21 @@ package br.edu.fapi.dkrt.model.produto;
 import java.util.Date;
 
 public class ProdutoDTO {
-
+    private int id;
     private String nome;
     private String descricao;
     private double preco;
     private int quantidade;
     private Date dataCadastroProduto;
     private Date dataAlteracaoProduto;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

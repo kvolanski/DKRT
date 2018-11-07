@@ -4,8 +4,10 @@ import br.edu.fapi.dkrt.dao.uf.UfDAO;
 import br.edu.fapi.dkrt.dao.uf.impl.UfDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.endereco.EnderecoDTO;
+import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.uf.UfDTO;
 import br.edu.fapi.dkrt.services.cadastro.CadastroClienteService;
+import br.edu.fapi.dkrt.services.cadastro.CadastroProdutoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -75,6 +77,55 @@ public class CadastroServlet extends HttpServlet {
                 req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
             } else {
                 req.getSession().setAttribute("condicao", condicao);
+                req.getSession().setAttribute("tipoCadastro", "cliente");
+                req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
+            }
+        }
+
+        if ("produto".equalsIgnoreCase(tipo)){
+            CadastroProdutoService cadastroProdutoService = new CadastroProdutoService();
+            String nome = req.getParameter("nomeProduto");
+            String descricao = req.getParameter("descricaoProduto");
+            String quantidade = req.getParameter("quantidadeProduto");
+            String preco = req.getParameter("precoProduto");
+
+            ProdutoDTO produtoDTO = new ProdutoDTO();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            produtoDTO.setNome(nome);
+            produtoDTO.setDescricao(descricao);
+
+            try {
+                produtoDTO.setQuantidade(Integer.parseInt(quantidade));
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+                req.getSession().setAttribute("condicao", "qtdInvalida");
+                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+            }
+
+            try {
+                produtoDTO.setPreco(Double.parseDouble(preco));
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+                req.getSession().setAttribute("condicao", "precoInvalido");
+                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+            }
+
+            String data = dateFormat.format(new Date());
+            try {
+                produtoDTO.setDataCadastroProduto(dateFormat.parse(data));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            String condicao = cadastroProdutoService.cadastrarProduto(produtoDTO);
+
+            if ("sucesso".equalsIgnoreCase(condicao)) {
+                req.getSession().setAttribute("condicao", condicao);
+                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+            } else {
+                req.getSession().setAttribute("condicao", condicao);
+                req.getSession().setAttribute("tipoCadastro", "produto");
                 req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
             }
         }
@@ -92,6 +143,11 @@ public class CadastroServlet extends HttpServlet {
             req.getSession().setAttribute("condicao", "");
             req.getSession().setAttribute("listaUfs", listaUfs);
             req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
+        }
+
+        if ("produto".equalsIgnoreCase(tipo)){
+            req.getSession().setAttribute("condicao", "");
+            req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
         }
     }
 }

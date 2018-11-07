@@ -19,22 +19,33 @@
 
 <body>
 
-<%@include file="/WEB-INF/navbar/navbar.jsp"%>
+<%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <h1 class="geral">PRODUTOS</h1>
 <span class="geral">
-	<form method="post" action="#">   		
+	<form method="post" action="controller?acao=cadastro&tipo=produto">
 		   <label>Codigo: <input type="button" name="codigo" class="form-control" value="1"
                                  disabled="disabled"/></label><br>
-		   <label>Produto: <input name="produto" class="form-control"/></label>
-			<label>Descrição: <input name="descricao" class="form-control"/></label> <br>
-			<label>Quantidade: <input type="number" name="quantidade" class="form-control"/></label>
-			<label>Preço de Venda: <input type="number" name="venda" class="form-control"/></label> <br><br>
-			<input value="Cancelar" type="button" class="btn btn-danger"/>
-			<input value="Salvar" type="button" class="btn btn-success"
-                   onclick="alert('PRODUTO CADASTRADO COM SUCESSO')"/>
-					
+		   <label>Produto*: <input type="text" name="nomeProduto" class="form-control" required/></label>
+			<label>Descrição*: <input type="text" name="descricaoProduto" class="form-control" required/></label> <br>
+			<label>Quantidade em Estoque*: <input type="text" name="quantidadeProduto" class="form-control" required/></label>
+			<label>Preço de Venda(xxxx.xx)*: <input type="text" name="precoProduto" class="form-control" required/></label> <br><br>
+			<input value="Limpar Campos" type="reset" class="btn btn-danger"/>
+			<input value="Salvar" type="submit" class="btn btn-success"/>
 	</form>
+    <input type="hidden" value="${condicao}" id="condicao">
+
+    <script>
+        var condicao = document.getElementById("condicao").value;
+
+        if (condicao == "precoInvalido"){
+            alert("Preço inválido. Por favor, digite no seguinte formato (xxxx.xx).")
+        }
+
+        if (condicao == "qtdInvalida"){
+            alert("Quantidade inválida. Por favor, digite um número.")
+        }
+    </script>
 </span>
 </body>
 </html>
