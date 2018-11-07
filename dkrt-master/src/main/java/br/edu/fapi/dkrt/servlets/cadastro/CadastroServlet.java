@@ -31,8 +31,11 @@ public class CadastroServlet extends HttpServlet {
         if ("cliente".equalsIgnoreCase(tipo)) {
             CadastroClienteService cadastroClienteService = new CadastroClienteService();
             String nome = req.getParameter("nomeCliente");
+            String rg = req.getParameter("rgCliente");
             String cpf = req.getParameter("cpfCliente");
             String dtNasc = req.getParameter("dtNascCliente");
+            String email = req.getParameter("emailCliente");
+            String celular = req.getParameter("celularCliente");
             String telefone = req.getParameter("telefoneCliente");
             String cepEndereco = req.getParameter("cepEnderecoCliente");
             String ruaEndereco = req.getParameter("ruaEnderecoCliente");
@@ -40,6 +43,7 @@ public class CadastroServlet extends HttpServlet {
             String numeroEndereco = req.getParameter("numeroEnderecoCliente");
             String bairroEndereco = req.getParameter("bairroEnderecoCliente");
             String cidadeEndereco = req.getParameter("cidadeEnderecoCliente");
+            String observacao = req.getParameter("observacaoCliente");
             String ufId = req.getParameter("clienteUfId");
 
             UfDTO ufDTO = new UfDTO();
@@ -58,7 +62,12 @@ public class CadastroServlet extends HttpServlet {
             enderecoDTO.setUfDTO(ufDTO);
 
             clienteDTO.setNome(nome);
+            clienteDTO.setRg(rg);
             clienteDTO.setCpf(cpf);
+            clienteDTO.setEmail(email);
+            clienteDTO.setCelular(celular);
+            clienteDTO.setTelefone(telefone);
+            clienteDTO.setObservacao(observacao);
             clienteDTO.setAtivo(true);
             String hoje = dateFormat.format(new Date());
             try {
@@ -67,7 +76,6 @@ public class CadastroServlet extends HttpServlet {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            clienteDTO.setTelefone(telefone);
             clienteDTO.setEnderecoDTO(enderecoDTO);
 
             String condicao = cadastroClienteService.cadastrarCliente(clienteDTO);
@@ -87,7 +95,8 @@ public class CadastroServlet extends HttpServlet {
             String nome = req.getParameter("nomeProduto");
             String descricao = req.getParameter("descricaoProduto");
             String quantidade = req.getParameter("quantidadeProduto");
-            String preco = req.getParameter("precoProduto");
+            String precoVenda = req.getParameter("precoVendaProduto");
+            String precoCusto = req.getParameter("precoCustoProduto");
 
             ProdutoDTO produtoDTO = new ProdutoDTO();
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -96,7 +105,7 @@ public class CadastroServlet extends HttpServlet {
             produtoDTO.setDescricao(descricao);
 
             try {
-                produtoDTO.setQuantidade(Integer.parseInt(quantidade));
+                produtoDTO.setQtdEstoque(Integer.parseInt(quantidade));
             } catch (NumberFormatException e){
                 e.printStackTrace();
                 req.getSession().setAttribute("condicao", "qtdInvalida");
@@ -104,7 +113,8 @@ public class CadastroServlet extends HttpServlet {
             }
 
             try {
-                produtoDTO.setPreco(Double.parseDouble(preco));
+                produtoDTO.setPrecoVenda(Double.parseDouble(precoVenda));
+                produtoDTO.setPrecoCusto(Double.parseDouble(precoCusto));
             } catch (NumberFormatException e){
                 e.printStackTrace();
                 req.getSession().setAttribute("condicao", "precoInvalido");
@@ -117,6 +127,8 @@ public class CadastroServlet extends HttpServlet {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+            produtoDTO.setAtivo(1);
 
             String condicao = cadastroProdutoService.cadastrarProduto(produtoDTO);
 

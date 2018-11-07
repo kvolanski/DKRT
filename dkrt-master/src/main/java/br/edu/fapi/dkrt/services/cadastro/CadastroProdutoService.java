@@ -20,7 +20,7 @@ public class CadastroProdutoService {
         if (produtoDTO != null){
             condicao = "sucesso";
 
-            if (!produtoBusiness.verificaNumeroNegativo(produtoDTO.getQuantidade(), produtoDTO.getPreco())){
+            if (!produtoBusiness.verificaNumeroNegativo(produtoDTO.getQtdEstoque(), produtoDTO.getPrecoVenda(), produtoDTO.getPrecoCusto())){
                 condicao = "numNegativo ";
             }
 

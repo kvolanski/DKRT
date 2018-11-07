@@ -52,7 +52,7 @@
     </c:if>
 
     <c:if test="${fn:containsIgnoreCase(condicao, 'numNegativo')}">
-        <div>Quantidade em estoque e/ou preço do produto não pode(m) ser negativo(s).</div>
+        <div>Quantidade em estoque e/ou preço do produto(custo ou venda) não pode(m) ser negativo(s).</div>
         <br><br>
     </c:if>
 

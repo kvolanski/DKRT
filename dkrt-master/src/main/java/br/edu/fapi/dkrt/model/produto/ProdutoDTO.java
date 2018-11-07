@@ -6,8 +6,10 @@ public class ProdutoDTO {
     private int id;
     private String nome;
     private String descricao;
-    private double preco;
-    private int quantidade;
+    private double precoVenda;
+    private double precoCusto;
+    private int qtdEstoque;
+    private int ativo;
     private Date dataCadastroProduto;
     private Date dataAlteracaoProduto;
 
@@ -35,20 +37,36 @@ public class ProdutoDTO {
         this.descricao = descricao;
     }
 
-    public double getPreco() {
-        return preco;
+    public double getPrecoVenda() {
+        return precoVenda;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setPrecoVenda(double precoVenda) {
+        this.precoVenda = precoVenda;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public double getPrecoCusto() {
+        return precoCusto;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setPrecoCusto(double precoCusto) {
+        this.precoCusto = precoCusto;
+    }
+
+    public int getQtdEstoque() {
+        return qtdEstoque;
+    }
+
+    public void setQtdEstoque(int qtdEstoque) {
+        this.qtdEstoque = qtdEstoque;
+    }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
     }
 
     public Date getDataCadastroProduto() {

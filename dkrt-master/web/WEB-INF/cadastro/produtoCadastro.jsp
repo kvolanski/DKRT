@@ -29,7 +29,8 @@
 		   <label>Produto*: <input type="text" name="nomeProduto" class="form-control" required/></label>
 			<label>Descrição*: <input type="text" name="descricaoProduto" class="form-control" required/></label> <br>
 			<label>Quantidade em Estoque*: <input type="text" name="quantidadeProduto" class="form-control" required/></label>
-			<label>Preço de Venda(xxxx.xx)*: <input type="text" name="precoProduto" class="form-control" required/></label> <br><br>
+			<label>Preço de Venda(xxxx.xx)*: <input type="text" name="precoVendaProduto" class="form-control" required/></label> <br><br>
+			<label>Preço de Custo(xxxx.xx)*: <input type="text" name="precoCustoProduto" class="form-control" required/></label> <br><br>
 			<input value="Limpar Campos" type="reset" class="btn btn-danger"/>
 			<input value="Salvar" type="submit" class="btn btn-success"/>
 	</form>

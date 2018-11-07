@@ -13,20 +13,26 @@ public class ClienteDAOImpl implements ClienteDAO {
         int idCliente = 0;
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO clientes (cliente_nome, cliente_cpf, cliente_dtNasc, cliente_telefone, cliente_ativo, " +
-                    " cliente_dataDeCadastro, endereco_id) VALUES(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO clientes (cliente_nome, cliente_nomeSocial, " +
+                    "cliente_rg, cliente_cpf, cliente_dtNasc, cliente_email, cliente_celular, cliente_telefone, cliente_ativo, " +
+                    "cliente_dataDeCadastro, cliente_observacao, endereco_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, clienteDTO.getNome());
-            preparedStatement.setString(2, clienteDTO.getCpf());
-            preparedStatement.setDate(3, new java.sql.Date(clienteDTO.getDtNascimento().getTime()));
-            preparedStatement.setString(4, clienteDTO.getTelefone());
+            preparedStatement.setString(2, clienteDTO.getNomeSocial());
+            preparedStatement.setString(3, clienteDTO.getRg());
+            preparedStatement.setString(4, clienteDTO.getCpf());
+            preparedStatement.setDate(5, new java.sql.Date(clienteDTO.getDtNascimento().getTime()));
+            preparedStatement.setString(6, clienteDTO.getEmail());
+            preparedStatement.setString(7, clienteDTO.getCelular());
+            preparedStatement.setString(8, clienteDTO.getTelefone());
             if (clienteDTO.isAtivo()){
-                preparedStatement.setInt(5, 1);
+                preparedStatement.setInt(9, 1);
             } else {
-                preparedStatement.setInt(5, 0);
+                preparedStatement.setInt(9, 0);
             }
-            preparedStatement.setDate(6, new java.sql.Date(clienteDTO.getDataCadastroCliente().getTime()));
-            preparedStatement.setInt(7, clienteDTO.getEnderecoDTO().getId());
+            preparedStatement.setDate(10, new java.sql.Date(clienteDTO.getDataCadastroCliente().getTime()));
+            preparedStatement.setString(11, clienteDTO.getObservacao());
+            preparedStatement.setInt(12, clienteDTO.getEnderecoDTO().getId());
 
             preparedStatement.executeUpdate();
 
