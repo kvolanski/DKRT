@@ -1,13 +1,15 @@
 package br.edu.fapi.dkrt.servlets.cadastro;
 
+import br.edu.fapi.dkrt.business.cadastro.impl.ClienteBusinessImpl;
+import br.edu.fapi.dkrt.business.cadastro.impl.ProdutoBusinessImpl;
+import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
+import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.dao.uf.UfDAO;
 import br.edu.fapi.dkrt.dao.uf.impl.UfDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.endereco.EnderecoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.uf.UfDTO;
-import br.edu.fapi.dkrt.services.cadastro.CadastroClienteService;
-import br.edu.fapi.dkrt.services.cadastro.CadastroProdutoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +31,7 @@ public class CadastroServlet extends HttpServlet {
         String tipo = req.getParameter("tipo");
 
         if ("cliente".equalsIgnoreCase(tipo)) {
-            CadastroClienteService cadastroClienteService = new CadastroClienteService();
+            ClienteBusinessImpl clienteBusiness = new ClienteBusinessImpl();
             String nome = req.getParameter("nomeCliente");
             String rg = req.getParameter("rgCliente");
             String cpf = req.getParameter("cpfCliente");
@@ -78,7 +80,7 @@ public class CadastroServlet extends HttpServlet {
             }
             clienteDTO.setEnderecoDTO(enderecoDTO);
 
-            String condicao = cadastroClienteService.cadastrarCliente(clienteDTO);
+            String condicao = clienteBusiness.cadastrarCliente(clienteDTO);
 
             if ("sucesso".equalsIgnoreCase(condicao)) {
                 req.getSession().setAttribute("condicao", condicao);
@@ -90,8 +92,8 @@ public class CadastroServlet extends HttpServlet {
             }
         }
 
-        if ("produto".equalsIgnoreCase(tipo)){
-            CadastroProdutoService cadastroProdutoService = new CadastroProdutoService();
+        if ("produto".equalsIgnoreCase(tipo)) {
+            ProdutoBusinessImpl produtoBusiness = new ProdutoBusinessImpl();
             String nome = req.getParameter("nomeProduto");
             String descricao = req.getParameter("descricaoProduto");
             String quantidade = req.getParameter("quantidadeProduto");
@@ -106,7 +108,7 @@ public class CadastroServlet extends HttpServlet {
 
             try {
                 produtoDTO.setQtdEstoque(Integer.parseInt(quantidade));
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
                 req.getSession().setAttribute("condicao", "qtdInvalida");
                 req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
@@ -115,7 +117,7 @@ public class CadastroServlet extends HttpServlet {
             try {
                 produtoDTO.setPrecoVenda(Double.parseDouble(precoVenda));
                 produtoDTO.setPrecoCusto(Double.parseDouble(precoCusto));
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
                 req.getSession().setAttribute("condicao", "precoInvalido");
                 req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
@@ -123,23 +125,82 @@ public class CadastroServlet extends HttpServlet {
 
             String data = dateFormat.format(new Date());
             try {
-                produtoDTO.setDataCadastroProduto(dateFormat.parse(data));
+                produtoDTO.setDataCadastro(dateFormat.parse(data));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             produtoDTO.setAtivo(1);
 
-            String condicao = cadastroProdutoService.cadastrarProduto(produtoDTO);
+            String condicao = produtoBusiness.cadastrarProduto(produtoDTO, "cadastro");
 
             if ("sucesso".equalsIgnoreCase(condicao)) {
                 req.getSession().setAttribute("condicao", condicao);
-                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+            } else if ("produtoExistente".equalsIgnoreCase(condicao)) {
+                req.getSession().setAttribute("condicao", condicao);
+                req.getSession().setAttribute("nomeProduto", produtoDTO.getNome());
             } else {
                 req.getSession().setAttribute("condicao", condicao);
                 req.getSession().setAttribute("tipoCadastro", "produto");
                 req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
             }
+            req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+        }
+
+        if ("alteraProduto".equalsIgnoreCase(tipo)) {
+            ProdutoBusinessImpl produtoBusiness = new ProdutoBusinessImpl();
+            String id = req.getParameter("idProduto");
+            String nome = req.getParameter("nomeProduto");
+            String descricao = req.getParameter("descricaoProduto");
+            String quantidade = req.getParameter("quantidadeProduto");
+            String precoVenda = req.getParameter("precoVendaProduto");
+            String precoCusto = req.getParameter("precoCustoProduto");
+
+            ProdutoDTO produtoDTO = new ProdutoDTO();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            produtoDTO.setId(Integer.parseInt(id));
+            produtoDTO.setNome(nome);
+            produtoDTO.setDescricao(descricao);
+
+            try {
+                produtoDTO.setQtdEstoque(Integer.parseInt(quantidade));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                req.getSession().setAttribute("condicao", "qtdInvalida");
+                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+            }
+
+            try {
+                produtoDTO.setPrecoVenda(Double.parseDouble(precoVenda));
+                produtoDTO.setPrecoCusto(Double.parseDouble(precoCusto));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                req.getSession().setAttribute("condicao", "precoInvalido");
+                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+            }
+
+            String data = dateFormat.format(new Date());
+            try {
+                produtoDTO.setDataAlteracao(dateFormat.parse(data));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            produtoDTO.setAtivo(1);
+
+            String condicao = produtoBusiness.cadastrarProduto(produtoDTO, "alteraProduto");
+
+            if ("sucesso".equalsIgnoreCase(condicao)) {
+                req.getSession().setAttribute("condicao", condicao);
+                req.getSession().setAttribute("alteraForm", "nao");
+                req.getSession().setAttribute("produtoBusca", null);
+            } else {
+                req.getSession().setAttribute("condicao", condicao);
+                req.getSession().setAttribute("tipoCadastro", "produto");
+                req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
+            }
+            req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
         }
 
 
@@ -157,8 +218,20 @@ public class CadastroServlet extends HttpServlet {
             req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
         }
 
-        if ("produto".equalsIgnoreCase(tipo)){
+        if ("produto".equalsIgnoreCase(tipo)) {
             req.getSession().setAttribute("condicao", "");
+            req.getSession().setAttribute("alteraForm", "nao");
+            req.getSession().setAttribute("produtoBusca", null);
+            req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+        }
+
+        if ("alteraProduto".equalsIgnoreCase(tipo)) {
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            String nomeProduto = req.getParameter("nomeProduto");
+            ProdutoDTO produtoBusca = produtoDAO.buscarProdutoPorNome(nomeProduto);
+            req.getSession().setAttribute("produtoBusca", produtoBusca);
+            req.getSession().setAttribute("condicao", "");
+            req.getSession().setAttribute("alteraForm", "sim");
             req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
         }
     }

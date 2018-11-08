@@ -6,5 +6,10 @@ public interface ProdutoDAO {
 
     int createProduto(ProdutoDTO produtoDTO);
 
+    boolean verificaSeProdutoExiste(String nome);
+
+    ProdutoDTO buscarProdutoPorNome(String nome);
+
+    boolean atualizaProdutoCad(ProdutoDTO produtoDTO);
 
 }

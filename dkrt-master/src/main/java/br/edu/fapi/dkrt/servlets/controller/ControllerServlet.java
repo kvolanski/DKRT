@@ -38,6 +38,9 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("cadastro?tipo=cliente").forward(req, resp);
             } else if ("produto".equalsIgnoreCase(tipo)){
                 req.getRequestDispatcher("cadastro?tipo=produto").forward(req, resp);
+            } else if ("alteraProduto".equalsIgnoreCase(tipo)){
+                String idProduto = req.getParameter("idProduto");
+                req.getRequestDispatcher("cadastro?tipo=alteraProduto&idProduto="+idProduto).forward(req, resp);
             }
         }
     }
@@ -52,6 +55,9 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("cadastro?tipo=produto").forward(req, resp);
             } else if ("cliente".equalsIgnoreCase(tipo)){
                 req.getRequestDispatcher("cadastro?tipo=cliente").forward(req, resp);
+            } else if ("alteraProduto".equalsIgnoreCase(tipo)){
+                String nomeProduto = req.getParameter("nomeProduto");
+                req.getRequestDispatcher("cadastro?tipo=alteraProduto&nomeProduto="+nomeProduto).forward(req, resp);
             }
         }
 

@@ -10,8 +10,8 @@ public class ProdutoDTO {
     private double precoCusto;
     private int qtdEstoque;
     private int ativo;
-    private Date dataCadastroProduto;
-    private Date dataAlteracaoProduto;
+    private Date dataCadastro;
+    private Date dataAlteracao;
 
     public int getId() {
         return id;
@@ -69,19 +69,19 @@ public class ProdutoDTO {
         this.ativo = ativo;
     }
 
-    public Date getDataCadastroProduto() {
-        return dataCadastroProduto;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
-    public void setDataCadastroProduto(Date dataCadastroProduto) {
-        this.dataCadastroProduto = dataCadastroProduto;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    public Date getDataAlteracaoProduto() {
-        return dataAlteracaoProduto;
+    public Date getDataAlteracao() {
+        return dataAlteracao;
     }
 
-    public void setDataAlteracaoProduto(Date dataAlteracaoProduto) {
-        this.dataAlteracaoProduto = dataAlteracaoProduto;
+    public void setDataAlteracao(Date dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 }
