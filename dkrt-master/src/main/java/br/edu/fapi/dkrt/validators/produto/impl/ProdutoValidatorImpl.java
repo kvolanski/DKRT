@@ -14,6 +14,24 @@ public class ProdutoValidatorImpl implements ProdutoValidator {
             if (!verificaNumeroNegativo(produtoDTO.getQtdEstoque(), produtoDTO.getPrecoVenda(), produtoDTO.getPrecoCusto())) {
                 condicao = "numNegativo ";
             }
+
+            if (!verificaSeContemNumero(produtoDTO.getNome())) {
+                if ("sucesso".equalsIgnoreCase(condicao)) {
+                    condicao = "nomeIncorreto ";
+                } else {
+                    condicao += "nomeIncorreto ";
+                }
+            }
+
+            if (produtoDTO.getDescricao() != null) {
+                if (!verificaSeContemNumero(produtoDTO.getDescricao())) {
+                    if ("sucesso".equalsIgnoreCase(condicao)) {
+                        condicao = "descricaoIncorreto ";
+                    } else {
+                        condicao += "descricaoIncorreto ";
+                    }
+                }
+            }
         }
         return condicao;
     }
@@ -21,6 +39,15 @@ public class ProdutoValidatorImpl implements ProdutoValidator {
     private boolean verificaNumeroNegativo(int qtd, double precoVenda, double precoCusto) {
         if (qtd < 0 || precoVenda < 0 || precoCusto < 0) {
             return false;
+        }
+        return true;
+    }
+
+    private boolean verificaSeContemNumero(String palavra) {
+        for (Character c : palavra.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return false;
+            }
         }
         return true;
     }

@@ -53,7 +53,7 @@
 
     <span class="geral">
 			<form method="post" action="#">
-              <label><input type="text" name="buscarproduto" class="form-control" placeholder="ID ou NOME"></label>
+              <label><input type="text" name="buscarproduto" class="form-control"  placeholder="ID ou NOME"></label>
                <input value="Pesquisar" type="button" class="btn btn-success"/>
             </form>
     </span>

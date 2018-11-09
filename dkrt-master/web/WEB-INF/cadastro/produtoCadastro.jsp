@@ -35,8 +35,8 @@
                                  disabled="disabled"/></label><br>
 		   <label>Produto*: <input type="text" name="nomeProduto" class="form-control" value="${produtoBusca.nome}"
                                    required/></label>
-			<label>Descrição*: <input type="text" name="descricaoProduto" class="form-control"
-                                      value="${produtoBusca.descricao}" required/></label> <br>
+			<label>Descrição: <input type="text" name="descricaoProduto" class="form-control"
+                                      value="${produtoBusca.descricao}"/></label> <br>
 			<label>Quantidade em Estoque*: <input type="text" name="quantidadeProduto" class="form-control"
                                                   value="${produtoBusca.qtdEstoque}" required/></label>
 			<label>Preço de Venda(xxxx.xx)*: <input type="text" name="precoVendaProduto" class="form-control"

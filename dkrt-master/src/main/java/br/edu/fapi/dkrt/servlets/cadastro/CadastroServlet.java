@@ -7,24 +7,27 @@ import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.dao.uf.UfDAO;
 import br.edu.fapi.dkrt.dao.uf.impl.UfDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
-import br.edu.fapi.dkrt.model.endereco.EnderecoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.uf.UfDTO;
+import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
+import br.edu.fapi.dkrt.servlets.mapper.BaseMapper;
+import br.edu.fapi.dkrt.servlets.mapper.impl.AlteraProdutoMapperImpl;
+import br.edu.fapi.dkrt.servlets.mapper.impl.ClienteMapperImpl;
+import br.edu.fapi.dkrt.servlets.mapper.impl.ProdutoMapperImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/cadastro")
-public class CadastroServlet extends HttpServlet {
+public class CadastroServlet extends AbstractBaseHttpServlet {
+
+    private BaseMapper<HttpServletRequest, ClienteDTO> clienteMapper = new ClienteMapperImpl();
+    private BaseMapper<HttpServletRequest, ProdutoDTO> produtoMapper = new ProdutoMapperImpl();
+    private BaseMapper<HttpServletRequest, ProdutoDTO> alteraProdutoMapper = new AlteraProdutoMapperImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,116 +35,43 @@ public class CadastroServlet extends HttpServlet {
 
         if ("cliente".equalsIgnoreCase(tipo)) {
             ClienteBusinessImpl clienteBusiness = new ClienteBusinessImpl();
-            String nome = req.getParameter("nomeCliente");
-            String rg = req.getParameter("rgCliente");
-            String cpf = req.getParameter("cpfCliente");
-            String dtNasc = req.getParameter("dtNascCliente");
-            String email = req.getParameter("emailCliente");
-            String celular = req.getParameter("celularCliente");
-            String telefone = req.getParameter("telefoneCliente");
-            String cepEndereco = req.getParameter("cepEnderecoCliente");
-            String ruaEndereco = req.getParameter("ruaEnderecoCliente");
-            String complementoEndereco = req.getParameter("complementoEnderecoCliente");
-            String numeroEndereco = req.getParameter("numeroEnderecoCliente");
-            String bairroEndereco = req.getParameter("bairroEnderecoCliente");
-            String cidadeEndereco = req.getParameter("cidadeEnderecoCliente");
-            String observacao = req.getParameter("observacaoCliente");
-            String ufId = req.getParameter("clienteUfId");
 
-            UfDTO ufDTO = new UfDTO();
-            EnderecoDTO enderecoDTO = new EnderecoDTO();
-            ClienteDTO clienteDTO = new ClienteDTO();
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-            ufDTO.setId(Integer.parseInt(ufId));
-
-            enderecoDTO.setCep(cepEndereco);
-            enderecoDTO.setRua(ruaEndereco);
-            enderecoDTO.setNumero(numeroEndereco);
-            enderecoDTO.setComplemento(complementoEndereco);
-            enderecoDTO.setBairro(bairroEndereco);
-            enderecoDTO.setCidade(cidadeEndereco);
-            enderecoDTO.setUfDTO(ufDTO);
-
-            clienteDTO.setNome(nome);
-            clienteDTO.setRg(rg);
-            clienteDTO.setCpf(cpf);
-            clienteDTO.setEmail(email);
-            clienteDTO.setCelular(celular);
-            clienteDTO.setTelefone(telefone);
-            clienteDTO.setObservacao(observacao);
-            clienteDTO.setAtivo(true);
-            String hoje = dateFormat.format(new Date());
-            try {
-                clienteDTO.setDataCadastroCliente(dateFormat.parse(hoje));
-                clienteDTO.setDtNascimento(dateFormat.parse(dtNasc));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            clienteDTO.setEnderecoDTO(enderecoDTO);
+            ClienteDTO clienteDTO = clienteMapper.doMap(req);
 
             String condicao = clienteBusiness.cadastrarCliente(clienteDTO);
 
             if ("sucesso".equalsIgnoreCase(condicao)) {
-                req.getSession().setAttribute("condicao", condicao);
+                setSessionAttribute(req, "condicao", condicao);
                 req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
             } else {
-                req.getSession().setAttribute("condicao", condicao);
-                req.getSession().setAttribute("tipoCadastro", "cliente");
+                setSessionAttribute(req, "condicao", condicao);
+                setSessionAttribute(req, "tipoCadastro", "cliente");
                 req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
             }
         }
 
         if ("produto".equalsIgnoreCase(tipo)) {
             ProdutoBusinessImpl produtoBusiness = new ProdutoBusinessImpl();
-            String nome = req.getParameter("nomeProduto");
-            String descricao = req.getParameter("descricaoProduto");
-            String quantidade = req.getParameter("quantidadeProduto");
-            String precoVenda = req.getParameter("precoVendaProduto");
-            String precoCusto = req.getParameter("precoCustoProduto");
-
             ProdutoDTO produtoDTO = new ProdutoDTO();
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-            produtoDTO.setNome(nome);
-            produtoDTO.setDescricao(descricao);
 
             try {
-                produtoDTO.setQtdEstoque(Integer.parseInt(quantidade));
+                produtoDTO = produtoMapper.doMap(req);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                req.getSession().setAttribute("condicao", "qtdInvalida");
+                setSessionAttribute(req, "condicao", "numInvalido");
                 req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
             }
-
-            try {
-                produtoDTO.setPrecoVenda(Double.parseDouble(precoVenda));
-                produtoDTO.setPrecoCusto(Double.parseDouble(precoCusto));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                req.getSession().setAttribute("condicao", "precoInvalido");
-                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
-            }
-
-            String data = dateFormat.format(new Date());
-            try {
-                produtoDTO.setDataCadastro(dateFormat.parse(data));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            produtoDTO.setAtivo(1);
 
             String condicao = produtoBusiness.cadastrarProduto(produtoDTO, "cadastro");
 
             if ("sucesso".equalsIgnoreCase(condicao)) {
-                req.getSession().setAttribute("condicao", condicao);
+                setSessionAttribute(req, "condicao", condicao);
             } else if ("produtoExistente".equalsIgnoreCase(condicao)) {
-                req.getSession().setAttribute("condicao", condicao);
-                req.getSession().setAttribute("nomeProduto", produtoDTO.getNome());
+                setSessionAttribute(req, "condicao", condicao);
+                setSessionAttribute(req, "nomeProduto", produtoDTO.getNome());
             } else {
-                req.getSession().setAttribute("condicao", condicao);
-                req.getSession().setAttribute("tipoCadastro", "produto");
+                setSessionAttribute(req, "condicao", condicao);
+                setSessionAttribute(req, "tipoCadastro", "produto");
                 req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
             }
             req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
@@ -149,55 +79,24 @@ public class CadastroServlet extends HttpServlet {
 
         if ("alteraProduto".equalsIgnoreCase(tipo)) {
             ProdutoBusinessImpl produtoBusiness = new ProdutoBusinessImpl();
-            String id = req.getParameter("idProduto");
-            String nome = req.getParameter("nomeProduto");
-            String descricao = req.getParameter("descricaoProduto");
-            String quantidade = req.getParameter("quantidadeProduto");
-            String precoVenda = req.getParameter("precoVendaProduto");
-            String precoCusto = req.getParameter("precoCustoProduto");
-
             ProdutoDTO produtoDTO = new ProdutoDTO();
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-            produtoDTO.setId(Integer.parseInt(id));
-            produtoDTO.setNome(nome);
-            produtoDTO.setDescricao(descricao);
-
             try {
-                produtoDTO.setQtdEstoque(Integer.parseInt(quantidade));
+                produtoDTO = alteraProdutoMapper.doMap(req);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                req.getSession().setAttribute("condicao", "qtdInvalida");
+                setSessionAttribute(req, "condicao", "numInvalido");
                 req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
             }
-
-            try {
-                produtoDTO.setPrecoVenda(Double.parseDouble(precoVenda));
-                produtoDTO.setPrecoCusto(Double.parseDouble(precoCusto));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                req.getSession().setAttribute("condicao", "precoInvalido");
-                req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
-            }
-
-            String data = dateFormat.format(new Date());
-            try {
-                produtoDTO.setDataAlteracao(dateFormat.parse(data));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            produtoDTO.setAtivo(1);
 
             String condicao = produtoBusiness.cadastrarProduto(produtoDTO, "alteraProduto");
 
             if ("sucesso".equalsIgnoreCase(condicao)) {
-                req.getSession().setAttribute("condicao", condicao);
-                req.getSession().setAttribute("alteraForm", "nao");
-                req.getSession().setAttribute("produtoBusca", null);
+                setSessionAttribute(req, "condicao", condicao);
+                setSessionAttribute(req, "alteraForm", "nao");
+                setSessionAttribute(req, "produtoBusca", null);
             } else {
-                req.getSession().setAttribute("condicao", condicao);
-                req.getSession().setAttribute("tipoCadastro", "produto");
+                setSessionAttribute(req, "condicao", condicao);
+                setSessionAttribute(req, "tipoCadastro", "produto");
                 req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
             }
             req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
@@ -213,15 +112,15 @@ public class CadastroServlet extends HttpServlet {
         if ("cliente".equalsIgnoreCase(tipo)) {
             UfDAO ufDAO = new UfDAOImpl();
             List<UfDTO> listaUfs = ufDAO.buscarListaUfs();
-            req.getSession().setAttribute("condicao", "");
-            req.getSession().setAttribute("listaUfs", listaUfs);
+            setSessionAttribute(req, "condicao", "");
+            setSessionAttribute(req, "listaUfs", listaUfs);
             req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
         }
 
         if ("produto".equalsIgnoreCase(tipo)) {
-            req.getSession().setAttribute("condicao", "");
-            req.getSession().setAttribute("alteraForm", "nao");
-            req.getSession().setAttribute("produtoBusca", null);
+            setSessionAttribute(req, "condicao", "");
+            setSessionAttribute(req, "alteraForm", "nao");
+            setSessionAttribute(req, "produtoBusca", null);
             req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
         }
 
@@ -229,10 +128,24 @@ public class CadastroServlet extends HttpServlet {
             ProdutoDAO produtoDAO = new ProdutoDAOImpl();
             String nomeProduto = req.getParameter("nomeProduto");
             ProdutoDTO produtoBusca = produtoDAO.buscarProdutoPorNome(nomeProduto);
-            req.getSession().setAttribute("produtoBusca", produtoBusca);
-            req.getSession().setAttribute("condicao", "");
-            req.getSession().setAttribute("alteraForm", "sim");
+            setSessionAttribute(req, "produtoBusca", produtoBusca);
+            setSessionAttribute(req, "condicao", "");
+            setSessionAttribute(req, "alteraForm", "sim");
             req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
         }
     }
+
+    public void setClienteMapper(BaseMapper<HttpServletRequest, ClienteDTO> clienteMapper) {
+        this.clienteMapper = clienteMapper;
+    }
+
+    public void setProdutoMapper(BaseMapper<HttpServletRequest, ProdutoDTO> produtoMapper) {
+        this.produtoMapper = produtoMapper;
+    }
+
+    public void setAlteraProdutoMapper(BaseMapper<HttpServletRequest, ProdutoDTO> alteraProdutoMapper) {
+        this.alteraProdutoMapper = alteraProdutoMapper;
+    }
+
+
 }
