@@ -15,8 +15,8 @@ public class ClienteDTO {
     private String celular;
     private String telefone;
     private boolean ativo;
-    private Date dataCadastroCliente;
-    private Date dataAlteracaoCliente;
+    private Date dataCadastro;
+    private Date dataAlteracao;
     private String observacao;
     private EnderecoDTO enderecoDTO;
 
@@ -100,20 +100,20 @@ public class ClienteDTO {
         this.ativo = ativo;
     }
 
-    public Date getDataCadastroCliente() {
-        return dataCadastroCliente;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
-    public void setDataCadastroCliente(Date dataCadastroCliente) {
-        this.dataCadastroCliente = dataCadastroCliente;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    public Date getDataAlteracaoCliente() {
-        return dataAlteracaoCliente;
+    public Date getDataAlteracao() {
+        return dataAlteracao;
     }
 
-    public void setDataAlteracaoCliente(Date dataAlteracaoCliente) {
-        this.dataAlteracaoCliente = dataAlteracaoCliente;
+    public void setDataAlteracao(Date dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
     public String getObservacao() {

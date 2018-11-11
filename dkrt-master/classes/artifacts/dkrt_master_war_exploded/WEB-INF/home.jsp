@@ -24,7 +24,7 @@
 <body>
 <%@include file="navbar/navbar.jsp"%>
 
-<img src="logo.png" class="logohome" rel="home.jsp"/>
+<img src="logo.png" class="logohome"/>
 
 </body>
 </html>

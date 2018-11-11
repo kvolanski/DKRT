@@ -2,6 +2,8 @@ package br.edu.fapi.dkrt.dao.produto;
 
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 
+import java.util.List;
+
 public interface ProdutoDAO {
 
     int createProduto(ProdutoDTO produtoDTO);
@@ -11,5 +13,9 @@ public interface ProdutoDAO {
     ProdutoDTO buscarProdutoPorNome(String nome);
 
     boolean atualizaProdutoCad(ProdutoDTO produtoDTO);
+
+    ProdutoDTO buscaProdutoPorId (int id);
+
+    List<ProdutoDTO> listarProdutos();
 
 }

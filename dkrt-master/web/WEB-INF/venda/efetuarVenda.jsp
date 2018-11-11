@@ -2,6 +2,7 @@
 <html lang="">
 <head>
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -16,30 +17,30 @@
     <style>
         <%@include file="../estilo/estilo.css" %>
     </style>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
+    <%--<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>--%>
+    <%--<script type="text/javascript">--%>
+        <%--$(document).ready(function () {--%>
 
-            var input = '<label style="display: block">' +
-                '<label>Buscar Produto: <input type="text" name="buscarproduto" class="form-control" placeholder="ID ou NOME"></label>' +
-                '<label>Qunatidade atual:<input value="5" type="number" name="quantidadeatual" class="form-control" placeholder="ID ou NOME" disabled="disabled"></label>' +
-                '<label>Quantidade de venda: <input type="number" name="quantidadeproduto" class="form-control"></label>' +
-                '<label>Valor: <input type="number" name="total" class="form-control"></label>' +
-                '<label>Desconto: <input type="number" name="desconto" class="form-control"></label>' +
-                '<label>Total: <input type="number" name="total" class="form-control" disabled="disabled"></label>     ' +
-                '<a href="#" class="remove"><i class="far fa-times-circle icons"></i></a></label>';
+            <%--var input = '<label style="display: block">' +--%>
+                <%--'<label>Buscar Produto: <input type="text" name="buscarproduto" class="form-control" placeholder="ID ou NOME"></label>' +--%>
+                <%--'<label>Qunatidade atual:<input value="5" type="number" name="quantidadeatual" class="form-control" placeholder="ID ou NOME" disabled="disabled"></label>' +--%>
+                <%--'<label>Quantidade de venda: <input type="number" name="quantidadeproduto" class="form-control"></label>' +--%>
+                <%--'<label>Valor: <input type="number" name="total" class="form-control"></label>' +--%>
+                <%--'<label>Desconto: <input type="number" name="desconto" class="form-control"></label>' +--%>
+                <%--'<label>Total: <input type="number" name="total" class="form-control" disabled="disabled"></label>     ' +--%>
+                <%--'<a href="#" class="remove"><i class="far fa-times-circle icons"></i></a></label>';--%>
 
-            $("input[name='add']").click(function (e) {
-                $('#inputs_adicionais').append(input);
-            });
+            <%--$("input[name='add']").click(function (e) {--%>
+                <%--$('#inputs_adicionais').append(input);--%>
+            <%--});--%>
 
-            $('#inputs_adicionais').delegate('a', 'click', function (e) {
-                e.preventDefault();
-                $(this).parent('label').remove();
-            });
+            <%--$('#inputs_adicionais').delegate('a', 'click', function (e) {--%>
+                <%--e.preventDefault();--%>
+                <%--$(this).parent('label').remove();--%>
+            <%--});--%>
 
-        });
-    </script>
+        <%--});--%>
+    <%--</script>--%>
 
 
     <title>D.K.R.T</title>
@@ -50,63 +51,48 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <h1 class="geral">VENDAS</h1><br>
+			<form method="get" action="controller?acao=venda&tipo=buscaCliente">
+                Escolha um cliente para realizar a venda:
+				<select name="idCliente">
+				  <c:forEach var="cliente" items="${listaClientes}">
+                      <option value="${cliente.id}">${cliente.nome}</option>
+                  </c:forEach>
+				</select><br><br>
+                <input type="submit" value="Abrir Venda">
+            </form>
 
-<span class="geral">
+            <c:if test="${clienteBusca.id != 0}">
+                <input type="hidden" value="${clienteBusca.id}" id="idCliente">
+                <label>Número da Venda:<input type="text" value="" style="text-align: center" name="idVenda" class="form-control" disabled="disabled"/></label><br>
+                <label>Nome:<input type="text" name="nomeCliente" class="form-control" value="${clienteBusca.nome}" disabled="disabled"/></label>
+                <label>Telefone Principal:<input type="text" name="celularCliente" class="form-control" value="${clienteBusca.celular}" disabled="disabled"/></label><br><br>
 
+                <div id="codigo">
+                    <form method="post" action="#">
+                        <input type="hidden" value="">
+                        <label>Produto:
+                        <select id="idProduto" name="idProduto" onselect="carregaProduto()">
+                            <c:forEach var="produto" items="${listaProdutos}">
 
-			<form method="post" action="#">
+                            </c:forEach>
+                        </select>
+                        </label>
+                        <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto" class="form-control" disabled="disabled"></label>
+                        <label>Quantidade:<input type="number" name="quantidadeProduto" class="form-control"></label>
+                        <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="total" class="form-control" disabled="disabled" step="any"></label><br>
+                        <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
+                        <input value="Adicionar" type="submit" class="btn btn-success"/>
+                    </form>
+                </div>
+            </c:if>
 
+<%--<script>--%>
+    <%--function carregaProduto(){--%>
+        <%--var idCliente = document.getElementById("idCliente").value;--%>
+        <%--var idProduto = document.getElementById("idProduto").value;--%>
 
-				<select id="cliente" onchange="optionCheck()">
-				  <option value="cliente">SELECIONE O CLIENTE</option>
-				  <option value="name">Teste</option>
-
-
-				</select><br>
-				<div id="codigo" style="visibility:hidden;">
-						<label>Número do pedido:<input type="text" value="PD0001" style="text-align: center"
-                                                       name="codigo" class="form-control"
-                                                       disabled="disabled"/></label><br>
-						<label>Codigo:<input type="button" name="codigo" class="form-control" value="1"
-                                             disabled="disabled"/></label>
-						<label>Nome:<input type="text" name="nome" class="form-control" value="Teste Projeto"
-                                           disabled="disabled"/></label>
-						<label>Telefone:<input type="text" name="numero" class="form-control" value="(041) 9 9999-9999"
-                                               disabled="disabled"/></label><br><br>
-						<label>Buscar Produto:<input value="Avell FOX 7" type="text" name="buscarproduto"
-                                                     class="form-control" placeholder="ID ou NOME"></label>
-						<label>Qunatidade atual:<input value="5" type="number" name="quantidadeatual"
-                                                       class="form-control" placeholder="ID ou NOME"
-                                                       disabled="disabled"></label>
-						<label>Quantidade de venda:<input value="1" type="number" name="quantidadeproduto"
-                                                          class="form-control"></label>
-						<label>Valor:<input value="6.700" type="number" name="total" class="form-control"
-                                            disabled="disabled"></label>
-						<label>Desconto:<input value="0" type="number" name="desconto" class="form-control"></label>
-						<label>Total:<input value="6.700" type="number" name="total" class="form-control"
-                                            disabled="disabled"></label>
-						<label><i class="fas fa-cart-plus icons" style="text-align: left"></i><input
-                                class="transparente" type="button" name="add"/></label>
-  						<fieldset id="inputs_adicionais" style="border: none"></fieldset><br>
-						<label>Total do pedido:<input value="6.700" type="number" name="total" class="form-control"
-                                                      disabled="disabled"></label><br>
-
-					<input value="Cancelar" type="button" class="btn btn-danger"/>
-					<input value="Finalizar" type="button" class="btn btn-success" onclick="alert('VENDA FINALIZADA')"/>
-
-				</div>
-
-
-<script type="text/javascript">
-    function optionCheck() {
-        var option = document.getElementById("cliente").value;
-        if (option == "name") {
-            document.getElementById("codigo").style.visibility = "visible";
-        }
-        if (option == "goto") {
-            window.location = "http://google.com";
-        }
-    }
-</script>
+        <%--windows.location.href("controller?acao=venda&tipo=buscaProduto&idCliente="+idCliente+"&idProduto="+idProduto);--%>
+    <%--}--%>
+<%--</script>--%>
 </body>
 </html>

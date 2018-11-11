@@ -1,12 +1,17 @@
 package br.edu.fapi.dkrt.model.pedido;
 
+import br.edu.fapi.dkrt.model.orcamento.OrcamentoDTO;
+import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
+import br.edu.fapi.dkrt.model.venda.VendaDTO;
+
 public class PedidoDTO {
     private int id;
-    private String nomeProduto;
+    private ProdutoDTO produtoDTO;
     private int quantidade;
     private float valorUnitario;
     private float valorTotal;
-    private int vendaId;
+    private VendaDTO vendaDTO;
+    private OrcamentoDTO orcamentoDTO;
 
     public int getId() {
         return id;
@@ -16,12 +21,12 @@ public class PedidoDTO {
         this.id = id;
     }
 
-    public String getNomeProduto() {
-        return nomeProduto;
+    public ProdutoDTO getProdutoDTO() {
+        return produtoDTO;
     }
 
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
+    public void setProdutoDTO(ProdutoDTO produtoDTO) {
+        this.produtoDTO = produtoDTO;
     }
 
     public int getQuantidade() {
@@ -48,11 +53,19 @@ public class PedidoDTO {
         this.valorTotal = valorTotal;
     }
 
-    public int getVendaId() {
-        return vendaId;
+    public VendaDTO getVendaDTO() {
+        return vendaDTO;
     }
 
-    public void setVendaId(int vendaId) {
-        this.vendaId = vendaId;
+    public void setVendaDTO(VendaDTO vendaDTO) {
+        this.vendaDTO = vendaDTO;
+    }
+
+    public OrcamentoDTO getOrcamentoDTO() {
+        return orcamentoDTO;
+    }
+
+    public void setOrcamentoDTO(OrcamentoDTO orcamentoDTO) {
+        this.orcamentoDTO = orcamentoDTO;
     }
 }

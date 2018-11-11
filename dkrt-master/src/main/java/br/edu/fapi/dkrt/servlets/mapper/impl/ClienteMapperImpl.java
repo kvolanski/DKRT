@@ -56,7 +56,7 @@ public class ClienteMapperImpl implements BaseMapper<HttpServletRequest, Cliente
         clienteDTO.setAtivo(true);
         String hoje = dateFormat.format(new Date());
         try {
-            clienteDTO.setDataCadastroCliente(dateFormat.parse(hoje));
+            clienteDTO.setDataCadastro(dateFormat.parse(hoje));
             clienteDTO.setDtNascimento(dateFormat.parse(dtNasc));
         } catch (ParseException e) {
             e.printStackTrace();
