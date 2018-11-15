@@ -19,27 +19,27 @@
     </style>
     <%--<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>--%>
     <%--<script type="text/javascript">--%>
-        <%--$(document).ready(function () {--%>
+    <%--$(document).ready(function () {--%>
 
-            <%--var input = '<label style="display: block">' +--%>
-                <%--'<label>Buscar Produto: <input type="text" name="buscarproduto" class="form-control" placeholder="ID ou NOME"></label>' +--%>
-                <%--'<label>Qunatidade atual:<input value="5" type="number" name="quantidadeatual" class="form-control" placeholder="ID ou NOME" disabled="disabled"></label>' +--%>
-                <%--'<label>Quantidade de venda: <input type="number" name="quantidadeproduto" class="form-control"></label>' +--%>
-                <%--'<label>Valor: <input type="number" name="total" class="form-control"></label>' +--%>
-                <%--'<label>Desconto: <input type="number" name="desconto" class="form-control"></label>' +--%>
-                <%--'<label>Total: <input type="number" name="total" class="form-control" disabled="disabled"></label>     ' +--%>
-                <%--'<a href="#" class="remove"><i class="far fa-times-circle icons"></i></a></label>';--%>
+    <%--var input = '<label style="display: block">' +--%>
+    <%--'<label>Buscar Produto: <input type="text" name="buscarproduto" class="form-control" placeholder="ID ou NOME"></label>' +--%>
+    <%--'<label>Qunatidade atual:<input value="5" type="number" name="quantidadeatual" class="form-control" placeholder="ID ou NOME" disabled="disabled"></label>' +--%>
+    <%--'<label>Quantidade de venda: <input type="number" name="quantidadeproduto" class="form-control"></label>' +--%>
+    <%--'<label>Valor: <input type="number" name="total" class="form-control"></label>' +--%>
+    <%--'<label>Desconto: <input type="number" name="desconto" class="form-control"></label>' +--%>
+    <%--'<label>Total: <input type="number" name="total" class="form-control" disabled="disabled"></label>     ' +--%>
+    <%--'<a href="#" class="remove"><i class="far fa-times-circle icons"></i></a></label>';--%>
 
-            <%--$("input[name='add']").click(function (e) {--%>
-                <%--$('#inputs_adicionais').append(input);--%>
-            <%--});--%>
+    <%--$("input[name='add']").click(function (e) {--%>
+    <%--$('#inputs_adicionais').append(input);--%>
+    <%--});--%>
 
-            <%--$('#inputs_adicionais').delegate('a', 'click', function (e) {--%>
-                <%--e.preventDefault();--%>
-                <%--$(this).parent('label').remove();--%>
-            <%--});--%>
+    <%--$('#inputs_adicionais').delegate('a', 'click', function (e) {--%>
+    <%--e.preventDefault();--%>
+    <%--$(this).parent('label').remove();--%>
+    <%--});--%>
 
-        <%--});--%>
+    <%--});--%>
     <%--</script>--%>
 
 
@@ -51,48 +51,58 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <h1 class="geral">VENDAS</h1><br>
-			<form method="get" action="controller?acao=venda&tipo=buscaCliente">
-                Escolha um cliente para realizar a venda:
-				<select name="idCliente">
-				  <c:forEach var="cliente" items="${listaClientes}">
-                      <option value="${cliente.id}">${cliente.nome}</option>
-                  </c:forEach>
-				</select><br><br>
-                <input type="submit" value="Abrir Venda">
+<form method="post" action="controller?acao=venda&tipo=buscaCliente">
+    Escolha um cliente para realizar a venda:
+    <select name="idCliente">
+        <c:forEach var="cliente" items="${listaClientes}">
+            <option value="${cliente.id}">${cliente.nome}</option>
+        </c:forEach>
+    </select><br><br>
+    <input type="submit" value="Abrir Venda">
+</form>
+
+<br><br>
+<center>
+    <c:if test="${clienteBusca.id != 0}">
+        <input type="hidden" value="${clienteBusca.id}" id="idCliente">
+        <label>Número da Venda:<input type="text" value="" style="text-align: center" name="idVenda"
+                                      class="form-control" disabled="disabled"/></label><br>
+        <label>Nome:<input type="text" name="nomeCliente" class="form-control" value="${clienteBusca.nome}"
+                           disabled="disabled"/></label>
+        <label>Telefone Principal:<input type="text" name="celularCliente" class="form-control"
+                                         value="${clienteBusca.celular}" disabled="disabled"/></label><br><br>
+
+        <div id="codigo">
+            <form method="post" action="controller?acao=venda&tipo=finalizarVenda">
+                <input type="hidden" value="">
+                <label>Produto:
+                    <select id="idProduto" name="idProduto" onselect="carregaProduto()">
+                        <option>Selecione um produto.</option>
+                        <c:forEach var="produto" items="${listaProdutos}">
+                            <option value="${produto.id}">${produto.nome}</option>
+                        </c:forEach>
+                    </select>
+                </label>
+                <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
+                                        class="form-control" disabled="disabled"></label>
+                <label>Quantidade:<input type="number" name="quantidadeProduto" class="form-control"></label>
+                <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="total"
+                                        class="form-control" disabled="disabled" step="any"></label><br>
+                <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
+                <input value="Adicionar" type="submit" class="btn btn-success"/>
             </form>
+        </div>
+    </c:if>
+</center>
 
-            <c:if test="${clienteBusca.id != 0}">
-                <input type="hidden" value="${clienteBusca.id}" id="idCliente">
-                <label>Número da Venda:<input type="text" value="" style="text-align: center" name="idVenda" class="form-control" disabled="disabled"/></label><br>
-                <label>Nome:<input type="text" name="nomeCliente" class="form-control" value="${clienteBusca.nome}" disabled="disabled"/></label>
-                <label>Telefone Principal:<input type="text" name="celularCliente" class="form-control" value="${clienteBusca.celular}" disabled="disabled"/></label><br><br>
-
-                <div id="codigo">
-                    <form method="post" action="#">
-                        <input type="hidden" value="">
-                        <label>Produto:
-                        <select id="idProduto" name="idProduto" onselect="carregaProduto()">
-                            <c:forEach var="produto" items="${listaProdutos}">
-
-                            </c:forEach>
-                        </select>
-                        </label>
-                        <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto" class="form-control" disabled="disabled"></label>
-                        <label>Quantidade:<input type="number" name="quantidadeProduto" class="form-control"></label>
-                        <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="total" class="form-control" disabled="disabled" step="any"></label><br>
-                        <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
-                        <input value="Adicionar" type="submit" class="btn btn-success"/>
-                    </form>
-                </div>
-            </c:if>
-
-<%--<script>--%>
-    <%--function carregaProduto(){--%>
-        <%--var idCliente = document.getElementById("idCliente").value;--%>
-        <%--var idProduto = document.getElementById("idProduto").value;--%>
-
-        <%--windows.location.href("controller?acao=venda&tipo=buscaProduto&idCliente="+idCliente+"&idProduto="+idProduto);--%>
-    <%--}--%>
-<%--</script>--%>
+<script>
+function carregaProduto(){
+    alert("teste");
+// var idCliente = document.getElementById("idCliente").value;
+// var idProduto = document.getElementById("idProduto").value;
+//
+// windows.location.href("controller?acao=venda&tipo=buscaProduto&idCliente="+idCliente+"&idProduto="+idProduto);
+}
+</script>
 </body>
 </html>

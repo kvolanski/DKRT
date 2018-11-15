@@ -46,13 +46,17 @@ public class ControllerServlet extends HttpServlet {
 
         if ("venda".equalsIgnoreCase(acao)) {
             String tipo = req.getParameter("tipo");
+            if ("buscaCliente".equalsIgnoreCase(tipo)) {
+                String idCliente = req.getParameter("idCliente");
+                req.getRequestDispatcher("venda?tipo=buscaCliente&id=" + idCliente).forward(req, resp);
+            }
         }
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String acao = req.getParameter("acao");
-        System.out.println("EU ESTIVE AQUI");
 
         if ("cadastro".equalsIgnoreCase(acao)) {
             String tipo = req.getParameter("tipo");
@@ -68,7 +72,6 @@ public class ControllerServlet extends HttpServlet {
 
         if ("venda".equalsIgnoreCase(acao)) {
             String tipo = req.getParameter("tipo");
-            System.out.println("EU ESTIVE AQUI");
             if ("efetuar".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=efetuar").forward(req, resp);
             } else if ("cancelar".equalsIgnoreCase(tipo)) {
@@ -79,7 +82,6 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("venda?tipo=buscaProduto&idProduto=" + idProduto + "&idCliente=" + idCliente).forward(req, resp);
             } else if ("buscaCliente".equalsIgnoreCase(tipo)) {
                 String idCliente = req.getParameter("idCliente");
-                System.out.println("EU ESTIVE AQUI");
                 req.getRequestDispatcher("venda?tipo=buscaCliente&id=" + idCliente).forward(req, resp);
             } else {
                 req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
