@@ -1,5 +1,7 @@
 package br.edu.fapi.dkrt.model.venda;
 
+import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
+
 import java.util.Date;
 
 public class VendaDTO {
@@ -10,7 +12,7 @@ public class VendaDTO {
     private String status;
     private int desconto;
     private Date dataDeVenda;
-    private int clienteId;
+    private ClienteDTO clienteDTO;
 
     public int getId() {
         return id;
@@ -68,11 +70,11 @@ public class VendaDTO {
         this.dataDeVenda = dataDeVenda;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public ClienteDTO getClienteDTO() {
+        return clienteDTO;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setClienteDTO(ClienteDTO clienteDTO) {
+        this.clienteDTO = clienteDTO;
     }
 }

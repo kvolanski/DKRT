@@ -4,6 +4,6 @@ import br.edu.fapi.dkrt.model.venda.VendaDTO;
 
 public interface VendaBusiness {
 
-    public boolean efetuarVenda(VendaDTO vendaDTO);
+    int abrirVenda(VendaDTO vendaDTO);
 
 }

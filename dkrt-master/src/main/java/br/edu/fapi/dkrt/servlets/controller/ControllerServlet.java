@@ -17,6 +17,7 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String acao = req.getParameter("acao");
+
         if ("login".equalsIgnoreCase(acao)) {
             String usuario = req.getParameter("usuario");
             String senha = req.getParameter("senha");
@@ -49,9 +50,12 @@ public class ControllerServlet extends HttpServlet {
             if ("buscaCliente".equalsIgnoreCase(tipo)) {
                 String idCliente = req.getParameter("idCliente");
                 req.getRequestDispatcher("venda?tipo=buscaCliente&id=" + idCliente).forward(req, resp);
+            } else if ("buscaProduto".equalsIgnoreCase(tipo)) {
+                String idProduto = req.getParameter("idProduto");
+                req.getRequestDispatcher("venda?tipo=buscaProduto&idProduto=" + idProduto).forward(req, resp);
             }
-        }
 
+        }
     }
 
     @Override
@@ -77,12 +81,13 @@ public class ControllerServlet extends HttpServlet {
             } else if ("cancelar".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=cancelar").forward(req, resp);
             } else if ("buscaProduto".equalsIgnoreCase(tipo)) {
-                String idCliente = req.getParameter("idCliente");
                 String idProduto = req.getParameter("idProduto");
-                req.getRequestDispatcher("venda?tipo=buscaProduto&idProduto=" + idProduto + "&idCliente=" + idCliente).forward(req, resp);
-            } else if ("buscaCliente".equalsIgnoreCase(tipo)) {
+                req.getRequestDispatcher("venda?tipo=buscaProduto&idProduto=" + idProduto).forward(req, resp);
+            } else if ("abrirVenda".equalsIgnoreCase(tipo)) {
                 String idCliente = req.getParameter("idCliente");
-                req.getRequestDispatcher("venda?tipo=buscaCliente&id=" + idCliente).forward(req, resp);
+                req.getRequestDispatcher("venda?tipo=abrirVenda&id=" + idCliente).forward(req, resp);
+            } else if ("finalizarVenda".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
             } else {
                 req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
             }
@@ -116,3 +121,4 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 }
+
