@@ -3,6 +3,7 @@ package br.edu.fapi.dkrt.business.venda.impl;
 import br.edu.fapi.dkrt.business.venda.VendaBusiness;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
 import br.edu.fapi.dkrt.dao.venda.impl.VendaDAOImpl;
+import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
 
 public class VendaBusinessImpl implements VendaBusiness {
@@ -21,5 +22,14 @@ public class VendaBusinessImpl implements VendaBusiness {
             }
         }
         return 0;
+    }
+
+    @Override
+    public boolean adicionarPedido(PedidoDTO pedidoDTO) {
+        if (pedidoDTO != null){
+            vendaDAO.adicionarPedido(pedidoDTO, "venda");
+            return true;
+        }
+        return false;
     }
 }

@@ -6,10 +6,15 @@ import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
 import br.edu.fapi.dkrt.dao.cliente.impl.ClienteDAOImpl;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
+import br.edu.fapi.dkrt.dao.venda.VendaDAO;
+import br.edu.fapi.dkrt.dao.venda.impl.VendaDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
+import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
+import br.edu.fapi.dkrt.servlets.mapper.BaseMapper;
+import br.edu.fapi.dkrt.servlets.mapper.impl.PedidoMapperImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +40,20 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "clienteBusca", clienteBusca);
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda2.jsp").forward(req, resp);
         }
+
+        if ("adicionarPedido".equalsIgnoreCase(tipo)){
+            BaseMapper pedidoMapper = new PedidoMapperImpl();
+            PedidoDTO pedidoDTO = ((PedidoMapperImpl) pedidoMapper).doMap(req);
+            VendaBusiness vendaBusiness = new VendaBusinessImpl();
+            vendaBusiness.adicionarPedido(pedidoDTO);
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(pedidoDTO.getVendaDTO().getId(), "venda");
+            setSessionAttribute(req, "listaProdutos", listaProdutos);
+            setSessionAttribute(req, "listaPedido", listaPedido);
+            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+        }
     }
 
     @Override
@@ -51,6 +70,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaClientes", listaClientes);
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "clienteBusca", clienteBusca);
+            setSessionAttribute(req, "mostraCliente", "sim");
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
         }
 
@@ -75,9 +95,10 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             ClienteDTO clienteBusca = clienteDAO.buscarCliente(Integer.parseInt(idCliente));
             vendaDTO.setStatus("Incompleta");
             vendaDTO.setClienteDTO(clienteBusca);
-            vendaBusiness.abrirVenda(vendaDTO);
+            vendaDTO.setId(vendaBusiness.abrirVenda(vendaDTO));
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaClientes", listaClientes);
+            setSessionAttribute(req, "mostraCliente", "nao");
             req.getSession().setAttribute("clienteBusca", clienteBusca);
             req.getSession().setAttribute("idVenda", vendaDTO.getId());
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);

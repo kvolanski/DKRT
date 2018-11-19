@@ -17,32 +17,6 @@
     <style>
         <%@include file="../estilo/estilo.css" %>
     </style>
-    <%--<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>--%>
-    <%--<script type="text/javascript">--%>
-    <%--$(document).ready(function () {--%>
-
-    <%--var input = '<label style="display: block">' +--%>
-    <%--'<label>Buscar Produto: <input type="text" name="buscarproduto" class="form-control" placeholder="ID ou NOME"></label>' +--%>
-    <%--'<label>Qunatidade atual:<input value="5" type="number" name="quantidadeatual" class="form-control" placeholder="ID ou NOME" disabled="disabled"></label>' +--%>
-    <%--'<label>Quantidade de venda: <input type="number" name="quantidadeproduto" class="form-control"></label>' +--%>
-    <%--'<label>Valor: <input type="number" name="total" class="form-control"></label>' +--%>
-    <%--'<label>Desconto: <input type="number" name="desconto" class="form-control"></label>' +--%>
-    <%--'<label>Total: <input type="number" name="total" class="form-control" disabled="disabled"></label>     ' +--%>
-    <%--'<a href="#" class="remove"><i class="far fa-times-circle icons"></i></a></label>';--%>
-
-    <%--$("input[name='add']").click(function (e) {--%>
-    <%--$('#inputs_adicionais').append(input);--%>
-    <%--});--%>
-
-    <%--$('#inputs_adicionais').delegate('a', 'click', function (e) {--%>
-    <%--e.preventDefault();--%>
-    <%--$(this).parent('label').remove();--%>
-    <%--});--%>
-
-    <%--});--%>
-    <%--</script>--%>
-
-
     <title>D.K.R.T</title>
 </head>
 
@@ -51,17 +25,19 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <h1 class="geral">VENDAS</h1><br>
-<form method="get" action="controller">
-    <input type="hidden" value="venda" name="acao">
-    <input type="hidden" value="abrirVenda" name="tipo">
-    Escolha um cliente para realizar a venda:
-    <select name="idCliente">
-        <c:forEach var="cliente" items="${listaClientes}">
-            <option value="${cliente.id}">${cliente.nome}</option>
-        </c:forEach>
-    </select><br><br>
-    <input type="submit" value="Abrir Venda">
-</form>
+<c:if test="${mostraCliente == 'sim'}">
+    <form method="get" action="controller">
+        <input type="hidden" value="venda" name="acao">
+        <input type="hidden" value="abrirVenda" name="tipo">
+        Escolha um cliente para realizar a venda:
+        <select name="idCliente">
+            <c:forEach var="cliente" items="${listaClientes}">
+                <option value="${cliente.id}">${cliente.nome}</option>
+            </c:forEach>
+        </select><br><br>
+        <input type="submit" value="Abrir Venda">
+    </form>
+</c:if>
 
 <br><br>
 <center>
@@ -90,16 +66,35 @@
 
         <form method="post" action="controller">
             <input type="hidden" value="venda" name="acao">
-            <input type="hidden" value="finalizarVenda" name="tipo">
-            <input type="hidden" value="${produtoBusca.id}">
+            <input type="hidden" value="adicionarPedido" name="tipo">
+            <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled"></label>
             <label>Quantidade:<input type="number" name="quantidadeProduto" class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="valorUnitProduto"
-                                    class="form-control" disabled="disabled" step="any"></label><br>
+                                    class="form-control" step="any"></label><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
             <input value="Adicionar" type="submit" class="btn btn-success"/>
         </form>
+
+        <table>
+            <tr>
+                <th>Produto</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Valor Unit.</th>
+                <th>Valor Total</th>
+            </tr>
+            <c:forEach var="pedido" items="${listaPedido}">
+                <tr>
+                    <td>${pedido.produtoDTO.nome}</td>
+                    <td>${pedido.produtoDTO.descricao}</td>
+                    <td>${pedido.quantidade}</td>
+                    <td>${pedido.valorUnitario}</td>
+                    <td>${pedido.valorTotal}</td>
+                </tr>
+            </c:forEach>
+        </table>
 
     </c:if>
 </center>
