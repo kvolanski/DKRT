@@ -87,8 +87,8 @@ public class ControllerServlet extends HttpServlet {
             } else if ("abrirVenda".equalsIgnoreCase(tipo)) {
                 String idCliente = req.getParameter("idCliente");
                 req.getRequestDispatcher("venda?tipo=abrirVenda&id=" + idCliente).forward(req, resp);
-            } else {
-                req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
+            } else if ("finalizarVenda".equalsIgnoreCase(tipo)) {
+                req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
             }
         }
 

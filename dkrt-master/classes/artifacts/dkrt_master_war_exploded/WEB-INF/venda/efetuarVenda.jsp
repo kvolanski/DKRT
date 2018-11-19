@@ -95,6 +95,12 @@
                 </tr>
             </c:forEach>
         </table>
+        <br><br>
+        <form method="get" action="controller">
+            <input type="hidden" value="venda" name="acao">
+            <input type="hidden" value="finalizarVenda" name="tipo">
+            <input type="submit" value="Finalizar Venda">
+        </form>
 
     </c:if>
 </center>
