@@ -26,9 +26,20 @@ public class VendaBusinessImpl implements VendaBusiness {
 
     @Override
     public boolean adicionarPedido(PedidoDTO pedidoDTO) {
-        if (pedidoDTO != null){
-            vendaDAO.adicionarPedido(pedidoDTO, "venda");
-            return true;
+        if (pedidoDTO != null) {
+            if (vendaDAO.adicionarPedido(pedidoDTO, "venda")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean finalizarVenda(VendaDTO vendaDTO) {
+        if (vendaDTO != null) {
+            if (vendaDAO.finalizarVenda(vendaDTO)) {
+                return true;
+            }
         }
         return false;
     }

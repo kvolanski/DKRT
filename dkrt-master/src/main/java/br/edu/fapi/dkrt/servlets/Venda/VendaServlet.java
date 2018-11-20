@@ -15,6 +15,7 @@ import br.edu.fapi.dkrt.model.venda.VendaDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 import br.edu.fapi.dkrt.servlets.mapper.BaseMapper;
 import br.edu.fapi.dkrt.servlets.mapper.impl.PedidoMapperImpl;
+import br.edu.fapi.dkrt.servlets.mapper.impl.VendaMapperImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,8 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/venda")
 public class VendaServlet extends AbstractBaseHttpServlet {
+
+    private BaseMapper<HttpServletRequest, VendaDTO> vendaMapper = new VendaMapperImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,6 +57,24 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaPedido", listaPedido);
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
         }
+
+        if ("finalizarVenda".equalsIgnoreCase(tipo)){
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            VendaBusiness vendaBusiness = new VendaBusinessImpl();
+            VendaDTO vendaDTO = vendaMapper.doMap(req);
+            ClienteDTO clienteDTO = (ClienteDTO) req.getSession().getAttribute("clienteBusca");
+            vendaDTO.setClienteDTO(clienteDTO);
+            if(vendaBusiness.finalizarVenda(vendaDTO)){
+                ClienteDAO clienteDAO = new ClienteDAOImpl();
+                List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
+                setSessionAttribute(req, "listaClientes", listaClientes);
+                ClienteDTO clienteBusca = new ClienteDTO();
+                clienteBusca.setId(0);
+                setSessionAttribute(req, "clienteBusca", clienteBusca);
+                setSessionAttribute(req, "mostraCliente", "sim");
+                req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            }
+        }
     }
 
     @Override
@@ -62,13 +83,10 @@ public class VendaServlet extends AbstractBaseHttpServlet {
 
         if ("efetuar".equalsIgnoreCase(tipo)) {
             ClienteDAO clienteDAO = new ClienteDAOImpl();
-            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
             List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
-            List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
             ClienteDTO clienteBusca = new ClienteDTO();
             clienteBusca.setId(0);
             setSessionAttribute(req, "listaClientes", listaClientes);
-            setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "clienteBusca", clienteBusca);
             setSessionAttribute(req, "mostraCliente", "sim");
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
@@ -115,5 +133,9 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaPedido", listaPedido);
             req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
         }
+    }
+
+    public void setVendaMapper(BaseMapper<HttpServletRequest, VendaDTO> vendaMapper) {
+        this.vendaMapper = vendaMapper;
     }
 }

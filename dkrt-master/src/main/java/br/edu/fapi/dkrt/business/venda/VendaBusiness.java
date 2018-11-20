@@ -9,4 +9,6 @@ public interface VendaBusiness {
 
     boolean adicionarPedido(PedidoDTO pedidoDTO);
 
+    boolean finalizarVenda(VendaDTO vendaDTO);
+
 }

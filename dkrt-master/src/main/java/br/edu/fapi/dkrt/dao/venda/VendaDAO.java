@@ -9,7 +9,9 @@ public interface VendaDAO {
 
     int abrirVenda(VendaDTO vendaDTO);
 
-    int adicionarPedido(PedidoDTO pedidoDTO, String tipo);
+    boolean finalizarVenda(VendaDTO vendaDTO);
+
+    boolean adicionarPedido(PedidoDTO pedidoDTO, String tipo);
 
     List<PedidoDTO> listarPedidosVenda(int id, String tipo);
 

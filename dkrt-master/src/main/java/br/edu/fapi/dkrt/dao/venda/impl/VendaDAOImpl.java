@@ -38,8 +38,35 @@ public class VendaDAOImpl implements VendaDAO {
     }
 
     @Override
-    public int adicionarPedido(PedidoDTO pedidoDTO, String tipo) {
-        int id = 0;
+    public boolean finalizarVenda(VendaDTO vendaDTO) {
+        String sql = "UPDATE vendas SET venda_valorTotal = ?, venda_formaDePagamento = ?, venda_parcelas = ?, venda_status = ?, venda_desconto = ?, " +
+                "venda_dataVenda = ? WHERE venda_id = ?";
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setFloat(1, vendaDTO.getValorTotal());
+            preparedStatement.setString(2, vendaDTO.getFormaDePagamento());
+            preparedStatement.setInt(3, vendaDTO.getParcelas());
+            preparedStatement.setString(4, vendaDTO.getStatus());
+            preparedStatement.setInt(5, vendaDTO.getDesconto());
+            preparedStatement.setTimestamp(6, new java.sql.Timestamp(vendaDTO.getDataDeVenda().getTime()));
+            preparedStatement.setInt(7, vendaDTO.getId());
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean adicionarPedido(PedidoDTO pedidoDTO, String tipo) {
         String sql;
         if ("venda".equalsIgnoreCase(tipo)) {
             sql = "INSERT INTO pedidos (produto_id, pedido_quantidade, pedido_valorUnitario, pedido_valorTotal, venda_id) VALUES (?, ?, ?, ?, ?)";
@@ -63,15 +90,14 @@ public class VendaDAOImpl implements VendaDAO {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
             if (resultSet.next()){
-                id = resultSet.getInt(1);
+                return true;
             }
-            return id;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return id;
+        return false;
     }
 
     @Override

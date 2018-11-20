@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Finalizar Venda</title>
@@ -40,13 +41,29 @@
 <form method="post" action="controller">
     <input type="hidden" value="venda" name="acao">
     <input type="hidden" value="finalizarVenda" name="tipo">
-    <select name="formaDePagamento" id="pagamento" onblur="selecionaForma()">
+    <select name="formaDePagamento" id="pagamento" onmouseup="selecionaForma()">
         <option>Selecione a forma de pagamento</option>
         <option value="debito">Débito</option>
         <option value="credito">Crédito</option>
     </select>
-    <label id="numParcelas" hidden><input type="text" name="numeroParcelasVenda"></label>
-
+    <label id="numParcelas" hidden>Número de Parcelas:
+    <select name="numeroParcelasVenda">
+        <option value="1">1x</option>
+        <option value="2">2x</option>
+        <option value="3">3x</option>
+        <option value="4">4x</option>
+        <option value="5">5x</option>
+        <option value="6">6x</option>
+        <option value="7">7x</option>
+        <option value="8">8x</option>
+        <option value="9">9x</option>
+        <option value="10">10x</option>
+        <option value="11">11x</option>
+        <option value="12">12x</option>
+    </select>
+    </label>
+    <label>Desconto: <input type="text" name="descontoVenda"></label><br>
+    <input type="submit" value="Fechar Venda">
 </form>
 </center>
 
