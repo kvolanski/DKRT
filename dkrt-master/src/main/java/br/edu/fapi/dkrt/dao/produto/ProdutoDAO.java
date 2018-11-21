@@ -18,4 +18,6 @@ public interface ProdutoDAO {
 
     List<ProdutoDTO> listarProdutos();
 
+    boolean diminuirEstoque(ProdutoDTO produtoDTO);
+
 }

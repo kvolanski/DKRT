@@ -72,7 +72,8 @@
                                     class="form-control" disabled="disabled"></label>
             <label>Quantidade:<input type="number" name="quantidadeProduto" class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="valorUnitProduto"
-                                    class="form-control" step="any"></label><br>
+                                    class="form-control" step="any"></label>
+            <label>Qtd. em Estoque: ${produtoBusca.qtdEstoque}</label><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
             <input value="Adicionar" type="submit" class="btn btn-success"/>
         </form>

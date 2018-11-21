@@ -39,22 +39,23 @@ public class VendaDAOImpl implements VendaDAO {
 
     @Override
     public boolean finalizarVenda(VendaDTO vendaDTO) {
-        String sql = "UPDATE vendas SET venda_valorTotal = ?, venda_formaDePagamento = ?, venda_parcelas = ?, venda_status = ?, venda_desconto = ?, " +
-                "venda_dataVenda = ? WHERE venda_id = ?";
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+        String sql = "UPDATE vendas SET venda_valorTotal = ?, venda_formaDePagamento = ?, venda_parcelas = ?, venda_valorParcela = ?, venda_status = ?, venda_desconto = ?, " +
+                "venda_dataDeVenda = ? WHERE venda_id = ?";
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setFloat(1, vendaDTO.getValorTotal());
             preparedStatement.setString(2, vendaDTO.getFormaDePagamento());
             preparedStatement.setInt(3, vendaDTO.getParcelas());
-            preparedStatement.setString(4, vendaDTO.getStatus());
-            preparedStatement.setInt(5, vendaDTO.getDesconto());
-            preparedStatement.setTimestamp(6, new java.sql.Timestamp(vendaDTO.getDataDeVenda().getTime()));
-            preparedStatement.setInt(7, vendaDTO.getId());
+            preparedStatement.setFloat(4, vendaDTO.getValorParcelas());
+            preparedStatement.setString(5, vendaDTO.getStatus());
+            preparedStatement.setInt(6, vendaDTO.getDesconto());
+            preparedStatement.setTimestamp(7, new java.sql.Timestamp(vendaDTO.getDataDeVenda().getTime()));
+            preparedStatement.setInt(8, vendaDTO.getId());
 
             int resultado = preparedStatement.executeUpdate();
 
-            if (resultado != 0){
+            if (resultado != 0) {
                 return true;
             }
         } catch (SQLException e) {
@@ -89,7 +90,7 @@ public class VendaDAOImpl implements VendaDAO {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return true;
             }
         } catch (SQLException e) {
@@ -120,7 +121,7 @@ public class VendaDAOImpl implements VendaDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 ProdutoDTO produtoDTO = new ProdutoDTO();
                 produtoDTO.setId(resultSet.getInt("produto_id"));
                 produtoDTO.setNome(resultSet.getString("produto_nome"));

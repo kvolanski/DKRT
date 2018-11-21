@@ -38,11 +38,14 @@
         </c:forEach>
     </table>
 <br><br><br>
+    <input type="hidden" value="${valorTotal}" id="valorTotal">
+    Valor Total: <label id="displayValorTotal"></label>
+    <br><br>
 <form method="post" action="controller">
     <input type="hidden" value="venda" name="acao">
     <input type="hidden" value="finalizarVenda" name="tipo">
-    <select name="formaDePagamento" id="pagamento" onmouseup="selecionaForma()">
-        <option>Selecione a forma de pagamento</option>
+    <select name="formaDePagamento" id="pagamento" onmouseup="selecionaForma(), habilitaBotao()">
+        <option value="semForma">Selecione a forma de pagamento</option>
         <option value="debito">Débito</option>
         <option value="credito">Crédito</option>
     </select>
@@ -62,12 +65,25 @@
         <option value="12">12x</option>
     </select>
     </label>
-    <label>Desconto: <input type="text" name="descontoVenda"></label><br>
-    <input type="submit" value="Fechar Venda">
+    <label>Desconto(%): <input type="number" name="descontoVenda" onkeyup="updateValorTotal()" id="desconto" required></label><br><br><br>
+    <input type="submit" value="Fechar Venda" id="enviarInf" disabled>
 </form>
 </center>
 
 <script>
+    var valorTotal = document.getElementById("valorTotal").value;
+    document.getElementById("displayValorTotal").innerHTML = valorTotal;
+
+    function habilitaBotao() {
+        var forma = document.getElementById("pagamento").value;
+
+        if (forma == "semForma"){
+            document.getElementById("enviarInf").disabled = true;
+        } else {
+            document.getElementById("enviarInf").disabled = false;
+        }
+    }
+
     function selecionaForma(){
         var forma = document.getElementById("pagamento").value;
 
@@ -76,6 +92,15 @@
         } else {
             document.getElementById("numParcelas").hidden = true;
         }
+    }
+
+    function updateValorTotal() {
+        var valorTotal = document.getElementById("valorTotal").value;
+        var desconto = document.getElementById("desconto").value;
+
+        valorTotal = valorTotal - ((valorTotal*desconto)/100);
+
+        document.getElementById("displayValorTotal").innerHTML = valorTotal;
     }
 </script>
 </body>

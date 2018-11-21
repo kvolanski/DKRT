@@ -1,5 +1,7 @@
 package br.edu.fapi.dkrt.servlets.Venda;
 
+import br.edu.fapi.dkrt.business.calculator.Calculator;
+import br.edu.fapi.dkrt.business.calculator.impl.CalculatorImpl;
 import br.edu.fapi.dkrt.business.venda.VendaBusiness;
 import br.edu.fapi.dkrt.business.venda.impl.VendaBusinessImpl;
 import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
@@ -28,6 +30,7 @@ import java.util.List;
 public class VendaServlet extends AbstractBaseHttpServlet {
 
     private BaseMapper<HttpServletRequest, VendaDTO> vendaMapper = new VendaMapperImpl();
+    private BaseMapper<HttpServletRequest, PedidoDTO> pedidoMapper = new PedidoMapperImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,35 +47,45 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda2.jsp").forward(req, resp);
         }
 
-        if ("adicionarPedido".equalsIgnoreCase(tipo)){
-            BaseMapper pedidoMapper = new PedidoMapperImpl();
-            PedidoDTO pedidoDTO = ((PedidoMapperImpl) pedidoMapper).doMap(req);
-            VendaBusiness vendaBusiness = new VendaBusinessImpl();
-            vendaBusiness.adicionarPedido(pedidoDTO);
-            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+        if ("adicionarPedido".equalsIgnoreCase(tipo)) {
             VendaDAO vendaDAO = new VendaDAOImpl();
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            VendaBusiness vendaBusiness = new VendaBusinessImpl();
+            PedidoDTO pedidoDTO = pedidoMapper.doMap(req);
             List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+            if (!vendaBusiness.adicionarPedido(pedidoDTO, (ProdutoDTO) req.getSession().getAttribute("produtoBusca"))) {
+                setSessionAttribute(req, "erroQuantidade", "quantidadeInvalida");
+            }
             List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(pedidoDTO.getVendaDTO().getId(), "venda");
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaPedido", listaPedido);
+            req.getSession().removeAttribute("produtoBusca");
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
         }
 
-        if ("finalizarVenda".equalsIgnoreCase(tipo)){
-            VendaDAO vendaDAO = new VendaDAOImpl();
+        if ("finalizarVenda".equalsIgnoreCase(tipo)) {
             VendaBusiness vendaBusiness = new VendaBusinessImpl();
             VendaDTO vendaDTO = vendaMapper.doMap(req);
             ClienteDTO clienteDTO = (ClienteDTO) req.getSession().getAttribute("clienteBusca");
             vendaDTO.setClienteDTO(clienteDTO);
-            if(vendaBusiness.finalizarVenda(vendaDTO)){
+            Calculator valorCalculator = new CalculatorImpl();
+            List<PedidoDTO> listaPedido = (List<PedidoDTO>) req.getSession().getAttribute("listaPedido");
+            vendaDTO.setValorTotal(valorCalculator.calcularValorTotal(listaPedido));
+            vendaDTO.setValorParcelas(valorCalculator.calcularValorParcelas(vendaDTO));
+            if (vendaBusiness.finalizarVenda(vendaDTO)) {
                 ClienteDAO clienteDAO = new ClienteDAOImpl();
                 List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
                 setSessionAttribute(req, "listaClientes", listaClientes);
                 ClienteDTO clienteBusca = new ClienteDTO();
                 clienteBusca.setId(0);
+                req.getSession().removeAttribute("idVenda");
+                req.getSession().removeAttribute("clienteBusca");
+                req.getSession().removeAttribute("listaPedido");
                 setSessionAttribute(req, "clienteBusca", clienteBusca);
                 setSessionAttribute(req, "mostraCliente", "sim");
                 req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
             }
         }
     }
@@ -99,10 +112,10 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             ProdutoDAO produtoDAO = new ProdutoDAOImpl();
             ProdutoDTO produtoBusca = produtoDAO.buscaProdutoPorId(Integer.parseInt(idProduto));
             List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
-            setSessionAttribute(req, "listaProdutos", listaProdutos);
-            setSessionAttribute(req, "produtoBusca", produtoBusca);
             List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(id, "venda");
+            setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaPedido", listaPedido);
+            req.getSession().setAttribute("produtoBusca", produtoBusca);
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
         }
 
@@ -126,16 +139,23 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
         }
 
-        if ("finalizarVenda".equalsIgnoreCase(tipo)){
+        if ("finalizarVenda".equalsIgnoreCase(tipo)) {
+            Calculator calculator = new CalculatorImpl();
             int id = (int) req.getSession().getAttribute("idVenda");
             VendaDAO vendaDAO = new VendaDAOImpl();
             List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(id, "venda");
-            setSessionAttribute(req, "listaPedido", listaPedido);
+            float valorTotal = calculator.calcularValorTotal(listaPedido);
+            req.getSession().setAttribute("listaPedido", listaPedido);
+            setSessionAttribute(req, "valorTotal", valorTotal);
             req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
         }
     }
 
     public void setVendaMapper(BaseMapper<HttpServletRequest, VendaDTO> vendaMapper) {
         this.vendaMapper = vendaMapper;
+    }
+
+    public void setPedidoMapper(BaseMapper<HttpServletRequest, PedidoDTO> pedidoMapper) {
+        this.pedidoMapper = pedidoMapper;
     }
 }

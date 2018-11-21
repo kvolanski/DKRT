@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ProdutoMapperImpl implements BaseMapper<HttpServletRequest,ProdutoDTO> {
+public class ProdutoMapperImpl implements BaseMapper<HttpServletRequest, ProdutoDTO> {
 
     @Override
     public ProdutoDTO doMap(HttpServletRequest req) throws NumberFormatException{

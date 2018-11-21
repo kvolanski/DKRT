@@ -176,4 +176,25 @@ public class ProdutoDAOImpl implements ProdutoDAO {
         }
         return produtoDTO;
     }
+
+    @Override
+    public boolean diminuirEstoque(ProdutoDTO produtoDTO) {
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE produtos SET produto_qtdEstoque = ? WHERE produto_id = ?");
+
+            preparedStatement.setInt(1, produtoDTO.getQtdEstoque());
+            preparedStatement.setInt(2, produtoDTO.getId());
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

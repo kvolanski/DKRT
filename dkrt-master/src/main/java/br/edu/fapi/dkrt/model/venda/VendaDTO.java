@@ -9,6 +9,7 @@ public class VendaDTO {
     private float valorTotal;
     private String formaDePagamento;
     private int parcelas;
+    private float valorParcelas;
     private String status;
     private int desconto;
     private Date dataDeVenda;
@@ -44,6 +45,14 @@ public class VendaDTO {
 
     public void setParcelas(int parcelas) {
         this.parcelas = parcelas;
+    }
+
+    public float getValorParcelas() {
+        return valorParcelas;
+    }
+
+    public void setValorParcelas(float valorParcelas) {
+        this.valorParcelas = valorParcelas;
     }
 
     public String getStatus() {
