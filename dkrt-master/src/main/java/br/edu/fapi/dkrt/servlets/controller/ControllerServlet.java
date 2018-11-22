@@ -82,7 +82,7 @@ public class ControllerServlet extends HttpServlet {
             if ("efetuar".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=efetuar").forward(req, resp);
             } else if ("cancelar".equalsIgnoreCase(tipo)) {
-                req.getRequestDispatcher("venda?tipo=cancelar").forward(req, resp);
+                req.getRequestDispatcher("venda?tipo=listaVendasAbertas").forward(req, resp);
             } else if ("buscaProduto".equalsIgnoreCase(tipo)) {
                 String idProduto = req.getParameter("idProduto");
                 req.getRequestDispatcher("venda?tipo=buscaProduto&idProduto=" + idProduto).forward(req, resp);
@@ -91,6 +91,8 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("venda?tipo=abrirVenda&id=" + idCliente).forward(req, resp);
             } else if ("finalizarVenda".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
+            } else if ("listarVendas".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("venda?tipo=listarVendas").forward(req, resp);
             }
         }
 

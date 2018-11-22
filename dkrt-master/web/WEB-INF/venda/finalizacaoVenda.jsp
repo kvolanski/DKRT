@@ -65,7 +65,7 @@
         <option value="12">12x</option>
     </select>
     </label>
-    <label>Desconto(%): <input type="number" name="descontoVenda" onkeyup="updateValorTotal()" id="desconto" required></label><br><br><br>
+    <label>Desconto(%): <input type="number" name="descontoVenda" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br><br><br>
     <input type="submit" value="Fechar Venda" id="enviarInf" disabled>
 </form>
 </center>
@@ -100,7 +100,13 @@
 
         valorTotal = valorTotal - ((valorTotal*desconto)/100);
 
-        document.getElementById("displayValorTotal").innerHTML = valorTotal;
+        if (desconto < 0 || desconto > 100){
+            alert("Não é possível dar descontos menores que 0 ou maiores que 100");
+            document.getElementById("desconto").value = 0;
+        } else {
+            document.getElementById("displayValorTotal").innerHTML = valorTotal;
+        }
+
     }
 </script>
 </body>

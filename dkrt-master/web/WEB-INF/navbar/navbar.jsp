@@ -23,6 +23,7 @@
             <ul>
                 <li><a href="controller?acao=venda&tipo=efetuar">Efetuar Venda</a></li>
                 <li><a href="controller?acao=venda&tipo=cancelar">Cancelar Venda</a></li>
+                <li><a href="controller?acao=venda&tipo=listarVendas">Listar Vendas</a></li>
             </ul>
         </li>
         <li><a>ORÇAMENTOS</a>

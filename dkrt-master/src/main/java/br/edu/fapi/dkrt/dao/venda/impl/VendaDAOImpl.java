@@ -2,8 +2,11 @@ package br.edu.fapi.dkrt.dao.venda.impl;
 
 import br.edu.fapi.dkrt.dao.conexao.MySqlConnectionProvider;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
+import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
+import br.edu.fapi.dkrt.model.endereco.EnderecoDTO;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
+import br.edu.fapi.dkrt.model.uf.UfDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
 
 import java.sql.*;
@@ -143,5 +146,66 @@ public class VendaDAOImpl implements VendaDAO {
             e.printStackTrace();
         }
         return listaPedido;
+    }
+
+    @Override
+    public List<VendaDTO> listarVendas() {
+        List<VendaDTO> listaVendas = new ArrayList<>();
+        String sql = "SELECT vendas.venda_id, vendas.venda_valorTotal, vendas.venda_formaDePagamento, vendas.venda_parcelas, vendas.venda_valorParcela, " +
+                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
+                "clientes.cliente_cpf, clientes.cliente_dtNasc, clientes.cliente_email, clientes.cliente_celular, clientes.cliente_telefone, " +
+                "clientes.cliente_ativo, clientes.cliente_observacao, enderecos.endereco_id, enderecos.endereco_cep, enderecos.endereco_rua, " +
+                "enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, enderecos.endereco_cidade, ufs.uf_id, " +
+                "ufs.uf_sigla FROM vendas INNER JOIN clientes ON vendas.cliente_id = clientes.cliente_id INNER JOIN enderecos ON clientes.endereco_id = " +
+                "enderecos.endereco_id INNER JOIN ufs ON enderecos.uf_id = ufs.uf_id";
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                UfDTO ufDTO = new UfDTO();
+                ufDTO.setId(resultSet.getInt("uf_id"));
+                ufDTO.setSigla(resultSet.getString("uf_sigla"));
+                EnderecoDTO enderecoDTO = new EnderecoDTO();
+                enderecoDTO.setUfDTO(ufDTO);
+                enderecoDTO.setId(resultSet.getInt("endereco_id"));
+                enderecoDTO.setCep(resultSet.getString("endereco_cep"));
+                enderecoDTO.setRua(resultSet.getString("endereco_rua"));
+                enderecoDTO.setNumero(resultSet.getString("endereco_numero"));
+                enderecoDTO.setComplemento(resultSet.getString("endereco_complemento"));
+                enderecoDTO.setBairro(resultSet.getString("endereco_bairro"));
+                enderecoDTO.setCidade(resultSet.getString("endereco_cidade"));
+                ClienteDTO clienteDTO = new ClienteDTO();
+                clienteDTO.setEnderecoDTO(enderecoDTO);
+                clienteDTO.setId(resultSet.getInt("cliente_id"));
+                clienteDTO.setNome(resultSet.getString("cliente_nome"));
+                clienteDTO.setRg(resultSet.getString("cliente_rg"));
+                clienteDTO.setCpf(resultSet.getString("cliente_cpf"));
+                clienteDTO.setDtNascimento(resultSet.getTimestamp("cliente_dtNasc"));
+                clienteDTO.setTelefone(resultSet.getString("cliente_telefone"));
+                int ativo = resultSet.getInt("cliente_ativo");
+                clienteDTO.setAtivo(ativo == 1);
+                clienteDTO.setObservacao(resultSet.getString("cliente_observacao"));
+                VendaDTO vendaDTO = new VendaDTO();
+                vendaDTO.setClienteDTO(clienteDTO);
+                vendaDTO.setId(resultSet.getInt("venda_id"));
+                vendaDTO.setValorTotal(resultSet.getFloat("venda_valorTotal"));
+                vendaDTO.setFormaDePagamento(resultSet.getString("venda_formaDePagamento"));
+                vendaDTO.setParcelas(resultSet.getInt("venda_parcelas"));
+                vendaDTO.setValorParcelas(resultSet.getFloat("venda_valorParcela"));
+                vendaDTO.setStatus(resultSet.getString("venda_status"));
+                vendaDTO.setDesconto(resultSet.getInt("venda_desconto"));
+                vendaDTO.setDataDeVenda(resultSet.getTimestamp("venda_dataDeVenda"));
+                listaVendas.add(vendaDTO);
+            }
+
+            return listaVendas;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return listaVendas;
     }
 }

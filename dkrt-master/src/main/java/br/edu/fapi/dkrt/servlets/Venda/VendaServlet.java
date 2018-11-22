@@ -149,6 +149,13 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "valorTotal", valorTotal);
             req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
         }
+
+        if ("listarVendas".equalsIgnoreCase(tipo)){
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            List<VendaDTO> listaVendas = vendaDAO.listarVendas();
+            setSessionAttribute(req, "listaVendas", listaVendas);
+            req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
+        }
     }
 
     public void setVendaMapper(BaseMapper<HttpServletRequest, VendaDTO> vendaMapper) {

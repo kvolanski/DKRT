@@ -16,4 +16,6 @@ public interface VendaDAO {
 
     List<PedidoDTO> listarPedidosVenda(int id, String tipo);
 
+    List<VendaDTO> listarVendas();
+
 }
