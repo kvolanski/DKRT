@@ -25,19 +25,22 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <h1 class="geral">VENDAS</h1><br>
+<center>
 <c:if test="${mostraCliente == 'sim'}">
     <form method="get" action="controller">
         <input type="hidden" value="venda" name="acao">
         <input type="hidden" value="abrirVenda" name="tipo">
         Escolha um cliente para realizar a venda:
-        <select name="idCliente">
+        <select name="idCliente" id="selecionaCliente" onmouseup="validaSelecaoCliente()" onkeyup="validaSelecaoCliente()">
+            <option value="0">Selecione um cliente</option>
             <c:forEach var="cliente" items="${listaClientes}">
                 <option value="${cliente.id}">${cliente.nome}</option>
             </c:forEach>
         </select><br><br>
-        <input type="submit" value="Abrir Venda">
+        <input type="submit" value="Abrir Venda" id="inputAbrirVenda" disabled>
     </form>
 </c:if>
+</center>
 
 <br><br>
 <center>
@@ -69,13 +72,13 @@
             <input type="hidden" value="adicionarPedido" name="tipo">
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
-                                    class="form-control" disabled="disabled"></label>
+                                    class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
             <label>Quantidade:<input type="number" name="quantidadeProduto" class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
             <label>Qtd. em Estoque: ${produtoBusca.qtdEstoque}</label><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
-            <input value="Adicionar" type="submit" class="btn btn-success"/>
+            <input value="Adicionar" type="submit" class="btn btn-success" id="botaoAdiciona"/>
         </form>
 
         <table>
@@ -85,6 +88,7 @@
                 <th>Quantidade</th>
                 <th>Valor Unit.</th>
                 <th>Valor Total</th>
+                <th>Ação</th>
             </tr>
             <c:forEach var="pedido" items="${listaPedido}">
                 <tr>
@@ -93,6 +97,7 @@
                     <td>${pedido.quantidade}</td>
                     <td>${pedido.valorUnitario}</td>
                     <td>${pedido.valorTotal}</td>
+                    <td><a href="controller?acao=venda&tipo=tirarProdutoLista&id=${pedido.id}">Excluir</a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -100,10 +105,29 @@
         <form method="get" action="controller">
             <input type="hidden" value="venda" name="acao">
             <input type="hidden" value="finalizarVenda" name="tipo">
-            <input type="submit" value="Finalizar Venda">
+            <input type="checkbox" value="emAberto" name="statusAberto">Deixar venda em aberto
+            <input type="submit" value="Finalizar Venda" id="botaoFinalizar">
         </form>
 
     </c:if>
 </center>
+
+<script>
+    var descricao = document.getElementById("descricaoAdiciona").value;
+    if (descricao != ""){
+        document.getElementById("botaoAdiciona").disabled = false;
+    } else {
+        document.getElementById("botaoAdiciona").disabled = true;
+    }
+
+    function validaSelecaoCliente() {
+        var selecionaCliente = document.getElementById("selecionaCliente").value;
+        if (selecionaCliente == 0){
+            document.getElementById("inputAbrirVenda").disabled = true;
+        } else {
+            document.getElementById("inputAbrirVenda").disabled = false;
+        }
+    }
+</script>
 </body>
 </html>

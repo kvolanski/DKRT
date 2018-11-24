@@ -1,25 +1,34 @@
 package br.edu.fapi.dkrt.business.venda.impl;
 
+import br.edu.fapi.dkrt.business.calculator.Calculator;
+import br.edu.fapi.dkrt.business.calculator.impl.CalculatorImpl;
 import br.edu.fapi.dkrt.business.venda.VendaBusiness;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
 import br.edu.fapi.dkrt.dao.venda.impl.VendaDAOImpl;
+import br.edu.fapi.dkrt.model.CancelamentoDTO;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
+import br.edu.fapi.dkrt.validators.cancelamento.CancelamentoValidator;
+import br.edu.fapi.dkrt.validators.cancelamento.impl.CancelamentoValidatorImpl;
 import br.edu.fapi.dkrt.validators.venda.VendaValidator;
 import br.edu.fapi.dkrt.validators.venda.impl.VendaValidatorImpl;
 
 public class VendaBusinessImpl implements VendaBusiness {
     VendaDAO vendaDAO;
-    VendaValidator vendaValidator;
     ProdutoDAO produtoDAO;
+    VendaValidator vendaValidator;
+    CancelamentoValidator cancelamentoValidator;
+    Calculator valorCalculator;
 
     public VendaBusinessImpl() {
         vendaDAO = new VendaDAOImpl();
         vendaValidator = new VendaValidatorImpl();
         produtoDAO = new ProdutoDAOImpl();
+        valorCalculator = new CalculatorImpl();
+        cancelamentoValidator = new CancelamentoValidatorImpl();
     }
 
     @Override
@@ -63,9 +72,36 @@ public class VendaBusinessImpl implements VendaBusiness {
                 vendaDTO.setValorTotal(vendaDTO.getValorTotal() - desconto);
             }
 
+            vendaDTO.setValorParcelas(valorCalculator.calcularValorParcelas(vendaDTO));
+
             if (vendaDAO.finalizarVenda(vendaDTO)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean motivoCancelamento(CancelamentoDTO cancelamentoDTO) {
+        if (cancelamentoDTO != null) {
+            if (!cancelamentoValidator.validaMotivo(cancelamentoDTO.getMotivo())) {
+                return false;
+            }
+            if (vendaDAO.atualizaMotivoCancelamento(cancelamentoDTO)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean retirarPedido(int id) {
+        PedidoDTO pedidoDTO = vendaDAO.buscaPedido(id);
+        ProdutoDTO produtoDTO = pedidoDTO.getProdutoDTO();
+        produtoDTO.setQtdEstoque(produtoDTO.getQtdEstoque()+pedidoDTO.getQuantidade());
+        if (produtoDAO.aumentarEstoque(produtoDTO)){
+            vendaDAO.retirarPedido(pedidoDTO.getId());
+            return true;
         }
         return false;
     }

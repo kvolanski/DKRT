@@ -55,8 +55,10 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("venda?tipo=buscaProduto&idProduto=" + idProduto).forward(req, resp);
             } else if ("adicionarPedido".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=adicionarPedido").forward(req, resp);
-            } else if ("finalizarVenda".equalsIgnoreCase(tipo)){
+            } else if ("finalizarVenda".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
+            } else if ("cancelamentoMotivo".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("venda?tipo=cancelamentoVenda").forward(req, resp);
             }
         }
     }
@@ -81,8 +83,6 @@ public class ControllerServlet extends HttpServlet {
             String tipo = req.getParameter("tipo");
             if ("efetuar".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=efetuar").forward(req, resp);
-            } else if ("cancelar".equalsIgnoreCase(tipo)) {
-                req.getRequestDispatcher("venda?tipo=listaVendasAbertas").forward(req, resp);
             } else if ("buscaProduto".equalsIgnoreCase(tipo)) {
                 String idProduto = req.getParameter("idProduto");
                 req.getRequestDispatcher("venda?tipo=buscaProduto&idProduto=" + idProduto).forward(req, resp);
@@ -90,9 +90,32 @@ public class ControllerServlet extends HttpServlet {
                 String idCliente = req.getParameter("idCliente");
                 req.getRequestDispatcher("venda?tipo=abrirVenda&id=" + idCliente).forward(req, resp);
             } else if ("finalizarVenda".equalsIgnoreCase(tipo)) {
-                req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
-            } else if ("listarVendas".equalsIgnoreCase(tipo)){
+                String statusAberto = req.getParameter("statusAberto");
+                if ("emAberto".equalsIgnoreCase(statusAberto)) {
+                    req.getRequestDispatcher("venda?tipo=vendaEmAberto").forward(req, resp);
+                } else {
+                    req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
+                }
+            } else if ("listarVendas".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("venda?tipo=listarVendas").forward(req, resp);
+            } else if ("buscaVenda".equalsIgnoreCase(tipo)) {
+                req.getRequestDispatcher("venda?tipo=buscaVenda").forward(req, resp);
+            } else if ("finalizarVendaEmAberto".equalsIgnoreCase(tipo)){
+                String id = req.getParameter("id");
+                req.getSession().setAttribute("idVenda", Integer.parseInt(id));
+                req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
+            } else if ("cancelamentoMotivo".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("venda?tipo=cancelamentoVenda").forward(req, resp);
+            } else if ("cancelarVenda".equalsIgnoreCase(tipo)) {
+                String id = req.getParameter("id");
+                req.getSession().setAttribute("idVenda", Integer.parseInt(id));
+                req.getRequestDispatcher("venda?tipo=cancelarVenda").forward(req, resp);
+            } else if ("adicionarProdutosEmAberto".equalsIgnoreCase(tipo)){
+                String id = req.getParameter("id");
+                req.getSession().setAttribute("idVenda", Integer.parseInt(id));
+                req.getRequestDispatcher("venda?tipo=adicionarProdutosEmAberto").forward(req, resp);
+            } else if ("tirarProdutoLista".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("venda?tipo=tirarProdutoLista").forward(req, resp);
             }
         }
 

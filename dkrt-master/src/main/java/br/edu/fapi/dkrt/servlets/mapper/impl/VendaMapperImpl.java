@@ -18,11 +18,16 @@ public class VendaMapperImpl implements BaseMapper<HttpServletRequest, VendaDTO>
         String formaDePagamento = req.getParameter("formaDePagamento");
         String numParcelas = req.getParameter("numeroParcelasVenda");
         String desconto = req.getParameter("descontoVenda");
+        String statusAberto = req.getParameter("statusAberto");
         vendaDTO.setId(id);
         vendaDTO.setFormaDePagamento(formaDePagamento);
         vendaDTO.setParcelas(Integer.parseInt(numParcelas));
         vendaDTO.setDesconto(Integer.parseInt(desconto));
-        vendaDTO.setStatus("Completa");
+        if ("emAberto".equalsIgnoreCase(statusAberto)) {
+            vendaDTO.setStatus("Em aberto");
+        } else {
+            vendaDTO.setStatus("Completa");
+        }
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String data = dateFormat.format(new Date());
         try {

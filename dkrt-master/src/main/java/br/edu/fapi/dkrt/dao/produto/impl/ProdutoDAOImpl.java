@@ -135,12 +135,12 @@ public class ProdutoDAOImpl implements ProdutoDAO {
     public List<ProdutoDTO> listarProdutos() {
         List<ProdutoDTO> listaProdutos = new ArrayList<>();
         String sql = "SELECT * FROM produtos";
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 ProdutoDTO produtoDTO = new ProdutoDTO();
                 produtoDTO.setId(resultSet.getInt("produto_id"));
                 produtoDTO.setNome(resultSet.getString("produto_nome"));
@@ -190,6 +190,29 @@ public class ProdutoDAOImpl implements ProdutoDAO {
             if (resultado != 0) {
                 return true;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean aumentarEstoque(ProdutoDTO produtoDTO) {
+        String sql = "UPDATE produtos SET produto_qtdEstoque = ? WHERE produto_id = ?";
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, produtoDTO.getQtdEstoque());
+            preparedStatement.setInt(2, produtoDTO.getId());
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0) {
+                return true;
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

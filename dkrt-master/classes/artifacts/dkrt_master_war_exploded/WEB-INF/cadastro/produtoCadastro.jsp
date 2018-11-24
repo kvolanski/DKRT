@@ -37,11 +37,11 @@
                                    required/></label>
 			<label>Descrição: <input type="text" name="descricaoProduto" class="form-control"
                                       value="${produtoBusca.descricao}"/></label> <br>
-			<label>Quantidade em Estoque*: <input type="text" name="quantidadeProduto" class="form-control"
+			<label>Quantidade em Estoque*: <input type="number" name="quantidadeProduto" class="form-control"
                                                   value="${produtoBusca.qtdEstoque}" required/></label>
-			<label>Preço de Venda(xxxx.xx)*: <input type="text" name="precoVendaProduto" class="form-control"
+			<label>Preço de Venda(xxxx.xx)*: <input type="number" name="precoVendaProduto" class="form-control"
                                                     value="${produtoBusca.precoVenda}" required/></label> <br><br>
-			<label>Preço de Custo(xxxx.xx)*: <input type="text" name="precoCustoProduto" class="form-control"
+			<label>Preço de Custo(xxxx.xx)*: <input type="number" name="precoCustoProduto" class="form-control"
                                                     value="${produtoBusca.precoCusto}" required/></label> <br><br>
 			<input value="Limpar Campos" type="reset" class="btn btn-danger"/>
 			<input value="Salvar" type="submit" class="btn btn-success"/>

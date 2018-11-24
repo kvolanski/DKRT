@@ -10,6 +10,7 @@ import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
 import br.edu.fapi.dkrt.dao.venda.impl.VendaDAOImpl;
+import br.edu.fapi.dkrt.model.CancelamentoDTO;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
@@ -56,7 +57,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             if (!vendaBusiness.adicionarPedido(pedidoDTO, (ProdutoDTO) req.getSession().getAttribute("produtoBusca"))) {
                 setSessionAttribute(req, "erroQuantidade", "quantidadeInvalida");
             }
-            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(pedidoDTO.getVendaDTO().getId(), "venda");
+            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(pedidoDTO.getVendaDTO().getId());
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaPedido", listaPedido);
             req.getSession().removeAttribute("produtoBusca");
@@ -71,7 +72,6 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             Calculator valorCalculator = new CalculatorImpl();
             List<PedidoDTO> listaPedido = (List<PedidoDTO>) req.getSession().getAttribute("listaPedido");
             vendaDTO.setValorTotal(valorCalculator.calcularValorTotal(listaPedido));
-            vendaDTO.setValorParcelas(valorCalculator.calcularValorParcelas(vendaDTO));
             if (vendaBusiness.finalizarVenda(vendaDTO)) {
                 ClienteDAO clienteDAO = new ClienteDAOImpl();
                 List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
@@ -87,6 +87,29 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             } else {
                 req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
             }
+        }
+
+        if ("cancelamentoVenda".equalsIgnoreCase(tipo)) {
+            VendaBusiness vendaBusiness = new VendaBusinessImpl();
+            int id = (int) req.getSession().getAttribute("idVenda");
+            String motivo = req.getParameter("motivoCancelamento");
+            CancelamentoDTO cancelamentoDTO = new CancelamentoDTO();
+            cancelamentoDTO.setMotivo(motivo);
+            VendaDTO vendaDTO = new VendaDTO();
+            vendaDTO.setId(id);
+            cancelamentoDTO.setVendaDTO(vendaDTO);
+            if (vendaBusiness.motivoCancelamento(cancelamentoDTO)) {
+                req.getRequestDispatcher("venda?tipo=listarVendas").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("WEB-INF/venda/motivoCancelamento.jsp").forward(req, resp);
+            }
+        }
+
+        if ("listarVendas".equalsIgnoreCase(tipo)) {
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            List<VendaDTO> listaVendas = vendaDAO.listarVendas();
+            setSessionAttribute(req, "listaVendas", listaVendas);
+            req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
         }
     }
 
@@ -112,7 +135,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             ProdutoDAO produtoDAO = new ProdutoDAOImpl();
             ProdutoDTO produtoBusca = produtoDAO.buscaProdutoPorId(Integer.parseInt(idProduto));
             List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
-            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(id, "venda");
+            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(id);
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaPedido", listaPedido);
             req.getSession().setAttribute("produtoBusca", produtoBusca);
@@ -143,18 +166,79 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             Calculator calculator = new CalculatorImpl();
             int id = (int) req.getSession().getAttribute("idVenda");
             VendaDAO vendaDAO = new VendaDAOImpl();
-            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(id, "venda");
+            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(id);
             float valorTotal = calculator.calcularValorTotal(listaPedido);
             req.getSession().setAttribute("listaPedido", listaPedido);
             setSessionAttribute(req, "valorTotal", valorTotal);
             req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
         }
 
-        if ("listarVendas".equalsIgnoreCase(tipo)){
+        if ("listarVendas".equalsIgnoreCase(tipo)) {
             VendaDAO vendaDAO = new VendaDAOImpl();
             List<VendaDTO> listaVendas = vendaDAO.listarVendas();
             setSessionAttribute(req, "listaVendas", listaVendas);
             req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
+        }
+
+        if ("buscaVenda".equalsIgnoreCase(tipo)) {
+            String id = req.getParameter("id");
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            VendaDTO vendaBusca = vendaDAO.buscaVenda(Integer.parseInt(id));
+            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(Integer.parseInt(id));
+            setSessionAttribute(req, "vendaBusca", vendaBusca);
+            setSessionAttribute(req, "listaPedido", listaPedido);
+            req.getRequestDispatcher("WEB-INF/venda/displayVenda.jsp").forward(req, resp);
+        }
+
+        if ("vendaEmAberto".equalsIgnoreCase(tipo)) {
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            int id = (int) req.getSession().getAttribute("idVenda");
+            VendaDTO vendaDTO = new VendaDTO();
+            vendaDTO.setId(id);
+            vendaDTO.setStatus("Em aberto");
+            vendaDAO.atualizaStatus(vendaDTO);
+            req.getSession().removeAttribute("idVenda");
+            req.getRequestDispatcher("venda?tipo=efetuar").forward(req, resp);
+        }
+
+        if ("cancelarVenda".equalsIgnoreCase(tipo)) {
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            int id = (int) req.getSession().getAttribute("idVenda");
+            VendaDTO vendaDTO = new VendaDTO();
+            vendaDTO.setId(id);
+            vendaDTO.setStatus("Cancelada");
+            vendaDAO.atualizaStatus(vendaDTO);
+            req.getRequestDispatcher("WEB-INF/venda/motivoCancelamento.jsp").forward(req, resp);
+        }
+
+        if ("adicionarProdutosEmAberto".equalsIgnoreCase(tipo)) {
+            ClienteDAO clienteDAO = new ClienteDAOImpl();
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            int idVenda = (int) req.getSession().getAttribute("idVenda");
+            String idCliente = req.getParameter("idCliente");
+            ClienteDTO clienteBusca = clienteDAO.buscarCliente(Integer.parseInt(idCliente));
+            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(idVenda);
+            List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+            setSessionAttribute(req, "listaPedido", listaPedido);
+            setSessionAttribute(req, "listaProdutos", listaProdutos);
+            req.getSession().setAttribute("clienteBusca", clienteBusca);
+            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+        }
+
+        if ("tirarProdutoLista".equalsIgnoreCase(tipo)) {
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            VendaBusiness vendaBusiness = new VendaBusinessImpl();
+            String idPedido = req.getParameter("id");
+            int idVenda = (int) req.getSession().getAttribute("idVenda");
+            List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+            setSessionAttribute(req, "listaProdutos", listaProdutos);
+            if (vendaBusiness.retirarPedido(Integer.parseInt(idPedido))) {
+                List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(idVenda);
+                setSessionAttribute(req, "listaPedido", listaPedido);
+                req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            }
         }
     }
 
@@ -165,4 +249,5 @@ public class VendaServlet extends AbstractBaseHttpServlet {
     public void setPedidoMapper(BaseMapper<HttpServletRequest, PedidoDTO> pedidoMapper) {
         this.pedidoMapper = pedidoMapper;
     }
+
 }

@@ -20,4 +20,6 @@ public interface ProdutoDAO {
 
     boolean diminuirEstoque(ProdutoDTO produtoDTO);
 
+    boolean aumentarEstoque(ProdutoDTO produtoDTO);
+
 }

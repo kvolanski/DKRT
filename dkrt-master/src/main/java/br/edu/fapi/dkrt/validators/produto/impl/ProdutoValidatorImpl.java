@@ -24,13 +24,7 @@ public class ProdutoValidatorImpl implements ProdutoValidator {
             }
 
             if (produtoDTO.getDescricao() != null) {
-                if (!verificaSeContemNumero(produtoDTO.getDescricao())) {
-                    if ("sucesso".equalsIgnoreCase(condicao)) {
-                        condicao = "descricaoIncorreto ";
-                    } else {
-                        condicao += "descricaoIncorreto ";
-                    }
-                }
+
             }
         }
         return condicao;

@@ -46,8 +46,8 @@
     <input type="hidden" value="finalizarVenda" name="tipo">
     <select name="formaDePagamento" id="pagamento" onmouseup="selecionaForma(), habilitaBotao()">
         <option value="semForma">Selecione a forma de pagamento</option>
-        <option value="debito">Débito</option>
-        <option value="credito">Crédito</option>
+        <option value="Debito">Débito</option>
+        <option value="Credito">Crédito</option>
     </select>
     <label id="numParcelas" hidden>Número de Parcelas:
     <select name="numeroParcelasVenda">
@@ -65,7 +65,8 @@
         <option value="12">12x</option>
     </select>
     </label>
-    <label>Desconto(%): <input type="number" name="descontoVenda" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br><br><br>
+    <label>Desconto(%): <input type="number" name="descontoVenda" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
+    <br><br><br>
     <input type="submit" value="Fechar Venda" id="enviarInf" disabled>
 </form>
 </center>
@@ -87,7 +88,7 @@
     function selecionaForma(){
         var forma = document.getElementById("pagamento").value;
 
-        if (forma == "credito"){
+        if (forma == "Credito"){
             document.getElementById("numParcelas").hidden = false;
         } else {
             document.getElementById("numParcelas").hidden = true;
