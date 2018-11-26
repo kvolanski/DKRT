@@ -161,22 +161,6 @@ public class ProdutoDAOImpl implements ProdutoDAO {
         return listaProdutos;
     }
 
-    private ProdutoDTO fillProduto(ResultSet resultSet) throws SQLException {
-        ProdutoDTO produtoDTO = new ProdutoDTO();
-        if (resultSet.next()) {
-            produtoDTO.setId(resultSet.getInt("produto_id"));
-            produtoDTO.setNome(resultSet.getString("produto_nome"));
-            produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
-            produtoDTO.setPrecoVenda(resultSet.getFloat("produto_precoVenda"));
-            produtoDTO.setPrecoCusto(resultSet.getFloat("produto_precoCusto"));
-            produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
-            produtoDTO.setAtivo(resultSet.getInt("produto_ativo"));
-            produtoDTO.setDataCadastro(resultSet.getDate("produto_dataCadastro"));
-            produtoDTO.setDataAlteracao(resultSet.getDate("produto_dataAlteracao"));
-        }
-        return produtoDTO;
-    }
-
     @Override
     public boolean diminuirEstoque(ProdutoDTO produtoDTO) {
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
@@ -219,5 +203,21 @@ public class ProdutoDAOImpl implements ProdutoDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private ProdutoDTO fillProduto(ResultSet resultSet) throws SQLException {
+        ProdutoDTO produtoDTO = new ProdutoDTO();
+        if (resultSet.next()) {
+            produtoDTO.setId(resultSet.getInt("produto_id"));
+            produtoDTO.setNome(resultSet.getString("produto_nome"));
+            produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
+            produtoDTO.setPrecoVenda(resultSet.getFloat("produto_precoVenda"));
+            produtoDTO.setPrecoCusto(resultSet.getFloat("produto_precoCusto"));
+            produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
+            produtoDTO.setAtivo(resultSet.getInt("produto_ativo"));
+            produtoDTO.setDataCadastro(resultSet.getDate("produto_dataCadastro"));
+            produtoDTO.setDataAlteracao(resultSet.getDate("produto_dataAlteracao"));
+        }
+        return produtoDTO;
     }
 }

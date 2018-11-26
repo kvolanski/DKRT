@@ -1,4 +1,4 @@
-package br.edu.fapi.dkrt.model;
+package br.edu.fapi.dkrt.model.cancelamento;
 
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
 

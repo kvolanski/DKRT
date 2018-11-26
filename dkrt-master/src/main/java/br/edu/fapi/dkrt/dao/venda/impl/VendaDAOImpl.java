@@ -2,7 +2,6 @@ package br.edu.fapi.dkrt.dao.venda.impl;
 
 import br.edu.fapi.dkrt.dao.conexao.MySqlConnectionProvider;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
-import br.edu.fapi.dkrt.model.CancelamentoDTO;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.endereco.EnderecoDTO;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
@@ -20,11 +19,12 @@ public class VendaDAOImpl implements VendaDAO {
     public int abrirVenda(VendaDTO vendaDTO) {
         int id = 0;
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO vendas (venda_status, cliente_id) VALUES " +
-                    "(?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO vendas (venda_status, venda_motivoCancelamento, cliente_id) VALUES " +
+                    "(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, vendaDTO.getStatus());
-            preparedStatement.setInt(2, vendaDTO.getClienteDTO().getId());
+            preparedStatement.setString(2, vendaDTO.getMotivoCancelamento());
+            preparedStatement.setInt(3, vendaDTO.getClienteDTO().getId());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -71,13 +71,8 @@ public class VendaDAOImpl implements VendaDAO {
     }
 
     @Override
-    public boolean adicionarPedido(PedidoDTO pedidoDTO, String tipo) {
-        String sql;
-        if ("venda".equalsIgnoreCase(tipo)) {
-            sql = "INSERT INTO pedidos (produto_id, pedido_quantidade, pedido_valorUnitario, pedido_valorTotal, venda_id) VALUES (?, ?, ?, ?, ?)";
-        } else {
-            sql = "INSERT INTO pedidos (produto_id, pedido_quantidade, pedido_valorUnitario, pedido_valorTotal, orcamento_id) VALUES (?, ?, ?, ?, ?)";
-        }
+    public boolean adicionarPedido(PedidoDTO pedidoDTO) {
+        String sql = "INSERT INTO pedidos (produto_id, pedido_quantidade, pedido_valorUnitario, pedido_valorTotal, venda_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -85,11 +80,7 @@ public class VendaDAOImpl implements VendaDAO {
             preparedStatement.setInt(2, pedidoDTO.getQuantidade());
             preparedStatement.setFloat(3, pedidoDTO.getValorUnitario());
             preparedStatement.setFloat(4, pedidoDTO.getValorTotal());
-            if ("venda".equalsIgnoreCase(tipo)) {
-                preparedStatement.setInt(5, pedidoDTO.getVendaDTO().getId());
-            } else {
-                preparedStatement.setInt(5, pedidoDTO.getOrcamentoDTO().getId());
-            }
+            preparedStatement.setInt(5, pedidoDTO.getVendaDTO().getId());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -108,7 +99,7 @@ public class VendaDAOImpl implements VendaDAO {
     @Override
     public List<PedidoDTO> listarPedidosVenda(int id) {
         List<PedidoDTO> listaPedido = new ArrayList<>();
-        String sql = "SELECT pedidos.pedido_id, produtos.produto_id, produtos.produto_nome, produtos.produto_descricao, pedidos.pedido_quantidade, " +
+        String sql = "SELECT pedidos.pedido_id, produtos.produto_id, produtos.produto_nome, produtos.produto_descricao, produtos.produto_qtdEstoque, pedidos.pedido_quantidade, " +
                 "pedidos.pedido_valorUnitario, pedidos.pedido_valorTotal FROM pedidos INNER JOIN produtos ON pedidos.produto_id = produtos.produto_id " +
                 "WHERE pedidos.venda_id = ?";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
@@ -123,6 +114,7 @@ public class VendaDAOImpl implements VendaDAO {
                 produtoDTO.setId(resultSet.getInt("produto_id"));
                 produtoDTO.setNome(resultSet.getString("produto_nome"));
                 produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
+                produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
                 PedidoDTO pedidoDTO = new PedidoDTO();
                 pedidoDTO.setProdutoDTO(produtoDTO);
                 pedidoDTO.setId(resultSet.getInt("pedido_id"));
@@ -146,7 +138,7 @@ public class VendaDAOImpl implements VendaDAO {
     public List<VendaDTO> listarVendas() {
         List<VendaDTO> listaVendas = new ArrayList<>();
         String sql = "SELECT vendas.venda_id, vendas.venda_valorTotal, vendas.venda_formaDePagamento, vendas.venda_parcelas, vendas.venda_valorParcela, " +
-                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
+                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, vendas.venda_motivoCancelamento, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
                 "clientes.cliente_cpf, clientes.cliente_dtNasc, clientes.cliente_email, clientes.cliente_celular, clientes.cliente_telefone, " +
                 "clientes.cliente_ativo, clientes.cliente_observacao, enderecos.endereco_id, enderecos.endereco_cep, enderecos.endereco_rua, " +
                 "enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, enderecos.endereco_cidade, ufs.uf_id, " +
@@ -175,7 +167,7 @@ public class VendaDAOImpl implements VendaDAO {
     public VendaDTO buscaVenda(int id) {
         VendaDTO vendaBusca = new VendaDTO();
         String sql = "SELECT vendas.venda_id, vendas.venda_valorTotal, vendas.venda_formaDePagamento, vendas.venda_parcelas, vendas.venda_valorParcela, " +
-                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
+                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, vendas.venda_motivoCancelamento, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
                 "clientes.cliente_cpf, clientes.cliente_dtNasc, clientes.cliente_email, clientes.cliente_celular, clientes.cliente_telefone, " +
                 "clientes.cliente_ativo, clientes.cliente_observacao, enderecos.endereco_id, enderecos.endereco_cep, enderecos.endereco_rua, " +
                 "enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, enderecos.endereco_cidade, ufs.uf_id, " +
@@ -223,13 +215,13 @@ public class VendaDAOImpl implements VendaDAO {
     }
 
     @Override
-    public boolean atualizaMotivoCancelamento(CancelamentoDTO cancelamentoDTO) {
-        String sql = "INSERT INTO cancelamentos (cancelamento_motivo, venda_id) VALUES (?, ?)";
+    public boolean atualizaMotivoCancelamento(VendaDTO vendaDTO) {
+        String sql = "UPDATE vendas SET venda_motivoCancelamento = ? WHERE venda_id = ?";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, cancelamentoDTO.getMotivo());
-            preparedStatement.setInt(2, cancelamentoDTO.getVendaDTO().getId());
+            preparedStatement.setString(1, vendaDTO.getMotivoCancelamento());
+            preparedStatement.setInt(2, vendaDTO.getId());
 
             int resultado = preparedStatement.executeUpdate();
 
@@ -333,6 +325,7 @@ public class VendaDAOImpl implements VendaDAO {
         vendaBusca.setStatus(resultSet.getString("venda_status"));
         vendaBusca.setDesconto(resultSet.getInt("venda_desconto"));
         vendaBusca.setDataDeVenda(resultSet.getTimestamp("venda_dataDeVenda"));
+        vendaBusca.setMotivoCancelamento(resultSet.getString("venda_motivoCancelamento"));
         return vendaBusca;
     }
 

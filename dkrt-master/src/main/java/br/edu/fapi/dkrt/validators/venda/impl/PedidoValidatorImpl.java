@@ -2,9 +2,9 @@ package br.edu.fapi.dkrt.validators.venda.impl;
 
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
-import br.edu.fapi.dkrt.validators.venda.VendaValidator;
+import br.edu.fapi.dkrt.validators.venda.PedidoValidator;
 
-public class VendaValidatorImpl implements VendaValidator {
+public class PedidoValidatorImpl implements PedidoValidator {
 
     @Override
     public boolean validaDesconto(int desconto) {

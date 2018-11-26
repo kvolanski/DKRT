@@ -3,7 +3,7 @@ package br.edu.fapi.dkrt.validators.venda;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 
-public interface VendaValidator {
+public interface PedidoValidator {
 
     boolean validaDesconto(int desconto);
 

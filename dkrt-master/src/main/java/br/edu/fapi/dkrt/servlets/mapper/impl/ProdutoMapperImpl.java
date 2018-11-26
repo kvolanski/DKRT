@@ -12,7 +12,8 @@ import java.util.Date;
 public class ProdutoMapperImpl implements BaseMapper<HttpServletRequest, ProdutoDTO> {
 
     @Override
-    public ProdutoDTO doMap(HttpServletRequest req) throws NumberFormatException{
+    public ProdutoDTO doMap(HttpServletRequest req) throws NumberFormatException {
+        String tipoAlteracao = req.getParameter("tipoAlteracao");
         String nome = req.getParameter("nomeProduto");
         String descricao = req.getParameter("descricaoProduto");
         String quantidade = req.getParameter("quantidadeProduto");
@@ -31,7 +32,11 @@ public class ProdutoMapperImpl implements BaseMapper<HttpServletRequest, Produto
 
         String data = dateFormat.format(new Date());
         try {
-            produtoDTO.setDataCadastro(dateFormat.parse(data));
+            if ("cadastro".equalsIgnoreCase(tipoAlteracao)) {
+                produtoDTO.setDataCadastro(dateFormat.parse(data));
+            } else {
+                produtoDTO.setDataAlteracao(dateFormat.parse(data));
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

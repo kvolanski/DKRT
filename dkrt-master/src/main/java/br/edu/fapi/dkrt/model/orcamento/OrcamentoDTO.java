@@ -1,5 +1,7 @@
 package br.edu.fapi.dkrt.model.orcamento;
 
+import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
+
 import java.util.Date;
 
 public class OrcamentoDTO {
@@ -9,7 +11,7 @@ public class OrcamentoDTO {
     private int desconto;
     private Date dataGeracao;
     private Date dataExpiracao;
-    private int pedidoId;
+    private ClienteDTO clienteDTO;
 
     public int getId() {
         return id;
@@ -59,11 +61,11 @@ public class OrcamentoDTO {
         this.dataExpiracao = dataExpiracao;
     }
 
-    public int getPedidoId() {
-        return pedidoId;
+    public ClienteDTO getClienteDTO() {
+        return clienteDTO;
     }
 
-    public void setPedidoId(int pedidoId) {
-        this.pedidoId = pedidoId;
+    public void setClienteDTO(ClienteDTO clienteDTO) {
+        this.clienteDTO = clienteDTO;
     }
 }

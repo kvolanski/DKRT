@@ -26,20 +26,29 @@
 
 <h1 class="geral">VENDAS</h1><br>
 <center>
-<c:if test="${mostraCliente == 'sim'}">
-    <form method="get" action="controller">
-        <input type="hidden" value="venda" name="acao">
-        <input type="hidden" value="abrirVenda" name="tipo">
-        Escolha um cliente para realizar a venda:
-        <select name="idCliente" id="selecionaCliente" onmouseup="validaSelecaoCliente()" onkeyup="validaSelecaoCliente()">
-            <option value="0">Selecione um cliente</option>
-            <c:forEach var="cliente" items="${listaClientes}">
-                <option value="${cliente.id}">${cliente.nome}</option>
-            </c:forEach>
-        </select><br><br>
-        <input type="submit" value="Abrir Venda" id="inputAbrirVenda" disabled>
-    </form>
-</c:if>
+    <c:if test="${mostraCliente == 'sim'}">
+        <form method="get" action="controller">
+            <c:choose>
+                <c:when test="${tipoDeAcao == 'orcamento'}">
+                    <input type="hidden" value="orcamento" name="acao">
+                    <input type="hidden" value="comecarOrcamento" name="tipo">
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" value="venda" name="acao">
+                    <input type="hidden" value="abrirVenda" name="tipo">
+                </c:otherwise>
+            </c:choose>
+            Escolha um cliente para realizar a venda:
+            <select name="idCliente" id="selecionaCliente" onmouseup="validaSelecaoCliente()"
+                    onkeyup="validaSelecaoCliente()">
+                <option value="0">Selecione um cliente</option>
+                <c:forEach var="cliente" items="${listaClientes}">
+                    <option value="${cliente.id}">${cliente.nome}</option>
+                </c:forEach>
+            </select><br><br>
+            <input type="submit" value="Abrir Venda" id="inputAbrirVenda" disabled>
+        </form>
+    </c:if>
 </center>
 
 <br><br>
@@ -57,14 +66,15 @@
             <input type="hidden" value="buscaProduto" name="tipo">
             <input type="hidden" value="${clienteBusca.id}" id="idCliente">
             <label>Produto:
-                <select id="" name="idProduto">
-                    <option>Selecione um produto.</option>
+                <select id="selecionaProduto" name="idProduto" onmouseup="validaSelecaoProduto()"
+                        onkeyup="validaSelecaoProduto()">
+                    <option value="0">Selecione um produto.</option>
                     <c:forEach var="produto" items="${listaProdutos}">
                         <option value="${produto.id}">${produto.nome}</option>
                     </c:forEach>
                 </select>
             </label>
-            <input type="submit" value="Carregar Produto"><br><br>
+            <input type="submit" value="Carregar Produto" id="inputCarregarProduto" disabled><br><br>
         </form>
 
         <form method="post" action="controller">
@@ -73,7 +83,8 @@
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
-            <label>Quantidade:<input type="number" name="quantidadeProduto" class="form-control"></label>
+            <label>Quantidade:<input type="number" name="quantidadeProduto" id="campoQuantidade" value="0"
+                                     class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
             <label>Qtd. em Estoque: ${produtoBusca.qtdEstoque}</label><br>
@@ -105,8 +116,8 @@
         <form method="get" action="controller">
             <input type="hidden" value="venda" name="acao">
             <input type="hidden" value="finalizarVenda" name="tipo">
-            <input type="checkbox" value="emAberto" name="statusAberto">Deixar venda em aberto
-            <input type="submit" value="Finalizar Venda" id="botaoFinalizar">
+            <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto">Deixar venda em aberto
+            <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled>
         </form>
 
     </c:if>
@@ -114,7 +125,9 @@
 
 <script>
     var descricao = document.getElementById("descricaoAdiciona").value;
-    if (descricao != ""){
+
+    if (descricao != "") {
+        alert(botaoQuantidade);
         document.getElementById("botaoAdiciona").disabled = false;
     } else {
         document.getElementById("botaoAdiciona").disabled = true;
@@ -122,12 +135,30 @@
 
     function validaSelecaoCliente() {
         var selecionaCliente = document.getElementById("selecionaCliente").value;
-        if (selecionaCliente == 0){
+        if (selecionaCliente == 0) {
             document.getElementById("inputAbrirVenda").disabled = true;
         } else {
             document.getElementById("inputAbrirVenda").disabled = false;
         }
     }
+
+    function validaSelecaoProduto() {
+        var selecionaCliente = document.getElementById("selecionaProduto").value;
+        if (selecionaCliente == 0) {
+            document.getElementById("inputCarregarProduto").disabled = true;
+        } else {
+            document.getElementById("inputCarregarProduto").disabled = false;
+        }
+    }
+
+    document.getElementById("checkAberto").addEventListener('click', function () {
+        var check = document.getElementById("checkAberto").checked;
+        if (check == true) {
+            document.getElementById("botaoFinalizar").disabled = false;
+        } else {
+            document.getElementById("botaoFinalizar").disabled = true;
+        }
+    })
 </script>
 </body>
 </html>

@@ -13,6 +13,7 @@ public class VendaDTO {
     private String status;
     private int desconto;
     private Date dataDeVenda;
+    private String motivoCancelamento;
     private ClienteDTO clienteDTO;
 
     public int getId() {
@@ -77,6 +78,14 @@ public class VendaDTO {
 
     public void setDataDeVenda(Date dataDeVenda) {
         this.dataDeVenda = dataDeVenda;
+    }
+
+    public String getMotivoCancelamento() {
+        return motivoCancelamento;
+    }
+
+    public void setMotivoCancelamento(String motivoCancelamento) {
+        this.motivoCancelamento = motivoCancelamento;
     }
 
     public ClienteDTO getClienteDTO() {

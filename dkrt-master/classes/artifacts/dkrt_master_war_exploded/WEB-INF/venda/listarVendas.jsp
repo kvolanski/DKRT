@@ -19,42 +19,87 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <center>
-    <table>
-        <tr>
-            <th>Num. Venda</th>
-            <th>Nome Cliente</th>
-            <th>CPF Cliente</th>
-            <th>Valor da Venda</th>
-            <th>Forma de Pagamento</th>
-            <th>Num. Parcelas</th>
-            <th>Status</th>
-            <th>Desconto(%)</th>
-            <th>Data da Venda</th>
-            <th colspan="3">Ação</th>
-        </tr>
-        <c:forEach var="venda" items="${listaVendas}">
-            <c:if test="${venda.status != 'Cancelada'}">
+    <table style="text-align: center">
+        <c:if test="${tipoStatus == 'normal'}">
             <tr>
-                <td>${venda.id}</td>
-                <td>${venda.clienteDTO.nome}</td>
-                <td>${venda.clienteDTO.cpf}</td>
-                <td>${venda.valorTotal}</td>
-                <td>${venda.formaDePagamento}</td>
-                <td>${venda.parcelas}</td>
-                <td>${venda.status}</td>
-                <td>${venda.desconto}</td>
-                <td><fmt:formatDate value="${venda.dataDeVenda}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
-                <c:choose>
-                    <c:when test="${venda.status == 'Completa'}">
-                        <td><a href="controller?acao=venda&tipo=buscaVenda&id=${venda.id}">Abrir</a></td>
-                    </c:when>
-                    <c:when test="${venda.status == 'Em aberto'}">
-                        <td><a href="controller?acao=venda&tipo=finalizarVendaEmAberto&id=${venda.id}">Finalizar</a></td>
-                        <td><a href="controller?acao=venda&tipo=adicionarProdutosEmAberto&id=${venda.id}&idCliente=${venda.clienteDTO.id}">Adicionar Produtos</a></td>
-                        <td><a href="controller?acao=venda&tipo=cancelarVenda&id=${venda.id}">Cancelar</a></td>
-                    </c:when>
-                </c:choose>
+                <th>Num. Venda</th>
+                <th>Nome Cliente</th>
+                <th>CPF</th>
+                <th>Valor da Venda</th>
+                <th>Forma de Pagamento</th>
+                <th>Num. Parcelas</th>
+                <th>Status</th>
+                <th>Desconto(%)</th>
+                <th>Data da Venda</th>
+                <th colspan="3">Ação</th>
             </tr>
+        </c:if>
+        <c:if test="${tipoStatus == 'cancelada'}">
+            <tr>
+                <th>Num. Venda</th>
+                <th>Nome Cliente</th>
+                <th>CPF</th>
+                <th>Status</th>
+                <th colspan="3">Motivo</th>
+            </tr>
+        </c:if>
+        <c:forEach var="venda" items="${listaVendas}">
+            <c:if test="${tipoStatus == 'normal'}">
+                <c:if test="${venda.status != 'Cancelada' && venda.status != 'Incompleta'}">
+                    <tr>
+                        <td>${venda.id}</td>
+                        <td>${venda.clienteDTO.nome}</td>
+                        <td>${venda.clienteDTO.cpf}</td>
+                        <td>${venda.valorTotal}</td>
+                        <td>${venda.formaDePagamento}</td>
+                        <td>${venda.parcelas}</td>
+                        <td>${venda.status}</td>
+                        <td>${venda.desconto}</td>
+                        <td><fmt:formatDate value="${venda.dataDeVenda}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                        <c:choose>
+                            <c:when test="${venda.status == 'Completa'}">
+                                <td colspan="3"><a href="controller?acao=venda&tipo=buscaVenda&id=${venda.id}">Abrir</a>
+                                </td>
+                            </c:when>
+                            <c:when test="${venda.status == 'Em aberto'}">
+                                <td>
+                                    <a href="controller?acao=venda&tipo=finalizarVendaEmAberto&id=${venda.id}">Finalizar</a>
+                                </td>
+                                <td>
+                                    <a href="controller?acao=venda&tipo=adicionarProdutosEmAberto&id=${venda.id}&idCliente=${venda.clienteDTO.id}">Adicionar
+                                        Produtos</a></td>
+                                <td><a href="controller?acao=venda&tipo=cancelarVenda&id=${venda.id}">Cancelar</a></td>
+                            </c:when>
+                        </c:choose>
+                    </tr>
+                </c:if>
+            </c:if>
+            <c:if test="${tipoStatus == 'cancelada'}">
+                <c:if test="${venda.status == 'Cancelada' || venda.status == 'Incompleta'}">
+                    <tr>
+                        <td>${venda.id}</td>
+                        <td>${venda.clienteDTO.nome}</td>
+                        <td>${venda.clienteDTO.cpf}</td>
+                        <td>${venda.status}</td>
+                        <td colspan="3">${venda.motivoCancelamento}</td>
+                        <td><fmt:formatDate value="${venda.dataDeVenda}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                        <c:choose>
+                            <c:when test="${venda.status == 'Completa'}">
+                                <td colspan="3"><a href="controller?acao=venda&tipo=buscaVenda&id=${venda.id}">Abrir</a>
+                                </td>
+                            </c:when>
+                            <c:when test="${venda.status == 'Em aberto'}">
+                                <td>
+                                    <a href="controller?acao=venda&tipo=finalizarVendaEmAberto&id=${venda.id}">Finalizar</a>
+                                </td>
+                                <td>
+                                    <a href="controller?acao=venda&tipo=adicionarProdutosEmAberto&id=${venda.id}&idCliente=${venda.clienteDTO.id}">Adicionar
+                                        Produtos</a></td>
+                                <td><a href="controller?acao=venda&tipo=cancelarVenda&id=${venda.id}">Cancelar</a></td>
+                            </c:when>
+                        </c:choose>
+                    </tr>
+                </c:if>
             </c:if>
         </c:forEach>
     </table>

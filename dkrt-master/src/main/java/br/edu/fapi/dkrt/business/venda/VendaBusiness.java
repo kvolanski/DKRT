@@ -1,6 +1,5 @@
 package br.edu.fapi.dkrt.business.venda;
 
-import br.edu.fapi.dkrt.model.CancelamentoDTO;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
@@ -13,7 +12,7 @@ public interface VendaBusiness {
 
     boolean finalizarVenda(VendaDTO vendaDTO);
 
-    boolean motivoCancelamento(CancelamentoDTO cancelamentoDTO);
+    boolean motivoCancelamento(VendaDTO vendaDTO);
 
     boolean retirarPedido(int id);
 

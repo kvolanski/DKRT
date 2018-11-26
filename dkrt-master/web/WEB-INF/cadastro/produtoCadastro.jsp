@@ -26,9 +26,11 @@
 <span class="geral">
     <c:if test="${alteraForm == 'nao'}">
 	    <form method="post" action="controller?acao=cadastro&tipo=produto">
+            <input type="hidden" value="cadastro" name="tipoAlteracao">
     </c:if>
     <c:if test="${alteraForm == 'sim'}">
 	    <form method="post" action="controller?acao=cadastro&tipo=alteraProduto">
+            <input type="hidden" value="edicao" name="tipoAlteracao">
     </c:if>
             <input type="hidden" name="idProduto" value="${produtoBusca.id}">
 		   <label>Codigo: <input type="button" name="codigo" class="form-control" value="${produtoBusca.id}"
@@ -40,9 +42,9 @@
 			<label>Quantidade em Estoque*: <input type="number" name="quantidadeProduto" class="form-control"
                                                   value="${produtoBusca.qtdEstoque}" required/></label>
 			<label>Preço de Venda(xxxx.xx)*: <input type="number" name="precoVendaProduto" class="form-control"
-                                                    value="${produtoBusca.precoVenda}" required/></label> <br><br>
+                                                    value="${produtoBusca.precoVenda}" step="any" required/></label> <br><br>
 			<label>Preço de Custo(xxxx.xx)*: <input type="number" name="precoCustoProduto" class="form-control"
-                                                    value="${produtoBusca.precoCusto}" required/></label> <br><br>
+                                                    value="${produtoBusca.precoCusto}" step="any" required/></label> <br><br>
 			<input value="Limpar Campos" type="reset" class="btn btn-danger"/>
 			<input value="Salvar" type="submit" class="btn btn-success"/>
 	</form>

@@ -1,6 +1,5 @@
 package br.edu.fapi.dkrt.dao.venda;
 
-import br.edu.fapi.dkrt.model.CancelamentoDTO;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
 
@@ -12,7 +11,7 @@ public interface VendaDAO {
 
     boolean finalizarVenda(VendaDTO vendaDTO);
 
-    boolean adicionarPedido(PedidoDTO pedidoDTO, String tipo);
+    boolean adicionarPedido(PedidoDTO pedidoDTO);
 
     List<PedidoDTO> listarPedidosVenda(int id);
 
@@ -22,7 +21,7 @@ public interface VendaDAO {
 
     boolean atualizaStatus(VendaDTO vendaDTO);
 
-    boolean atualizaMotivoCancelamento(CancelamentoDTO cancelamentoDTO);
+    boolean atualizaMotivoCancelamento(VendaDTO vendaDTO);
 
     boolean retirarPedido(int id);
 

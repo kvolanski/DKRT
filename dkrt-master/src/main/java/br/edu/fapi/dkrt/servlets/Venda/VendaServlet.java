@@ -10,7 +10,6 @@ import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
 import br.edu.fapi.dkrt.dao.venda.impl.VendaDAOImpl;
-import br.edu.fapi.dkrt.model.CancelamentoDTO;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.pedido.PedidoDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
@@ -93,12 +92,10 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             VendaBusiness vendaBusiness = new VendaBusinessImpl();
             int id = (int) req.getSession().getAttribute("idVenda");
             String motivo = req.getParameter("motivoCancelamento");
-            CancelamentoDTO cancelamentoDTO = new CancelamentoDTO();
-            cancelamentoDTO.setMotivo(motivo);
             VendaDTO vendaDTO = new VendaDTO();
             vendaDTO.setId(id);
-            cancelamentoDTO.setVendaDTO(vendaDTO);
-            if (vendaBusiness.motivoCancelamento(cancelamentoDTO)) {
+            vendaDTO.setMotivoCancelamento(motivo);
+            if (vendaBusiness.motivoCancelamento(vendaDTO)) {
                 req.getRequestDispatcher("venda?tipo=listarVendas").forward(req, resp);
             } else {
                 req.getRequestDispatcher("WEB-INF/venda/motivoCancelamento.jsp").forward(req, resp);
@@ -109,6 +106,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             VendaDAO vendaDAO = new VendaDAOImpl();
             List<VendaDTO> listaVendas = vendaDAO.listarVendas();
             setSessionAttribute(req, "listaVendas", listaVendas);
+            setSessionAttribute(req, "tipoStatus", "normal");
             req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
         }
     }
@@ -153,6 +151,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             ClienteDTO clienteBusca = clienteDAO.buscarCliente(Integer.parseInt(idCliente));
             vendaDTO.setStatus("Incompleta");
             vendaDTO.setClienteDTO(clienteBusca);
+            vendaDTO.setMotivoCancelamento("A venda está incompleta pois foi encerrada de forma inesperada");
             vendaDTO.setId(vendaBusiness.abrirVenda(vendaDTO));
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaClientes", listaClientes);
@@ -176,6 +175,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
         if ("listarVendas".equalsIgnoreCase(tipo)) {
             VendaDAO vendaDAO = new VendaDAOImpl();
             List<VendaDTO> listaVendas = vendaDAO.listarVendas();
+            setSessionAttribute(req, "tipoStatus", "normal");
             setSessionAttribute(req, "listaVendas", listaVendas);
             req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
         }
@@ -239,6 +239,14 @@ public class VendaServlet extends AbstractBaseHttpServlet {
                 setSessionAttribute(req, "listaPedido", listaPedido);
                 req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
             }
+        }
+
+        if ("listarVendasCanceladas".equalsIgnoreCase(tipo)) {
+            VendaDAO vendaDAO = new VendaDAOImpl();
+            List<VendaDTO> listaVendas = vendaDAO.listarVendas();
+            setSessionAttribute(req, "tipoStatus", "cancelada");
+            setSessionAttribute(req, "listaVendas", listaVendas);
+            req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
         }
     }
 
