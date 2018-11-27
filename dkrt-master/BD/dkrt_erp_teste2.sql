@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 08-Nov-2018 às 05:51
+-- Generation Time: 27-Nov-2018 às 15:08
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -45,6 +45,13 @@ CREATE TABLE `clientes` (
   `endereco_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `clientes`
+--
+
+INSERT INTO `clientes` (`cliente_id`, `cliente_nome`, `cliente_nomeSocial`, `cliente_rg`, `cliente_cpf`, `cliente_dtNasc`, `cliente_email`, `cliente_celular`, `cliente_telefone`, `cliente_ativo`, `cliente_dataDeCadastro`, `cliente_dataDeAlteracao`, `cliente_observacao`, `endereco_id`) VALUES
+(3, 'Tiago Cesar', NULL, '963738261', '84637281539', '1996-11-18', 'tiago.cesar@gmail.com', '98535283', '', 1, '2018-11-23', NULL, '', 6);
+
 -- --------------------------------------------------------
 
 --
@@ -67,7 +74,7 @@ CREATE TABLE `enderecos` (
 --
 
 INSERT INTO `enderecos` (`endereco_id`, `endereco_cep`, `endereco_rua`, `endereco_numero`, `endereco_complemento`, `endereco_bairro`, `endereco_cidade`, `uf_id`) VALUES
-(4, '12345678', 'Rua Teste', '123', '', 'Bairro Teste', 'Cidade Teste', 1);
+(6, '73642836', 'Rua das Flores', '289', '', 'Jardim das Flores', 'Curitiba', 1);
 
 -- --------------------------------------------------------
 
@@ -77,11 +84,12 @@ INSERT INTO `enderecos` (`endereco_id`, `endereco_cep`, `endereco_rua`, `enderec
 
 CREATE TABLE `orcamentos` (
   `orcamento_id` int(11) NOT NULL,
-  `orcamento_valorTotal` float NOT NULL,
+  `orcamento_valorTotal` float DEFAULT NULL,
   `orcamento_status` varchar(50) NOT NULL,
-  `orcamento_desconto` float NOT NULL,
-  `orcamento_dataGeracao` date NOT NULL,
-  `orcamento_dataExpiracao` date NOT NULL
+  `orcamento_desconto` float DEFAULT NULL,
+  `orcamento_dataGeracao` timestamp NULL DEFAULT NULL,
+  `orcamento_dataExpiracao` date DEFAULT NULL,
+  `cliente_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -92,12 +100,12 @@ CREATE TABLE `orcamentos` (
 
 CREATE TABLE `pedidos` (
   `pedido_id` int(11) NOT NULL,
-  `pedido_nomeProduto` varchar(50) NOT NULL,
+  `produto_id` int(11) NOT NULL,
   `pedido_quantidade` int(11) NOT NULL,
   `pedido_valorUnitario` float NOT NULL,
   `pedido_valorTotal` float NOT NULL,
-  `venda_id` int(11) NOT NULL,
-  `orcamento_id` int(11) NOT NULL
+  `venda_id` int(11) DEFAULT NULL,
+  `orcamento_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -123,7 +131,10 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`produto_id`, `produto_nome`, `produto_descricao`, `produto_precoVenda`, `produto_precoCusto`, `produto_qtdEstoque`, `produto_ativo`, `produto_dataCadastro`, `produto_dataAlteracao`) VALUES
-(3, 'teste', 'testeteste', 3, 3, 3, 1, '2018-11-08', '2018-11-08');
+(5, 'Caneta BIC Preta', 'Ponta Fina', 2, 1, 500, 1, '2018-11-23', NULL),
+(6, 'Caneta BIC Azul', 'Ponta Fina', 2, 1, 500, 1, '2018-11-23', NULL),
+(7, 'Caderno Hot Wheels', '10 Materias', 32, 15, 500, 1, '2018-11-23', NULL),
+(8, 'Teste Teste', 'Apenas Testando', 5.5, 3, 500, 1, '2018-11-25', '2018-11-26');
 
 -- --------------------------------------------------------
 
@@ -198,12 +209,14 @@ INSERT INTO `usuarios` (`usuario_id`, `usuario_login`, `usuario_senha`, `usuario
 
 CREATE TABLE `vendas` (
   `venda_id` int(11) NOT NULL,
-  `venda_valorTotal` float NOT NULL,
-  `venda_formaDePagamento` varchar(50) NOT NULL,
-  `venda_parcelas` int(11) NOT NULL,
+  `venda_valorTotal` float DEFAULT NULL,
+  `venda_formaDePagamento` varchar(50) DEFAULT NULL,
+  `venda_parcelas` int(11) DEFAULT NULL,
+  `venda_valorParcela` float DEFAULT NULL,
   `venda_status` varchar(50) NOT NULL,
-  `venda_desconto` float NOT NULL,
-  `venda_dataDeVenda` date NOT NULL,
+  `venda_desconto` float DEFAULT NULL,
+  `venda_dataDeVenda` timestamp NULL DEFAULT NULL,
+  `venda_motivoCancelamento` varchar(500) DEFAULT NULL,
   `cliente_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -229,7 +242,8 @@ ALTER TABLE `enderecos`
 -- Indexes for table `orcamentos`
 --
 ALTER TABLE `orcamentos`
-  ADD PRIMARY KEY (`orcamento_id`);
+  ADD PRIMARY KEY (`orcamento_id`),
+  ADD KEY `cliente_id` (`cliente_id`);
 
 --
 -- Indexes for table `pedidos`
@@ -237,7 +251,8 @@ ALTER TABLE `orcamentos`
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`pedido_id`),
   ADD KEY `venda_id` (`venda_id`),
-  ADD KEY `orcamento_id` (`orcamento_id`);
+  ADD KEY `orcamento_id` (`orcamento_id`),
+  ADD KEY `produto_id` (`produto_id`);
 
 --
 -- Indexes for table `produtos`
@@ -272,13 +287,13 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT for table `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `cliente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cliente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `endereco_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `endereco_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `orcamentos`
@@ -296,7 +311,7 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT for table `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `produto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `produto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `ufs`
@@ -333,11 +348,18 @@ ALTER TABLE `enderecos`
   ADD CONSTRAINT `enderecos_ibfk_1` FOREIGN KEY (`uf_id`) REFERENCES `ufs` (`uf_id`);
 
 --
+-- Limitadores para a tabela `orcamentos`
+--
+ALTER TABLE `orcamentos`
+  ADD CONSTRAINT `orcamentos_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`cliente_id`);
+
+--
 -- Limitadores para a tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`venda_id`) REFERENCES `vendas` (`venda_id`),
-  ADD CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`orcamento_id`) REFERENCES `orcamentos` (`orcamento_id`);
+  ADD CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`orcamento_id`) REFERENCES `orcamentos` (`orcamento_id`),
+  ADD CONSTRAINT `pedidos_ibfk_4` FOREIGN KEY (`produto_id`) REFERENCES `produtos` (`produto_id`);
 
 --
 -- Limitadores para a tabela `vendas`
