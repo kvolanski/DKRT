@@ -16,7 +16,7 @@ public class PedidoValidatorImpl implements PedidoValidator {
 
     @Override
     public boolean validaQuantidadeProdutosPedidoEstoque(PedidoDTO pedidoDTO, ProdutoDTO produtoBusca) {
-        if (pedidoDTO.getQuantidade() > produtoBusca.getQtdEstoque()){
+        if (pedidoDTO.getQuantidade() > produtoBusca.getQtdEstoque()) {
             return false;
         }
         return true;
@@ -24,7 +24,7 @@ public class PedidoValidatorImpl implements PedidoValidator {
 
     @Override
     public boolean validaQuantidadePedido(PedidoDTO pedidoDTO) {
-        if (pedidoDTO.getQuantidade() <= 0){
+        if (pedidoDTO.getQuantidade() <= 0) {
             return false;
         }
         return true;

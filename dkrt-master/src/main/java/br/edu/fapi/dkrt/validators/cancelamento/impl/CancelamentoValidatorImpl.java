@@ -8,7 +8,7 @@ public class CancelamentoValidatorImpl implements CancelamentoValidator {
 
     @Override
     public boolean validaMotivo(String motivo) {
-        if(Pattern.compile("[^a-z0-9\\ .,]").matcher(motivo).find()){
+        if (Pattern.compile("[^a-z0-9\\ .,]").matcher(motivo).find()) {
             return false;
         }
         return true;

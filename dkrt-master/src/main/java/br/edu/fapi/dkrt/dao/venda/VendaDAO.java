@@ -23,8 +23,4 @@ public interface VendaDAO {
 
     boolean atualizaMotivoCancelamento(VendaDTO vendaDTO);
 
-    boolean retirarPedido(int id);
-
-    PedidoDTO buscaPedido(int id);
-
 }

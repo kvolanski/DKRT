@@ -10,4 +10,8 @@ public interface OrcamentoBusiness {
 
     boolean adicionarPedido(PedidoDTO pedidoDTO, ProdutoDTO produtoBusca);
 
+    boolean retirarPedido(int id);
+
+    boolean finalizarOrcamento(OrcamentoDTO orcamentoDTO);
+
 }

@@ -24,7 +24,14 @@
 
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
-<h1 class="geral">VENDAS</h1><br>
+<c:choose>
+    <c:when test="${tipoDeAcao == 'orcamento'}">
+        <h1 class="geral">ORÇAMENTO</h1><br>
+    </c:when>
+    <c:otherwise>
+        <h1 class="geral">VENDAS</h1><br>
+    </c:otherwise>
+</c:choose>
 <center>
     <c:if test="${mostraCliente == 'sim'}">
         <form method="get" action="controller">
@@ -62,8 +69,16 @@
                                          value="${clienteBusca.celular}" disabled="disabled"/></label><br><br>
 
         <form method="get" action="controller">
-            <input type="hidden" value="venda" name="acao">
-            <input type="hidden" value="buscaProduto" name="tipo">
+            <c:choose>
+                <c:when test="${tipoDeAcao == 'orcamento'}">
+                    <input type="hidden" value="orcamento" name="acao">
+                    <input type="hidden" value="buscaProduto" name="tipo">
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" value="venda" name="acao">
+                    <input type="hidden" value="buscaProduto" name="tipo">
+                </c:otherwise>
+            </c:choose>
             <input type="hidden" value="${clienteBusca.id}" id="idCliente">
             <label>Produto:
                 <select id="selecionaProduto" name="idProduto" onmouseup="validaSelecaoProduto()"
@@ -78,8 +93,18 @@
         </form>
 
         <form method="post" action="controller">
-            <input type="hidden" value="venda" name="acao">
-            <input type="hidden" value="adicionarPedido" name="tipo">
+            <c:choose>
+                <c:when test="${tipoDeAcao == 'orcamento'}">
+                    <input type="hidden" value="orcamento" name="acao">
+                    <input type="hidden" value="adicionarPedidoOrcamento" name="tipo">
+                    <input type="hidden" value="orcamento" name="tipoAlteracao">
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" value="venda" name="acao">
+                    <input type="hidden" value="adicionarPedido" name="tipo">
+                    <input type="hidden" value="venda" name="tipoAlteracao">
+                </c:otherwise>
+            </c:choose>
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
@@ -108,16 +133,33 @@
                     <td>${pedido.quantidade}</td>
                     <td>${pedido.valorUnitario}</td>
                     <td>${pedido.valorTotal}</td>
-                    <td><a href="controller?acao=venda&tipo=tirarProdutoLista&id=${pedido.id}">Excluir</a></td>
+                    <c:choose>
+                        <c:when test="${tipoDeAcao == 'orcamento'}">
+                            <td><a href="controller?acao=orcamento&tipo=tirarProdutoLista&id=${pedido.id}">Excluir</a>
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><a href="controller?acao=venda&tipo=tirarProdutoLista&id=${pedido.id}">Excluir</a></td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
             </c:forEach>
         </table>
         <br><br>
         <form method="get" action="controller">
-            <input type="hidden" value="venda" name="acao">
-            <input type="hidden" value="finalizarVenda" name="tipo">
-            <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto">Deixar venda em aberto
-            <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled>
+            <c:choose>
+                <c:when test="${tipoDeAcao == 'orcamento'}">
+                    <input type="hidden" value="orcamento" name="acao">
+                    <input type="hidden" value="finalizarOrcamento" name="tipo">
+                    <input type="submit" value="Finalizar Orcamento" id="botaoFinalizar">
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" value="venda" name="acao">
+                    <input type="hidden" value="finalizarVenda" name="tipo">
+                    <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto">Deixar venda em aberto
+                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled>
+                </c:otherwise>
+            </c:choose>
         </form>
 
     </c:if>

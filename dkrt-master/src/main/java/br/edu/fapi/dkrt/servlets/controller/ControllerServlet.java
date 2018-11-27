@@ -73,6 +73,8 @@ public class ControllerServlet extends HttpServlet {
             String tipo = req.getParameter("tipo");
             if ("adicionarPedidoOrcamento".equalsIgnoreCase(tipo)){
                 req.getRequestDispatcher("orcamento?tipo=adicionarPedidoOrcamento").forward(req, resp);
+            } else if ("finalizarOrcamento".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("orcamento?tipo=finalizarOrcamento").forward(req, resp);
             }
         }
     }
@@ -143,6 +145,10 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("orcamento?tipo=comecoOrcamento").forward(req, resp);
             } else if ("finalizarOrcamento".equalsIgnoreCase(tipo)){
                 req.getRequestDispatcher("orcamento?tipo=finalizarOrcamento").forward(req, resp);
+            } else if ("buscaProduto".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("orcamento?tipo=buscarProduto").forward(req, resp);
+            } else if ("tirarProdutoLista".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("orcamento?tipo=tirarProdutoLista").forward(req, resp);
             }
         }
 

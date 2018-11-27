@@ -3,6 +3,8 @@ package br.edu.fapi.dkrt.business.orcamento.impl;
 import br.edu.fapi.dkrt.business.orcamento.OrcamentoBusiness;
 import br.edu.fapi.dkrt.dao.orcamento.OrcamentoDAO;
 import br.edu.fapi.dkrt.dao.orcamento.impl.OrcamentoDAOImpl;
+import br.edu.fapi.dkrt.dao.pedido.PedidoDAO;
+import br.edu.fapi.dkrt.dao.pedido.impl.PedidoDAOImpl;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.model.orcamento.OrcamentoDTO;
@@ -15,11 +17,13 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
     OrcamentoDAO orcamentoDAO;
     PedidoValidator pedidoValidator;
     ProdutoDAO produtoDAO;
+    PedidoDAO pedidoDAO;
 
     public OrcamentoBusinessImpl(){
         orcamentoDAO = new OrcamentoDAOImpl();
         pedidoValidator = new PedidoValidatorImpl();
         produtoDAO = new ProdutoDAOImpl();
+        pedidoDAO = new PedidoDAOImpl();
     }
 
     @Override
@@ -45,6 +49,25 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
 
             if (orcamentoDAO.adicionarPedido(pedidoDTO)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean retirarPedido(int id) {
+        if (id != 0){
+            pedidoDAO.retirarPedido(id);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean finalizarOrcamento(OrcamentoDTO orcamentoDTO) {
+        if (orcamentoDTO != null){
+            if (!orcamentoDAO.finalizarOrcamento(orcamentoDTO)){
+                return false;
             }
         }
         return false;

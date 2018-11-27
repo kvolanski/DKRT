@@ -3,6 +3,8 @@ package br.edu.fapi.dkrt.business.venda.impl;
 import br.edu.fapi.dkrt.business.calculator.Calculator;
 import br.edu.fapi.dkrt.business.calculator.impl.CalculatorImpl;
 import br.edu.fapi.dkrt.business.venda.VendaBusiness;
+import br.edu.fapi.dkrt.dao.pedido.PedidoDAO;
+import br.edu.fapi.dkrt.dao.pedido.impl.PedidoDAOImpl;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
@@ -23,6 +25,7 @@ public class VendaBusinessImpl implements VendaBusiness {
     PedidoValidator pedidoValidator;
     CancelamentoValidator cancelamentoValidator;
     Calculator valorCalculator;
+    PedidoDAO pedidoDAO;
 
     public VendaBusinessImpl() {
         vendaDAO = new VendaDAOImpl();
@@ -30,6 +33,7 @@ public class VendaBusinessImpl implements VendaBusiness {
         produtoDAO = new ProdutoDAOImpl();
         valorCalculator = new CalculatorImpl();
         cancelamentoValidator = new CancelamentoValidatorImpl();
+        pedidoDAO = new PedidoDAOImpl();
     }
 
     @Override
@@ -92,7 +96,7 @@ public class VendaBusinessImpl implements VendaBusiness {
                 if (!produtoDAO.aumentarEstoque(produtoDTO)) {
                     return false;
                 }
-                if (!vendaDAO.retirarPedido(pedidoDTO.getId())) {
+                if (!pedidoDAO.retirarPedido(pedidoDTO.getId())) {
                     return false;
                 }
             }
@@ -109,11 +113,11 @@ public class VendaBusinessImpl implements VendaBusiness {
 
     @Override
     public boolean retirarPedido(int id) {
-        PedidoDTO pedidoDTO = vendaDAO.buscaPedido(id);
+        PedidoDTO pedidoDTO = pedidoDAO.buscaPedido(id, "venda");
         ProdutoDTO produtoDTO = pedidoDTO.getProdutoDTO();
         produtoDTO.setQtdEstoque(produtoDTO.getQtdEstoque() + pedidoDTO.getQuantidade());
         if (produtoDAO.aumentarEstoque(produtoDTO)) {
-            vendaDAO.retirarPedido(pedidoDTO.getId());
+            pedidoDAO.retirarPedido(pedidoDTO.getId());
             return true;
         }
         return false;

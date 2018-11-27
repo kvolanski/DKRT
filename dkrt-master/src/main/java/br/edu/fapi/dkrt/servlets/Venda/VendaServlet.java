@@ -44,7 +44,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             ClienteDTO clienteBusca = clienteDAO.buscarCliente(Integer.parseInt(idCliente));
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "clienteBusca", clienteBusca);
-            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda2.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVenda2.jsp").forward(req, resp);
         }
 
         if ("adicionarPedido".equalsIgnoreCase(tipo)) {
@@ -60,7 +60,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaPedido", listaPedido);
             req.getSession().removeAttribute("produtoBusca");
-            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
         }
 
         if ("finalizarVenda".equalsIgnoreCase(tipo)) {
@@ -82,9 +82,9 @@ public class VendaServlet extends AbstractBaseHttpServlet {
                 req.getSession().removeAttribute("listaPedido");
                 setSessionAttribute(req, "clienteBusca", clienteBusca);
                 setSessionAttribute(req, "mostraCliente", "sim");
-                req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
             } else {
-                req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/vendaOrcamento/finalizacaoVenda.jsp").forward(req, resp);
             }
         }
 
@@ -98,7 +98,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             if (vendaBusiness.motivoCancelamento(vendaDTO)) {
                 req.getRequestDispatcher("venda?tipo=listarVendas").forward(req, resp);
             } else {
-                req.getRequestDispatcher("WEB-INF/venda/motivoCancelamento.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/vendaOrcamento/motivoCancelamento.jsp").forward(req, resp);
             }
         }
 
@@ -107,7 +107,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             List<VendaDTO> listaVendas = vendaDAO.listarVendas();
             setSessionAttribute(req, "listaVendas", listaVendas);
             setSessionAttribute(req, "tipoStatus", "normal");
-            req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/listarVendas.jsp").forward(req, resp);
         }
     }
 
@@ -123,7 +123,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaClientes", listaClientes);
             setSessionAttribute(req, "clienteBusca", clienteBusca);
             setSessionAttribute(req, "mostraCliente", "sim");
-            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
         }
 
         if ("buscaProduto".equalsIgnoreCase(tipo)) {
@@ -137,12 +137,13 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaPedido", listaPedido);
             req.getSession().setAttribute("produtoBusca", produtoBusca);
-            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
         }
 
         if ("abrirVenda".equalsIgnoreCase(tipo)) {
             String idCliente = req.getParameter("id");
             VendaBusiness vendaBusiness = new VendaBusinessImpl();
+            VendaDAO vendaDAO = new VendaDAOImpl();
             VendaDTO vendaDTO = new VendaDTO();
             ClienteDAO clienteDAO = new ClienteDAOImpl();
             ProdutoDAO produtoDAO = new ProdutoDAOImpl();
@@ -153,12 +154,14 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             vendaDTO.setClienteDTO(clienteBusca);
             vendaDTO.setMotivoCancelamento("A venda está incompleta pois foi encerrada de forma inesperada");
             vendaDTO.setId(vendaBusiness.abrirVenda(vendaDTO));
+            List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(vendaDTO.getId());
+            setSessionAttribute(req, "listaPedido", listaPedido);
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaClientes", listaClientes);
             setSessionAttribute(req, "mostraCliente", "nao");
             req.getSession().setAttribute("clienteBusca", clienteBusca);
             req.getSession().setAttribute("idVenda", vendaDTO.getId());
-            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
         }
 
         if ("finalizarVenda".equalsIgnoreCase(tipo)) {
@@ -169,7 +172,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             float valorTotal = calculator.calcularValorTotal(listaPedido);
             req.getSession().setAttribute("listaPedido", listaPedido);
             setSessionAttribute(req, "valorTotal", valorTotal);
-            req.getRequestDispatcher("WEB-INF/venda/finalizacaoVenda.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/finalizacaoVenda.jsp").forward(req, resp);
         }
 
         if ("listarVendas".equalsIgnoreCase(tipo)) {
@@ -177,7 +180,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             List<VendaDTO> listaVendas = vendaDAO.listarVendas();
             setSessionAttribute(req, "tipoStatus", "normal");
             setSessionAttribute(req, "listaVendas", listaVendas);
-            req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/listarVendas.jsp").forward(req, resp);
         }
 
         if ("buscaVenda".equalsIgnoreCase(tipo)) {
@@ -187,7 +190,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(Integer.parseInt(id));
             setSessionAttribute(req, "vendaBusca", vendaBusca);
             setSessionAttribute(req, "listaPedido", listaPedido);
-            req.getRequestDispatcher("WEB-INF/venda/displayVenda.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/displayVenda.jsp").forward(req, resp);
         }
 
         if ("vendaEmAberto".equalsIgnoreCase(tipo)) {
@@ -208,7 +211,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             vendaDTO.setId(id);
             vendaDTO.setStatus("Cancelada");
             vendaDAO.atualizaStatus(vendaDTO);
-            req.getRequestDispatcher("WEB-INF/venda/motivoCancelamento.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/motivoCancelamento.jsp").forward(req, resp);
         }
 
         if ("adicionarProdutosEmAberto".equalsIgnoreCase(tipo)) {
@@ -223,7 +226,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaPedido", listaPedido);
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             req.getSession().setAttribute("clienteBusca", clienteBusca);
-            req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
         }
 
         if ("tirarProdutoLista".equalsIgnoreCase(tipo)) {
@@ -237,7 +240,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             if (vendaBusiness.retirarPedido(Integer.parseInt(idPedido))) {
                 List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(idVenda);
                 setSessionAttribute(req, "listaPedido", listaPedido);
-                req.getRequestDispatcher("WEB-INF/venda/efetuarVenda.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
             }
         }
 
@@ -246,7 +249,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             List<VendaDTO> listaVendas = vendaDAO.listarVendas();
             setSessionAttribute(req, "tipoStatus", "cancelada");
             setSessionAttribute(req, "listaVendas", listaVendas);
-            req.getRequestDispatcher("WEB-INF/venda/listarVendas.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vendaOrcamento/listarVendas.jsp").forward(req, resp);
         }
     }
 

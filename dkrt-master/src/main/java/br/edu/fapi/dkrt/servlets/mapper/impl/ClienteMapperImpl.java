@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ClienteMapperImpl implements BaseMapper<HttpServletRequest, ClienteDTO> {
-    
+
     @Override
     public ClienteDTO doMap(HttpServletRequest req) {
         String nome = req.getParameter("nomeCliente");

@@ -110,17 +110,7 @@ public class VendaDAOImpl implements VendaDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                ProdutoDTO produtoDTO = new ProdutoDTO();
-                produtoDTO.setId(resultSet.getInt("produto_id"));
-                produtoDTO.setNome(resultSet.getString("produto_nome"));
-                produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
-                produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
-                PedidoDTO pedidoDTO = new PedidoDTO();
-                pedidoDTO.setProdutoDTO(produtoDTO);
-                pedidoDTO.setId(resultSet.getInt("pedido_id"));
-                pedidoDTO.setQuantidade(resultSet.getInt("pedido_quantidade"));
-                pedidoDTO.setValorUnitario(resultSet.getFloat("pedido_valorUnitario"));
-                pedidoDTO.setValorTotal(resultSet.getFloat("pedido_valorTotal"));
+                PedidoDTO pedidoDTO = fillPedido(resultSet);
                 listaPedido.add(pedidoDTO);
             }
 
@@ -236,59 +226,6 @@ public class VendaDAOImpl implements VendaDAO {
         return false;
     }
 
-    @Override
-    public boolean retirarPedido(int id) {
-        String sql = "DELETE FROM pedidos WHERE pedido_id = ? ";
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.setInt(1, id);
-
-            int resultado = preparedStatement.executeUpdate();
-
-            if (resultado != 0) {
-                return true;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public PedidoDTO buscaPedido(int id) {
-        PedidoDTO pedidoBusca = new PedidoDTO();
-        String sql = "SELECT pedidos.pedido_id, pedidos.pedido_quantidade, pedidos.pedido_valorUnitario, pedidos.pedido_valorTotal, " +
-                "produtos.produto_id, produtos.produto_nome, produtos.produto_descricao, produtos.produto_precoVenda, produtos.produto_precoCusto, " +
-                "produtos.produto_qtdEstoque, produtos.produto_ativo, produtos.produto_dataCadastro, produtos.produto_dataAlteracao, vendas.venda_id, " +
-                "vendas.venda_valorTotal, vendas.venda_formaDePagamento, vendas.venda_parcelas, vendas.venda_valorParcela, vendas.venda_status, " +
-                "vendas.venda_desconto, vendas.venda_dataDeVenda FROM pedidos INNER JOIN produtos ON pedidos.produto_id = produtos.produto_id " +
-                "INNER JOIN vendas ON pedidos.venda_id = vendas.venda_id WHERE pedidos.pedido_id = ?";
-
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.setInt(1, id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                pedidoBusca = fillPedido(resultSet);
-            }
-
-            return pedidoBusca;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return pedidoBusca;
-    }
-
     private VendaDTO fillVenda(ResultSet resultSet) throws SQLException {
         UfDTO ufDTO = new UfDTO();
         ufDTO.setId(resultSet.getInt("uf_id"));
@@ -330,27 +267,12 @@ public class VendaDAOImpl implements VendaDAO {
     }
 
     private PedidoDTO fillPedido(ResultSet resultSet) throws SQLException {
-        VendaDTO vendaDTO = new VendaDTO();
-        vendaDTO.setId(resultSet.getInt("venda_id"));
-        vendaDTO.setValorTotal(resultSet.getFloat("venda_valorTotal"));
-        vendaDTO.setFormaDePagamento(resultSet.getString("venda_formaDePagamento"));
-        vendaDTO.setParcelas(resultSet.getInt("venda_parcelas"));
-        vendaDTO.setValorParcelas(resultSet.getFloat("venda_valorParcela"));
-        vendaDTO.setStatus(resultSet.getString("venda_status"));
-        vendaDTO.setDesconto(resultSet.getInt("venda_desconto"));
-        vendaDTO.setDataDeVenda(resultSet.getTimestamp("venda_dataDeVenda"));
         ProdutoDTO produtoDTO = new ProdutoDTO();
         produtoDTO.setId(resultSet.getInt("produto_id"));
         produtoDTO.setNome(resultSet.getString("produto_nome"));
         produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
-        produtoDTO.setPrecoVenda(resultSet.getFloat("produto_precoVenda"));
-        produtoDTO.setPrecoCusto(resultSet.getFloat("produto_precoCusto"));
         produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
-        produtoDTO.setAtivo(resultSet.getInt("produto_ativo"));
-        produtoDTO.setDataCadastro(resultSet.getTimestamp("produto_dataCadastro"));
-        produtoDTO.setDataAlteracao(resultSet.getTimestamp("produto_dataAlteracao"));
         PedidoDTO pedidoBusca = new PedidoDTO();
-        pedidoBusca.setVendaDTO(vendaDTO);
         pedidoBusca.setProdutoDTO(produtoDTO);
         pedidoBusca.setId(resultSet.getInt("pedido_id"));
         pedidoBusca.setQuantidade(resultSet.getInt("pedido_quantidade"));
