@@ -19,7 +19,7 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
     ProdutoDAO produtoDAO;
     PedidoDAO pedidoDAO;
 
-    public OrcamentoBusinessImpl(){
+    public OrcamentoBusinessImpl() {
         orcamentoDAO = new OrcamentoDAOImpl();
         pedidoValidator = new PedidoValidatorImpl();
         produtoDAO = new ProdutoDAOImpl();
@@ -29,7 +29,7 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
     @Override
     public int abrirOrcamento(OrcamentoDTO orcamentoDTO) {
         int id = 0;
-        if (orcamentoDTO != null){
+        if (orcamentoDTO != null) {
             id = orcamentoDAO.abrirOrcamento(orcamentoDTO);
             return id;
         }
@@ -56,7 +56,7 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
 
     @Override
     public boolean retirarPedido(int id) {
-        if (id != 0){
+        if (id != 0) {
             pedidoDAO.retirarPedido(id);
             return true;
         }
@@ -65,10 +65,11 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
 
     @Override
     public boolean finalizarOrcamento(OrcamentoDTO orcamentoDTO) {
-        if (orcamentoDTO != null){
-            if (!orcamentoDAO.finalizarOrcamento(orcamentoDTO)){
+        if (orcamentoDTO != null) {
+            if (!orcamentoDAO.finalizarOrcamento(orcamentoDTO)) {
                 return false;
             }
+            return true;
         }
         return false;
     }

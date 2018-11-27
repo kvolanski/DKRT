@@ -11,15 +11,15 @@ import java.text.SimpleDateFormat;
 public class OrcamentoMapperImpl implements BaseMapper<HttpServletRequest, OrcamentoDTO> {
 
     @Override
-    public OrcamentoDTO doMap(HttpServletRequest req){
+    public OrcamentoDTO doMap(HttpServletRequest req) {
         OrcamentoDTO orcamentoDTO = (OrcamentoDTO) req.getSession().getAttribute("orcamentoBusca");
         String desconto = req.getParameter("descontoOrcamento");
         String dataExpiracao = req.getParameter("dataExpiracao");
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         orcamentoDTO.setDesconto(Integer.parseInt(desconto));
-        float valorDesconto = (orcamentoDTO.getValorTotal()*orcamentoDTO.getDesconto())/100;
-        orcamentoDTO.setValorTotal(orcamentoDTO.getValorTotal()-valorDesconto);
-        if (dataExpiracao != null) {
+        float valorDesconto = (orcamentoDTO.getValorTotal() * orcamentoDTO.getDesconto()) / 100;
+        orcamentoDTO.setValorTotal(orcamentoDTO.getValorTotal() - valorDesconto);
+        if (!"".equalsIgnoreCase(dataExpiracao)) {
             try {
                 orcamentoDTO.setDataExpiracao(dateFormat.parse(dataExpiracao));
             } catch (ParseException e) {

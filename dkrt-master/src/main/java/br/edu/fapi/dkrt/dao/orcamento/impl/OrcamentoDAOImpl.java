@@ -42,7 +42,7 @@ public class OrcamentoDAOImpl implements OrcamentoDAO {
     public boolean adicionarPedido(PedidoDTO pedidoDTO) {
         String sql = "INSERT INTO pedidos (produto_id, pedido_quantidade, pedido_valorUnitario, pedido_valorTotal, orcamento_id) VALUES " +
                 "(?, ?, ?, ?, ?)";
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, pedidoDTO.getProdutoDTO().getId());
@@ -53,7 +53,7 @@ public class OrcamentoDAOImpl implements OrcamentoDAO {
 
             int resultado = preparedStatement.executeUpdate();
 
-            if (resultado != 0){
+            if (resultado != 0) {
                 return true;
             }
         } catch (SQLException e) {
@@ -94,9 +94,27 @@ public class OrcamentoDAOImpl implements OrcamentoDAO {
 
     @Override
     public boolean finalizarOrcamento(OrcamentoDTO orcamentoDTO) {
-        String sql = "";
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+        String sql;
+        if (orcamentoDTO.getDataExpiracao() != null) {
+            sql = "UPDATE orcamentos SET orcamento_valorTotal = ?, orcamento_status = ?, orcamento_desconto = ?, orcamento_dataExpiracao = ?";
+        } else {
+            sql = "UPDATE orcamentos SET orcamento_valorTotal = ?, orcamento_status = ?, orcamento_desconto = ?";
+        }
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setFloat(1, orcamentoDTO.getValorTotal());
+            preparedStatement.setString(2, orcamentoDTO.getStatus());
+            preparedStatement.setInt(3, orcamentoDTO.getDesconto());
+            if (orcamentoDTO.getDataExpiracao() != null){
+                preparedStatement.setDate(4, new java.sql.Date(orcamentoDTO.getDataExpiracao().getTime()));
+            }
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0){
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

@@ -46,7 +46,7 @@
         <input type="hidden" value="finalizarOrcamento" name="tipo">
         <label><input type="checkbox" id="expiracao">Escolher data de expiração do Orçamento</label><br>
         <label id="displayData" hidden><input type="date" name="dataExpiracao"></label>
-        <label>Desconto(%): <input type="number" name="descontoVenda" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
+        <label>Desconto(%): <input type="number" name="descontoOrcamento" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
         <br><br><br>
         <input type="submit" value="Fechar Orçamento" id="enviarInf">
     </form>

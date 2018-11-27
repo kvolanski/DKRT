@@ -58,6 +58,10 @@ public class OrcamentoServlet extends AbstractBaseHttpServlet {
 
         if ("finalizarOrcamento".equalsIgnoreCase(tipo)) {
             OrcamentoDTO orcamentoDTO = orcamentoMapper.doMap(req);
+            OrcamentoBusiness orcamentoBusiness = new OrcamentoBusinessImpl();
+            if (orcamentoBusiness.finalizarOrcamento(orcamentoDTO)){
+                req.getRequestDispatcher("WEB-INF/orcamento/listarOrcamentos.jsp").forward(req, resp);
+            }
         }
     }
 
