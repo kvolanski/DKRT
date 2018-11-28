@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 27-Nov-2018 às 15:08
+-- Generation Time: 28-Nov-2018 às 13:41
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -92,6 +92,21 @@ CREATE TABLE `orcamentos` (
   `cliente_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `orcamentos`
+--
+
+INSERT INTO `orcamentos` (`orcamento_id`, `orcamento_valorTotal`, `orcamento_status`, `orcamento_desconto`, `orcamento_dataGeracao`, `orcamento_dataExpiracao`, `cliente_id`) VALUES
+(14, 5440, 'Completo', 20, '2018-11-28 11:31:09', '2018-11-30', 3),
+(15, 8160, 'Completo', 20, '2018-11-28 11:39:16', '2018-11-30', 3),
+(16, 8400, 'Vendido', 20, '2018-11-28 12:02:57', '2018-11-30', 3),
+(17, NULL, 'Incompleto', NULL, '2018-11-28 12:29:42', NULL, 3),
+(18, NULL, 'Incompleto', NULL, '2018-11-28 12:31:14', NULL, 3),
+(19, 600, 'Completo', 0, '2018-11-28 12:33:50', NULL, 3),
+(20, NULL, 'Incompleto', NULL, '2018-11-28 12:34:41', NULL, 3),
+(21, NULL, 'Incompleto', NULL, '2018-11-28 12:37:57', NULL, 3),
+(22, 600, 'Completo', 0, '2018-11-28 12:41:18', NULL, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -107,6 +122,24 @@ CREATE TABLE `pedidos` (
   `venda_id` int(11) DEFAULT NULL,
   `orcamento_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `pedidos`
+--
+
+INSERT INTO `pedidos` (`pedido_id`, `produto_id`, `pedido_quantidade`, `pedido_valorUnitario`, `pedido_valorTotal`, `venda_id`, `orcamento_id`) VALUES
+(25, 5, 200, 2, 400, 1, 14),
+(26, 7, 200, 32, 6400, 1, 14),
+(27, 5, 300, 2, 600, 2, 15),
+(28, 7, 300, 32, 9600, 2, 15),
+(29, 5, 200, 2, 400, 3, 16),
+(30, 6, 250, 2, 500, 3, 16),
+(31, 7, 300, 32, 9600, 3, 16),
+(32, 5, 200, 2, 400, NULL, 17),
+(33, 5, 200, 2, 400, NULL, 18),
+(34, 5, 300, 2, 600, NULL, 19),
+(35, 5, 300, 2, 600, NULL, 21),
+(36, 5, 300, 2, 600, NULL, 22);
 
 -- --------------------------------------------------------
 
@@ -131,10 +164,10 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`produto_id`, `produto_nome`, `produto_descricao`, `produto_precoVenda`, `produto_precoCusto`, `produto_qtdEstoque`, `produto_ativo`, `produto_dataCadastro`, `produto_dataAlteracao`) VALUES
-(5, 'Caneta BIC Preta', 'Ponta Fina', 2, 1, 500, 1, '2018-11-23', NULL),
-(6, 'Caneta BIC Azul', 'Ponta Fina', 2, 1, 500, 1, '2018-11-23', NULL),
-(7, 'Caderno Hot Wheels', '10 Materias', 32, 15, 500, 1, '2018-11-23', NULL),
-(8, 'Teste Teste', 'Apenas Testando', 5.5, 3, 500, 1, '2018-11-25', '2018-11-26');
+(5, 'Caneta BIC Preta', 'Ponta Fina', 2, 1, 300, 1, '2018-11-23', NULL),
+(6, 'Caneta BIC Azul', 'Ponta Fina', 2, 1, 250, 1, '2018-11-23', NULL),
+(7, 'Caderno Hot Wheels', '10 Materias', 32, 15, 200, 1, '2018-11-23', NULL),
+(8, 'Caderno Barbie', '20 Materias', 45.99, 35.99, 500, 1, '2018-11-25', '2018-11-28');
 
 -- --------------------------------------------------------
 
@@ -217,8 +250,18 @@ CREATE TABLE `vendas` (
   `venda_desconto` float DEFAULT NULL,
   `venda_dataDeVenda` timestamp NULL DEFAULT NULL,
   `venda_motivoCancelamento` varchar(500) DEFAULT NULL,
+  `venda_vendaOrcamento` varchar(5) DEFAULT NULL,
   `cliente_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `vendas`
+--
+
+INSERT INTO `vendas` (`venda_id`, `venda_valorTotal`, `venda_formaDePagamento`, `venda_parcelas`, `venda_valorParcela`, `venda_status`, `venda_desconto`, `venda_dataDeVenda`, `venda_motivoCancelamento`, `venda_vendaOrcamento`, `cliente_id`) VALUES
+(1, 5440, 'Debito', 1, 5440, 'Completa', 20, '2018-11-28 11:32:18', 'A venda está incompleta pois foi encerrada de forma inesperada', NULL, 3),
+(2, 8160, 'Credito', 5, 1632, 'Completa', 20, '2018-11-28 11:40:07', 'A venda está incompleta pois foi encerrada de forma inesperada', NULL, 3),
+(3, 8400, 'Debito', 1, 8400, 'Completa', 20, '2018-11-28 12:04:09', 'A venda está incompleta pois foi encerrada de forma inesperada', 'Sim', 3);
 
 --
 -- Indexes for dumped tables
@@ -299,13 +342,13 @@ ALTER TABLE `enderecos`
 -- AUTO_INCREMENT for table `orcamentos`
 --
 ALTER TABLE `orcamentos`
-  MODIFY `orcamento_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `orcamento_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `produtos`
@@ -329,7 +372,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `venda_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `venda_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
