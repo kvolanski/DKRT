@@ -45,15 +45,15 @@
                     <input type="hidden" value="abrirVenda" name="tipo">
                 </c:otherwise>
             </c:choose>
-            Escolha um cliente para realizar a venda:
-            <select name="idCliente" id="selecionaCliente" onmouseup="validaSelecaoCliente()"
+            <label>Escolha um cliente para realizar a venda:</label>
+            <select style="width: 300px;" class="form-control" name="idCliente" id="selecionaCliente" onmouseup="validaSelecaoCliente()"
                     onkeyup="validaSelecaoCliente()">
                 <option value="0">Selecione um cliente</option>
                 <c:forEach var="cliente" items="${listaClientes}">
                     <option value="${cliente.id}">${cliente.nome}</option>
                 </c:forEach>
             </select><br><br>
-            <input type="submit" value="Abrir Venda" id="inputAbrirVenda" disabled>
+            <input type="submit" value="Abrir Venda" id="inputAbrirVenda" disabled class="btn btn-success">
         </form>
     </c:if>
 </center>
@@ -82,14 +82,15 @@
             <input type="hidden" value="${clienteBusca.id}" id="idCliente">
             <label>Produto:
                 <select id="selecionaProduto" name="idProduto" onmouseup="validaSelecaoProduto()"
-                        onkeyup="validaSelecaoProduto()">
+                        onkeyup="validaSelecaoProduto()" class="form-control">
                     <option value="0">Selecione um produto.</option>
                     <c:forEach var="produto" items="${listaProdutos}">
                         <option value="${produto.id}">${produto.nome}</option>
                     </c:forEach>
                 </select>
             </label>
-            <input type="submit" value="Carregar Produto" id="inputCarregarProduto" disabled><br><br>
+            <br><br>
+            <input type="submit" value="Carregar Produto" id="inputCarregarProduto" disabled class="btn btn-success"><br><br>
         </form>
 
         <form method="post" action="controller">
@@ -112,22 +113,24 @@
                                      class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
-            <label>Qtd. em Estoque: ${produtoBusca.qtdEstoque}</label><br>
+            <label>Qtd. em Estoque:<input value="${produtoBusca.qtdEstoque}" type="number" disabled="disabled" class="form-control"></label><br><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
-            <input value="Adicionar" type="submit" class="btn btn-success" id="botaoAdiciona"/>
+            <input value="Adicionar" type="submit" class="btn btn-success" id="botaoAdiciona"/><br><br>
         </form>
 
-        <table>
-            <tr>
-                <th>Produto</th>
-                <th>Descrição</th>
-                <th>Quantidade</th>
-                <th>Valor Unit.</th>
-                <th>Valor Total</th>
-                <th>Ação</th>
+        <table width="40%" align="center" cellpadding="10" style="border: #ffffff solid 1px;">
+            <tr align="center" bgcolor="#CCC">
+                <td><strong>Produto</strong></td>
+                <td><strong>Descrição</strong></td>
+                <td><strong>Quantidade</strong></td>
+                <td><strong>Valor Unit.</strong></td>
+                <td><strong>Valor Total</strong></td>
+                <td><strong>Ação</strong></td>
+
             </tr>
+
             <c:forEach var="pedido" items="${listaPedido}">
-                <tr>
+                <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                     <td>${pedido.produtoDTO.nome}</td>
                     <td>${pedido.produtoDTO.descricao}</td>
                     <td>${pedido.quantidade}</td>
@@ -144,6 +147,7 @@
                     </c:choose>
                 </tr>
             </c:forEach>
+
         </table>
         <br><br>
         <form method="get" action="controller">
@@ -161,6 +165,7 @@
                 </c:otherwise>
             </c:choose>
         </form>
+
 
     </c:if>
 </center>
