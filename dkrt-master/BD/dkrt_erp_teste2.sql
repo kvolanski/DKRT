@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 28-Nov-2018 às 13:41
+-- Generation Time: 28-Nov-2018 às 22:13
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -101,7 +101,7 @@ INSERT INTO `orcamentos` (`orcamento_id`, `orcamento_valorTotal`, `orcamento_sta
 (15, 8160, 'Completo', 20, '2018-11-28 11:39:16', '2018-11-30', 3),
 (16, 8400, 'Vendido', 20, '2018-11-28 12:02:57', '2018-11-30', 3),
 (17, NULL, 'Incompleto', NULL, '2018-11-28 12:29:42', NULL, 3),
-(18, NULL, 'Incompleto', NULL, '2018-11-28 12:31:14', NULL, 3),
+(18, NULL, 'Expirado', NULL, '2018-11-28 12:31:14', '2018-11-27', 3),
 (19, 600, 'Completo', 0, '2018-11-28 12:33:50', NULL, 3),
 (20, NULL, 'Incompleto', NULL, '2018-11-28 12:34:41', NULL, 3),
 (21, NULL, 'Incompleto', NULL, '2018-11-28 12:37:57', NULL, 3),
@@ -139,7 +139,8 @@ INSERT INTO `pedidos` (`pedido_id`, `produto_id`, `pedido_quantidade`, `pedido_v
 (33, 5, 200, 2, 400, NULL, 18),
 (34, 5, 300, 2, 600, NULL, 19),
 (35, 5, 300, 2, 600, NULL, 21),
-(36, 5, 300, 2, 600, NULL, 22);
+(36, 5, 300, 2, 600, NULL, 22),
+(38, 5, 200, 2, 400, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -164,7 +165,7 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`produto_id`, `produto_nome`, `produto_descricao`, `produto_precoVenda`, `produto_precoCusto`, `produto_qtdEstoque`, `produto_ativo`, `produto_dataCadastro`, `produto_dataAlteracao`) VALUES
-(5, 'Caneta BIC Preta', 'Ponta Fina', 2, 1, 300, 1, '2018-11-23', NULL),
+(5, 'Caneta BIC Preta', 'Ponta Fina', 2, 1, 100, 1, '2018-11-23', NULL),
 (6, 'Caneta BIC Azul', 'Ponta Fina', 2, 1, 250, 1, '2018-11-23', NULL),
 (7, 'Caderno Hot Wheels', '10 Materias', 32, 15, 200, 1, '2018-11-23', NULL),
 (8, 'Caderno Barbie', '20 Materias', 45.99, 35.99, 500, 1, '2018-11-25', '2018-11-28');
@@ -261,7 +262,9 @@ CREATE TABLE `vendas` (
 INSERT INTO `vendas` (`venda_id`, `venda_valorTotal`, `venda_formaDePagamento`, `venda_parcelas`, `venda_valorParcela`, `venda_status`, `venda_desconto`, `venda_dataDeVenda`, `venda_motivoCancelamento`, `venda_vendaOrcamento`, `cliente_id`) VALUES
 (1, 5440, 'Debito', 1, 5440, 'Completa', 20, '2018-11-28 11:32:18', 'A venda está incompleta pois foi encerrada de forma inesperada', NULL, 3),
 (2, 8160, 'Credito', 5, 1632, 'Completa', 20, '2018-11-28 11:40:07', 'A venda está incompleta pois foi encerrada de forma inesperada', NULL, 3),
-(3, 8400, 'Debito', 1, 8400, 'Completa', 20, '2018-11-28 12:04:09', 'A venda está incompleta pois foi encerrada de forma inesperada', 'Sim', 3);
+(3, 8400, 'Debito', 1, 8400, 'Completa', 20, '2018-11-28 12:04:09', 'A venda está incompleta pois foi encerrada de forma inesperada', 'Sim', 3),
+(4, NULL, NULL, NULL, NULL, 'Cancelada', 0, NULL, '', 'Nao', 3),
+(5, NULL, NULL, NULL, NULL, 'Incompleta', 0, NULL, 'A venda está incompleta pois foi encerrada de forma inesperada', 'Nao', 3);
 
 --
 -- Indexes for dumped tables
@@ -348,7 +351,7 @@ ALTER TABLE `orcamentos`
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `produtos`
@@ -372,7 +375,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `venda_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `venda_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
