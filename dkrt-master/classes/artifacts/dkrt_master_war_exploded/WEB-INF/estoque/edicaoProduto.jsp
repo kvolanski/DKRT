@@ -16,6 +16,8 @@
     </style>
 </head>
 <body>
+<%@include file="/WEB-INF/navbar/navbar.jsp" %>
+
 <center>
     <form method="post" action="controller">
         <input type="hidden" value="estoque" name="acao"><br><br>
