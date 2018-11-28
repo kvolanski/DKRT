@@ -15,4 +15,14 @@ public interface OrcamentoDAO {
 
     boolean finalizarOrcamento(OrcamentoDTO orcamentoDTO);
 
+    List<OrcamentoDTO> listarOrcamentos();
+
+    boolean excluirOrcamento(int id);
+
+    boolean adicionaIdVendaOrcamento(int idOrcamento, int idVenda);
+
+    OrcamentoDTO buscarOrcamento(int id);
+
+    boolean atualizarStatusOrcamento(OrcamentoDTO orcamentoDTO);
+
 }

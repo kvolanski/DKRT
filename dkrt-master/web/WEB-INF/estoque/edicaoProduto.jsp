@@ -22,11 +22,11 @@
         <input type="hidden" value="editarProduto" name="tipo"><br><br>
         <input type="hidden" value="edicao" name="tipoAlteracao"><br><br>
         <input type="hidden" value="${produtoBusca.id}" name="idProduto"><br><br>
-        <input type="text" value="${produtoBusca.nome}" name="nomeProduto"><br><br>
-        <input type="text" value="${produtoBusca.descricao}" name="descricaoProduto"><br><br>
-        <input type="number" value="${produtoBusca.qtdEstoque}" name="quantidadeProduto"><br><br>
-        <input type="number" value="${produtoBusca.precoVenda}" name="precoVendaProduto" step="any"><br><br>
-        <input type="number" value="${produtoBusca.precoCusto}" name="precoCustoProduto" step="any"><br><br>
+        Nome: <input type="text" value="${produtoBusca.nome}" name="nomeProduto"><br><br>
+        Descrição: <input type="text" value="${produtoBusca.descricao}" name="descricaoProduto"><br><br>
+        Qtd. Estoque: <input type="number" value="${produtoBusca.qtdEstoque}" name="quantidadeProduto"><br><br>
+        Preço Venda: <input type="number" value="${produtoBusca.precoVenda}" name="precoVendaProduto" step="0.1"><br><br>
+        Preço Custo: <input type="number" value="${produtoBusca.precoCusto}" name="precoCustoProduto" step="0.1"><br><br>
         <input type="submit" value="Enviar Alterações">
     </form>
 </center>

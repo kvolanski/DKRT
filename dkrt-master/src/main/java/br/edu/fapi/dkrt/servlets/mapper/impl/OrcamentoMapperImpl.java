@@ -19,12 +19,16 @@ public class OrcamentoMapperImpl implements BaseMapper<HttpServletRequest, Orcam
         orcamentoDTO.setDesconto(Integer.parseInt(desconto));
         float valorDesconto = (orcamentoDTO.getValorTotal() * orcamentoDTO.getDesconto()) / 100;
         orcamentoDTO.setValorTotal(orcamentoDTO.getValorTotal() - valorDesconto);
+        orcamentoDTO.setStatus("Completo");
         if (!"".equalsIgnoreCase(dataExpiracao)) {
+            dataExpiracao = dataExpiracao.substring(8)+"/"+dataExpiracao.substring(5, 7)+"/"+dataExpiracao.substring(0, 4);
             try {
                 orcamentoDTO.setDataExpiracao(dateFormat.parse(dataExpiracao));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        } else {
+            orcamentoDTO.setDataExpiracao(null);
         }
         return orcamentoDTO;
     }

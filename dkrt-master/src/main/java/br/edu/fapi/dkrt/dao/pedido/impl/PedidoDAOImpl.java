@@ -57,9 +57,8 @@ public class PedidoDAOImpl implements PedidoDAO {
 
     @Override
     public boolean retirarPedido(int id) {
-        String sql = "DELETE FROM pedidos WHERE pedido_id = ? ";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM pedidos WHERE pedido_id = ? ");
 
             preparedStatement.setInt(1, id);
 
@@ -69,6 +68,26 @@ public class PedidoDAOImpl implements PedidoDAO {
                 return true;
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean retirarPedidoOrcamento(int id) {
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM pedidos WHERE orcamento_id = ?");
+
+            preparedStatement.setInt(1, id);
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0) {
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

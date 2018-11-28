@@ -65,7 +65,7 @@
         <option value="12">12x</option>
     </select>
     </label>
-    <label>Desconto(%): <input type="number" name="descontoVenda" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
+    <label>Desconto(%): <input type="number" name="descontoVenda" value="${vendaBusca.desconto}" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
     <br><br><br>
     <input type="submit" value="Fechar Venda" id="enviarInf" disabled>
 </form>

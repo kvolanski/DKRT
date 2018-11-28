@@ -153,12 +153,15 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             vendaDTO.setStatus("Incompleta");
             vendaDTO.setClienteDTO(clienteBusca);
             vendaDTO.setMotivoCancelamento("A venda está incompleta pois foi encerrada de forma inesperada");
+            vendaDTO.setDesconto(0);
+            vendaDTO.setVendaOrcamento("Nao");
             vendaDTO.setId(vendaBusiness.abrirVenda(vendaDTO));
             List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(vendaDTO.getId());
             setSessionAttribute(req, "listaPedido", listaPedido);
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             setSessionAttribute(req, "listaClientes", listaClientes);
             setSessionAttribute(req, "mostraCliente", "nao");
+            setSessionAttribute(req, "vendaBusca", vendaDTO);
             req.getSession().setAttribute("clienteBusca", clienteBusca);
             req.getSession().setAttribute("idVenda", vendaDTO.getId());
             req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
@@ -168,10 +171,12 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             Calculator calculator = new CalculatorImpl();
             int id = (int) req.getSession().getAttribute("idVenda");
             VendaDAO vendaDAO = new VendaDAOImpl();
+            VendaDTO vendaDTO = vendaDAO.buscaVenda(id);
             List<PedidoDTO> listaPedido = vendaDAO.listarPedidosVenda(id);
             float valorTotal = calculator.calcularValorTotal(listaPedido);
             req.getSession().setAttribute("listaPedido", listaPedido);
             setSessionAttribute(req, "valorTotal", valorTotal);
+            setSessionAttribute(req, "vendaBusca", vendaDTO);
             req.getRequestDispatcher("WEB-INF/vendaOrcamento/finalizacaoVenda.jsp").forward(req, resp);
         }
 

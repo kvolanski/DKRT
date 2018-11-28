@@ -62,18 +62,18 @@ public class ControllerServlet extends HttpServlet {
             }
         }
 
-        if ("estoque".equalsIgnoreCase(acao)){
+        if ("estoque".equalsIgnoreCase(acao)) {
             String tipo = req.getParameter("tipo");
-            if ("editarProduto".equalsIgnoreCase(tipo)){
+            if ("editarProduto".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("estoque?tipo=editarProduto").forward(req, resp);
             }
         }
 
-        if ("orcamento".equalsIgnoreCase(acao)){
+        if ("orcamento".equalsIgnoreCase(acao)) {
             String tipo = req.getParameter("tipo");
-            if ("adicionarPedidoOrcamento".equalsIgnoreCase(tipo)){
+            if ("adicionarPedidoOrcamento".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("orcamento?tipo=adicionarPedidoOrcamento").forward(req, resp);
-            } else if ("finalizarOrcamento".equalsIgnoreCase(tipo)){
+            } else if ("finalizarOrcamento".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("orcamento?tipo=finalizarOrcamento").forward(req, resp);
             }
         }
@@ -143,12 +143,18 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("orcamento?tipo=iniciarOrcamento").forward(req, resp);
             } else if ("comecarOrcamento".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("orcamento?tipo=comecoOrcamento").forward(req, resp);
-            } else if ("finalizarOrcamento".equalsIgnoreCase(tipo)){
+            } else if ("finalizarOrcamento".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("orcamento?tipo=finalizarOrcamento").forward(req, resp);
-            } else if ("buscaProduto".equalsIgnoreCase(tipo)){
+            } else if ("buscaProduto".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("orcamento?tipo=buscarProduto").forward(req, resp);
-            } else if ("tirarProdutoLista".equalsIgnoreCase(tipo)){
+            } else if ("tirarProdutoLista".equalsIgnoreCase(tipo)) {
                 req.getRequestDispatcher("orcamento?tipo=tirarProdutoLista").forward(req, resp);
+            } else if ("listarOrcamentos".equalsIgnoreCase(tipo)) {
+                req.getRequestDispatcher("orcamento?tipo=listarOrcamentos").forward(req, resp);
+            } else if ("excluirOrcamento".equalsIgnoreCase(tipo)) {
+                req.getRequestDispatcher("orcamento?tipo=excluirOrcamento").forward(req, resp);
+            } else if ("comecarVendaOrcamento".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("orcamento?tipo=comecarVendaOrcamento").forward(req, resp);
             }
         }
 

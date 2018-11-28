@@ -18,5 +18,32 @@
 <body>
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
+<center>
+    <table>
+        <tr>
+            <th>Nº Orçamento</th>
+            <th>Nome do Cliente</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Valor do Orçamento</th>
+            <th>Desconto(%)</th>
+            <th>Expiração</th>
+            <th colspan="3">Ação</th>
+        </tr>
+        <c:forEach var="orcamento" items="${listaOrcamentos}">
+            <tr>
+                <td>${orcamento.id}</td>
+                <td>${orcamento.clienteDTO.nome}</td>
+                <td>${orcamento.clienteDTO.email}</td>
+                <td>${orcamento.clienteDTO.celular}</td>
+                <td>${orcamento.valorTotal}</td>
+                <td>${orcamento.desconto}</td>
+                <td><fmt:formatDate value="${orcamento.dataExpiracao}" pattern="dd/MM/yyyy"/></td>
+                <td><a href="controller?acao=orcamento&tipo=comecarVendaOrcamento&id=${orcamento.id}">Vender</a></td>
+                <td><a href="controller?acao=orcamento&tipo=excluirOrcamento&id=${orcamento.id}">Excluir</a></td>
+            </tr>
+        </c:forEach>
+    </table>
+</center>
 </body>
 </html>

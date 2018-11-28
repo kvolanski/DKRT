@@ -19,12 +19,14 @@ public class VendaDAOImpl implements VendaDAO {
     public int abrirVenda(VendaDTO vendaDTO) {
         int id = 0;
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO vendas (venda_status, venda_motivoCancelamento, cliente_id) VALUES " +
-                    "(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO vendas (venda_status, venda_desconto, venda_motivoCancelamento, venda_vendaOrcamento, cliente_id) VALUES " +
+                    "(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, vendaDTO.getStatus());
-            preparedStatement.setString(2, vendaDTO.getMotivoCancelamento());
-            preparedStatement.setInt(3, vendaDTO.getClienteDTO().getId());
+            preparedStatement.setInt(2, vendaDTO.getDesconto());
+            preparedStatement.setString(3, vendaDTO.getMotivoCancelamento());
+            preparedStatement.setString(4, vendaDTO.getVendaOrcamento());
+            preparedStatement.setInt(5, vendaDTO.getClienteDTO().getId());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -128,7 +130,7 @@ public class VendaDAOImpl implements VendaDAO {
     public List<VendaDTO> listarVendas() {
         List<VendaDTO> listaVendas = new ArrayList<>();
         String sql = "SELECT vendas.venda_id, vendas.venda_valorTotal, vendas.venda_formaDePagamento, vendas.venda_parcelas, vendas.venda_valorParcela, " +
-                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, vendas.venda_motivoCancelamento, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
+                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, vendas.venda_motivoCancelamento, vendas.venda_vendaOrcamento, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
                 "clientes.cliente_cpf, clientes.cliente_dtNasc, clientes.cliente_email, clientes.cliente_celular, clientes.cliente_telefone, " +
                 "clientes.cliente_ativo, clientes.cliente_observacao, enderecos.endereco_id, enderecos.endereco_cep, enderecos.endereco_rua, " +
                 "enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, enderecos.endereco_cidade, ufs.uf_id, " +
@@ -157,7 +159,7 @@ public class VendaDAOImpl implements VendaDAO {
     public VendaDTO buscaVenda(int id) {
         VendaDTO vendaBusca = new VendaDTO();
         String sql = "SELECT vendas.venda_id, vendas.venda_valorTotal, vendas.venda_formaDePagamento, vendas.venda_parcelas, vendas.venda_valorParcela, " +
-                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, vendas.venda_motivoCancelamento, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
+                "vendas.venda_status, vendas.venda_desconto, vendas.venda_dataDeVenda, vendas.venda_motivoCancelamento, vendas.venda_vendaOrcamento,clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, " +
                 "clientes.cliente_cpf, clientes.cliente_dtNasc, clientes.cliente_email, clientes.cliente_celular, clientes.cliente_telefone, " +
                 "clientes.cliente_ativo, clientes.cliente_observacao, enderecos.endereco_id, enderecos.endereco_cep, enderecos.endereco_rua, " +
                 "enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, enderecos.endereco_cidade, ufs.uf_id, " +
@@ -263,6 +265,7 @@ public class VendaDAOImpl implements VendaDAO {
         vendaBusca.setDesconto(resultSet.getInt("venda_desconto"));
         vendaBusca.setDataDeVenda(resultSet.getTimestamp("venda_dataDeVenda"));
         vendaBusca.setMotivoCancelamento(resultSet.getString("venda_motivoCancelamento"));
+        vendaBusca.setVendaOrcamento(resultSet.getString("venda_vendaOrcamento"));
         return vendaBusca;
     }
 

@@ -29,13 +29,12 @@
         <li><a>ORÇAMENTOS</a>
             <ul>
                 <li><a href="controller?acao=orcamento&tipo=iniciarOrcamento">Gerar orçamento</a></li>
-                <li><a href="controller?acao=orcamento&tipo=salvos">Orçamentos Salvos</a></li>
+                <li><a href="controller?acao=orcamento&tipo=listarOrcamentos">Listar Orçamentos</a></li>
             </ul>
         </li>
         <li><a>ESTOQUE</a>
             <ul>
                 <li><a href="controller?acao=estoque&tipo=listarEstoque">Abrir Estoque</a></li>
-                <li><a href="controller?acao=orcamento&tipo=salvos">Orçamentos Salvos</a></li>
             </ul>
         </li>
         <li><a>RELATÓRIOS</a>

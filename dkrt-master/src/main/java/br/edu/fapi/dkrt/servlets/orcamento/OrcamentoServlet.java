@@ -59,8 +59,17 @@ public class OrcamentoServlet extends AbstractBaseHttpServlet {
         if ("finalizarOrcamento".equalsIgnoreCase(tipo)) {
             OrcamentoDTO orcamentoDTO = orcamentoMapper.doMap(req);
             OrcamentoBusiness orcamentoBusiness = new OrcamentoBusinessImpl();
-            if (orcamentoBusiness.finalizarOrcamento(orcamentoDTO)){
+            OrcamentoDAO orcamentoDAO = new OrcamentoDAOImpl();
+            if (orcamentoBusiness.finalizarOrcamento(orcamentoDTO)) {
+                List<OrcamentoDTO> listaOrcamentos = orcamentoDAO.listarOrcamentos();
+                setSessionAttribute(req, "listaOrcamentos", listaOrcamentos);
+                req.getSession().removeAttribute("orcamentoBusca");
                 req.getRequestDispatcher("WEB-INF/orcamento/listarOrcamentos.jsp").forward(req, resp);
+            } else {
+                OrcamentoDTO orcamentoBusca = (OrcamentoDTO) req.getSession().getAttribute("orcamentoBusca");
+                List<PedidoDTO> listaPedido = orcamentoDAO.listarPedidosOrcamento(orcamentoBusca.getId());
+                setSessionAttribute(req, "listaPedido", listaPedido);
+                req.getRequestDispatcher("WEB-INF/vendaOrcamento/finalizacaoOrcamento.jsp").forward(req, resp);
             }
         }
     }
@@ -84,6 +93,7 @@ public class OrcamentoServlet extends AbstractBaseHttpServlet {
         if ("comecoOrcamento".equalsIgnoreCase(tipo)) {
             ClienteDAO clienteDAO = new ClienteDAOImpl();
             ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            OrcamentoDAO orcamentoDAO = new OrcamentoDAOImpl();
             OrcamentoBusiness orcamentoBusiness = new OrcamentoBusinessImpl();
             String id = req.getParameter("idCliente");
             ClienteDTO clienteBusca = clienteDAO.buscarCliente(Integer.parseInt(id));
@@ -99,6 +109,8 @@ public class OrcamentoServlet extends AbstractBaseHttpServlet {
             }
             orcamentoDTO.setId(orcamentoBusiness.abrirOrcamento(orcamentoDTO));
             List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+            List<PedidoDTO> listaPedido = orcamentoDAO.listarPedidosOrcamento(orcamentoDTO.getId());
+            setSessionAttribute(req, "listaPedido", listaPedido);
             req.getSession().setAttribute("orcamentoBusca", orcamentoDTO);
             setSessionAttribute(req, "clienteBusca", clienteBusca);
             setSessionAttribute(req, "listaProdutos", listaProdutos);
@@ -147,7 +159,35 @@ public class OrcamentoServlet extends AbstractBaseHttpServlet {
                 setSessionAttribute(req, "listaPedido", listaPedido);
                 req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
             }
+        }
 
+        if ("listarOrcamentos".equalsIgnoreCase(tipo)) {
+            OrcamentoBusiness orcamentoBusiness = new OrcamentoBusinessImpl();
+            List<OrcamentoDTO> listaOrcamentos = orcamentoBusiness.confereListaOrcamentos();
+            setSessionAttribute(req, "listaOrcamentos", listaOrcamentos);
+            req.getRequestDispatcher("WEB-INF/orcamento/listarOrcamentos.jsp").forward(req, resp);
+        }
+
+        if ("excluirOrcamento".equalsIgnoreCase(tipo)){
+            OrcamentoBusiness orcamentoBusiness = new OrcamentoBusinessImpl();
+            OrcamentoDAO orcamentoDAO = new OrcamentoDAOImpl();
+            String idOrcamento = req.getParameter("id");
+            if (orcamentoBusiness.excluirOrcamento(Integer.parseInt(idOrcamento))){
+                List<OrcamentoDTO> listaOrcamentos = orcamentoDAO.listarOrcamentos();
+                setSessionAttribute(req, "listaOrcamentos", listaOrcamentos);
+                req.getRequestDispatcher("WEB-INF/orcamento/listarOrcamentos.jsp").forward(req, resp);
+            }
+        }
+
+        if ("comecarVendaOrcamento".equalsIgnoreCase(tipo)){
+            OrcamentoBusiness orcamentoBusiness = new OrcamentoBusinessImpl();
+            OrcamentoDAO orcamentoDAO = new OrcamentoDAOImpl();
+            String idOrcamento = req.getParameter("id");
+            OrcamentoDTO orcamentoDTO = orcamentoDAO.buscarOrcamento(Integer.parseInt(idOrcamento));
+            orcamentoDTO.setStatus("Vendido");
+            int idVenda = orcamentoBusiness.adicionaIdVendaOrcamento(orcamentoDTO);
+            req.getSession().setAttribute("idVenda", idVenda);
+            req.getRequestDispatcher("venda?tipo=finalizarVenda").forward(req, resp);
         }
     }
 

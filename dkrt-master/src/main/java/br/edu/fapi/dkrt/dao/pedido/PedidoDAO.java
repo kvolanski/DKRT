@@ -7,4 +7,6 @@ public interface PedidoDAO {
     PedidoDTO buscaPedido(int id, String tipo);
 
     boolean retirarPedido(int id);
+
+    boolean retirarPedidoOrcamento(int id);
 }
