@@ -28,19 +28,32 @@
             <th>Valor do Orçamento</th>
             <th>Desconto(%)</th>
             <th>Expiração</th>
+            <th>Status</th>
             <th colspan="3">Ação</th>
         </tr>
         <c:forEach var="orcamento" items="${listaOrcamentos}">
             <tr>
-                <td>${orcamento.id}</td>
-                <td>${orcamento.clienteDTO.nome}</td>
-                <td>${orcamento.clienteDTO.email}</td>
-                <td>${orcamento.clienteDTO.celular}</td>
-                <td>${orcamento.valorTotal}</td>
-                <td>${orcamento.desconto}</td>
-                <td><fmt:formatDate value="${orcamento.dataExpiracao}" pattern="dd/MM/yyyy"/></td>
-                <td><a href="controller?acao=orcamento&tipo=comecarVendaOrcamento&id=${orcamento.id}">Vender</a></td>
-                <td><a href="controller?acao=orcamento&tipo=excluirOrcamento&id=${orcamento.id}">Excluir</a></td>
+                <c:if test="${orcamento.status != 'Incompleto'}">
+                    <td>${orcamento.id}</td>
+                    <td>${orcamento.clienteDTO.nome}</td>
+                    <td>${orcamento.clienteDTO.email}</td>
+                    <td>${orcamento.clienteDTO.celular}</td>
+                    <td>${orcamento.valorTotal}</td>
+                    <td>${orcamento.desconto}</td>
+                    <c:if test="${orcamento.dataExpiracao == null}">
+                        <td>N/A</td>
+                    </c:if>
+                    <c:if test="${orcamento.dataExpiracao != null}">
+                        <td><fmt:formatDate value="${orcamento.dataExpiracao}" pattern="dd/MM/yyyy"/></td>
+                    </c:if>
+                    <td>${orcamento.status}</td>
+                    <c:if test="${orcamento.status != 'Expirado' && orcamento.status != 'Vendido'}">
+                        <td><a href="controller?acao=orcamento&tipo=comecarVendaOrcamento&id=${orcamento.id}">Vender</a>
+                        </td>
+                        <td><a href="controller?acao=orcamento&tipo=excluirOrcamento&id=${orcamento.id}">Excluir</a>
+                        </td>
+                    </c:if>
+                </c:if>
             </tr>
         </c:forEach>
     </table>

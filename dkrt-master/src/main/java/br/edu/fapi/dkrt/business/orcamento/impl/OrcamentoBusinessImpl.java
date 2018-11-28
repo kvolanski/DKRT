@@ -77,7 +77,7 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
     @Override
     public boolean finalizarOrcamento(OrcamentoDTO orcamentoDTO) {
         if (orcamentoDTO != null) {
-            if (orcamentoDTO.getDataExpiracao() != null){
+            if (orcamentoDTO.getDataExpiracao() != null) {
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String data = dateFormat.format(new Date());
                 String dataOrcamento = dateFormat.format(orcamentoDTO.getDataExpiracao());
@@ -89,7 +89,7 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
                     e.printStackTrace();
                 }
 
-                if (orcamentoDTO.getDataExpiracao().before(date)){
+                if (orcamentoDTO.getDataExpiracao().before(date)) {
                     return false;
                 }
             }
@@ -151,15 +151,18 @@ public class OrcamentoBusinessImpl implements OrcamentoBusiness {
             e.printStackTrace();
         }
         for (OrcamentoDTO orcamento : listaOrcamentos) {
-            String dataOrcamento = dateFormat.format(orcamento.getDataExpiracao());
-            try {
-                orcamento.setDataExpiracao(dateFormat.parse(dataOrcamento));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (orcamento.getDataExpiracao().before(date)) {
-                orcamento.setStatus("Expirado");
-                orcamentoDAO.atualizarStatusOrcamento(orcamento);
+            if (orcamento.getDataExpiracao() != null) {
+                String dataOrcamento = dateFormat.format(orcamento.getDataExpiracao());
+                try {
+                    orcamento.setDataExpiracao(dateFormat.parse(dataOrcamento));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if (orcamento.getDataExpiracao().before(date)) {
+                    orcamento.setStatus("Expirado");
+                    orcamentoDAO.atualizarStatusOrcamento(orcamento);
+                }
             }
         }
         listaOrcamentos = orcamentoDAO.listarOrcamentos();

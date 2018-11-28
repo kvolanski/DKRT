@@ -1,14 +1,16 @@
 package br.edu.fapi.dkrt.business.cadastro.impl;
 
 import br.edu.fapi.dkrt.business.cadastro.ClienteBusiness;
-import br.edu.fapi.dkrt.validators.cliente.ClienteValidator;
-import br.edu.fapi.dkrt.validators.cliente.impl.ClienteValidatorImpl;
 import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
 import br.edu.fapi.dkrt.dao.cliente.impl.ClienteDAOImpl;
 import br.edu.fapi.dkrt.dao.endereco.EnderecoDAO;
 import br.edu.fapi.dkrt.dao.endereco.impl.EnderecoDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.endereco.EnderecoDTO;
+import br.edu.fapi.dkrt.validators.cliente.ClienteValidator;
+import br.edu.fapi.dkrt.validators.cliente.impl.ClienteValidatorImpl;
+
+import java.util.List;
 
 public class ClienteBusinessImpl implements ClienteBusiness {
     EnderecoDAO enderecoDAO;
@@ -34,6 +36,12 @@ public class ClienteBusinessImpl implements ClienteBusiness {
             }
         }
         return condicao;
+    }
+
+    @Override
+    public List<ClienteDTO> pesquisarClienteLikeNome(String palavra) {
+        List<ClienteDTO> listaClientesLike = clienteDAO.pesquisarClienteLikeNome(palavra);
+        return listaClientesLike;
     }
 
 }

@@ -49,7 +49,7 @@
                 <li><a href="controller?acao=pesquisa&tipo=produto">Produto</a></li>
             </ul>
         </li>
-        <%--<li><a href='index.html' onclick="alert('VOCÊ ESTA SAINDO DO SISTEMA, ATE MAIS')">SAIR</a></li>--%>
+        <li><a href="controller?acao=login&tipo=deslogar" onclick="alert('VOCÊ ESTA SAINDO DO SISTEMA, ATE MAIS')">SAIR</a></li>
     </ul>
 </div>
 <br><br><br>

@@ -162,4 +162,68 @@ public class ClienteDAOImpl implements ClienteDAO {
         }
         return clienteBusca;
     }
+
+    @Override
+    public List<ClienteDTO> pesquisarClienteLikeNome(String palavra) {
+        List<ClienteDTO> listaClientesLike = new ArrayList<>();
+        String sql = "SELECT clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, clientes.cliente_cpf, " +
+                "clientes.cliente_dtNasc, clientes.cliente_email, clientes.cliente_celular, clientes.cliente_telefone, clientes.cliente_ativo, " +
+                "clientes.cliente_dataDeCadastro, clientes.cliente_dataDeAlteracao, clientes.cliente_observacao, enderecos.endereco_id, " +
+                "enderecos.endereco_cep, enderecos.endereco_rua, enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, " +
+                "enderecos.endereco_cidade, ufs.uf_id, ufs.uf_sigla, ufs.uf_nome FROM clientes INNER JOIN enderecos ON clientes.endereco_id = enderecos.endereco_id " +
+                "INNER JOIN ufs ON enderecos.uf_id = ufs.uf_id WHERE clientes.cliente_nome LIKE '%" + palavra + "%'";
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ClienteDTO clienteDTO = fillCliente(resultSet);
+                listaClientesLike.add(clienteDTO);
+            }
+
+            return listaClientesLike;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return listaClientesLike;
+    }
+
+    private ClienteDTO fillCliente(ResultSet resultSet) throws SQLException {
+        UfDTO ufDTO = new UfDTO();
+        ufDTO.setId(resultSet.getInt("uf_id"));
+        ufDTO.setSigla(resultSet.getString("uf_sigla"));
+        ufDTO.setNome(resultSet.getString("uf_nome"));
+        EnderecoDTO enderecoDTO = new EnderecoDTO();
+        enderecoDTO.setUfDTO(ufDTO);
+        enderecoDTO.setId(resultSet.getInt("endereco_id"));
+        enderecoDTO.setCep(resultSet.getString("endereco_cep"));
+        enderecoDTO.setRua(resultSet.getString("endereco_rua"));
+        enderecoDTO.setNumero(resultSet.getString("endereco_numero"));
+        enderecoDTO.setBairro(resultSet.getString("endereco_bairro"));
+        enderecoDTO.setCidade(resultSet.getString("endereco_cidade"));
+        ClienteDTO clienteBusca = new ClienteDTO();
+        clienteBusca.setEnderecoDTO(enderecoDTO);
+        clienteBusca.setId(resultSet.getInt("cliente_id"));
+        clienteBusca.setNome(resultSet.getString("cliente_nome"));
+        clienteBusca.setNomeSocial(resultSet.getString("cliente_nomeSocial"));
+        clienteBusca.setRg(resultSet.getString("cliente_rg"));
+        clienteBusca.setCpf(resultSet.getString("cliente_cpf"));
+        clienteBusca.setDtNascimento(resultSet.getDate("cliente_dtNasc"));
+        clienteBusca.setEmail(resultSet.getString("cliente_email"));
+        clienteBusca.setCelular(resultSet.getString("cliente_celular"));
+        clienteBusca.setTelefone(resultSet.getString("cliente_telefone"));
+        int aux = resultSet.getInt("cliente_ativo");
+        if (aux == 1){
+            clienteBusca.setAtivo(true);
+        } else {
+            clienteBusca.setAtivo(false);
+        }
+        clienteBusca.setDataCadastro(resultSet.getDate("cliente_dataDeCadastro"));
+        clienteBusca.setDataAlteracao(resultSet.getDate("cliente_dataDeAlteracao"));
+        clienteBusca.setObservacao(resultSet.getString("cliente_observacao"));
+        return clienteBusca;
+    }
 }
