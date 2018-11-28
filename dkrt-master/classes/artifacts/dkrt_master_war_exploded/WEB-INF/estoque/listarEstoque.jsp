@@ -19,21 +19,23 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <center>
-    <table style="text-align: center">
-        <tr>
-            <th>ID do produto</th>
-            <th>Produto</th>
-            <th>Descrição</th>
-            <th>Preço de Venda</th>
-            <th>Preço de Custo</th>
-            <th>Quantidade em Estoque</th>
-            <th>Ativo</th>
-            <th>Data de Cadastro</th>
-            <th>Última modificação</th>
-            <th>Ação</th>
+
+    <table width="90%" align="center" cellpadding="10">
+
+        <tr align="center" bgcolor="#EDEDED">
+            <td><strong>ID do produto</strong></td>
+            <td><strong>Produto</strong></td>
+            <td><strong>Descrição</strong></td>
+            <td><strong>Preço de Venda</strong></td>
+            <td><strong>Preço de Custo</strong></td>
+            <td><strong>Quantidade em Estoque</strong></td>
+            <td><strong>Ativo</strong></td>
+            <td><strong>Data de Cadastro</strong></td>
+            <td><strong>Última modificação</strong></td>
+            <td><strong>Ação</strong></td>
         </tr>
-        <c:forEach var="produto" items="${listaProdutos}">
-            <tr>
+         <c:forEach var="produto" items="${listaProdutos}">
+            <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                 <td>${produto.id}</td>
                 <td>${produto.nome}</td>
                 <td>${produto.descricao}</td>
@@ -43,7 +45,7 @@
                 <td>${produto.ativo}</td>
                 <td><fmt:formatDate value="${produto.dataCadastro}" pattern="dd/MM/yyyy"/></td>
                 <td><fmt:formatDate value="${produto.dataAlteracao}" pattern="dd/MM/yyyy"/></td>
-                <td><a href="controller?acao=estoque&tipo=alteraProduto&idProduto=${produto.id}">Editar</a></td>
+                <td class="editar"><a href="controller?acao=estoque&tipo=alteraProduto&idProduto=${produto.id}">EDITAR</a></td>
             </tr>
         </c:forEach>
     </table>
