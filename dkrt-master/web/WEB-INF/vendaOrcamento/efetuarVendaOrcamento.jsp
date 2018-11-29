@@ -109,9 +109,9 @@
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
-            <label>Quantidade:<input type="number" name="quantidadeProduto" id="campoQuantidade" value="0"
+            <label>Quantidade:<input type="number" min="0" name="quantidadeProduto" id="campoQuantidade" value="0"
                                      class="form-control"></label>
-            <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="valorUnitProduto"
+            <label>Valor Un.:<input value="${produtoBusca.precoVenda}" min="0" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
             <label>Qtd. em Estoque:<input value="${produtoBusca.qtdEstoque}" type="number" disabled="disabled" class="form-control"></label><br><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
