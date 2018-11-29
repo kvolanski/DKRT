@@ -132,7 +132,7 @@ public class OrcamentoDAOImpl implements OrcamentoDAO {
         List<OrcamentoDTO> listaOrcamentos = new ArrayList<>();
         String sql = "SELECT orcamentos.orcamento_id, orcamentos.orcamento_valorTotal, orcamentos.orcamento_status, orcamentos.orcamento_desconto, " +
                 "orcamentos.orcamento_dataGeracao, orcamentos.orcamento_dataExpiracao, clientes.cliente_id, clientes.cliente_nome, clientes.cliente_email, " +
-                "clientes.cliente_celular FROM orcamentos INNER JOIN clientes ON orcamentos.cliente_id = clientes.cliente_id";
+                "clientes.cliente_celular FROM orcamentos INNER JOIN clientes ON orcamentos.cliente_id = clientes.cliente_id ORDER BY orcamentos.orcamento_id";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
