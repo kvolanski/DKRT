@@ -67,7 +67,7 @@
     </label>
     <label>Desconto(%): <input type="number" name="descontoVenda" value="${vendaBusca.desconto}" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
     <br><br><br>
-    <input type="submit" value="Fechar Venda" id="enviarInf" disabled>
+    <input type="submit" value="Fechar Venda" id="enviarInf" disabled class="btn btn-success">
 </form>
 </center>
 

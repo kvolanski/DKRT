@@ -156,7 +156,7 @@
                 <c:when test="${tipoDeAcao == 'orcamento'}">
                     <input type="hidden" value="orcamento" name="acao">
                     <input type="hidden" value="finalizarOrcamento" name="tipo">
-                    <input type="submit" value="Finalizar Orcamento" id="botaoFinalizar">
+                    <input type="submit" value="Finalizar Orcamento" id="botaoFinalizar" class="btn btn-success">
                 </c:when>
                 <c:otherwise>
                     <input type="hidden" value="venda" name="acao">

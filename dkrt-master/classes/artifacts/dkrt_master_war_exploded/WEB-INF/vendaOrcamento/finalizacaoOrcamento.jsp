@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>Orçamento nº ${orcamentoBusca.id}</title>
+
     <style>
         <%@include file="../estilo/estilo.css" %>
     </style>
@@ -19,16 +20,16 @@
 <center>
     <h1>Orçamento número ${orcamentoBusca.id}</h1>
     <h2>Lista de produtos</h2><br>
-    <table>
-        <tr>
-            <th>Produto</th>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Valor Unit.</th>
-            <th>Valor Total</th>
+    <table width="90%" align="center" cellpadding="10">
+        <tr align="center" bgcolor="#EDEDED">
+            <td><strong>Produto</strong></td>
+            <td><strong>Descrição</strong></td>
+            <td><strong>Quantidade</strong></td>
+            <td><strong>Valor Unit.</strong></td>
+            <td><strong>Valor Total</strong></td>
         </tr>
         <c:forEach var="pedido" items="${listaPedido}">
-            <tr>
+            <tr align="center" bgcolor="#EDEDED">
                 <td>${pedido.produtoDTO.nome}</td>
                 <td>${pedido.produtoDTO.descricao}</td>
                 <td>${pedido.quantidade}</td>
@@ -39,16 +40,17 @@
     </table>
     <br><br><br>
     <input type="hidden" value="${valorTotal}" id="valorTotal">
-    Valor Total: <label id="displayValorTotal"></label>
+    <hr>
+    <label class="txt2">Valor Total: </label><label class="txt" id="displayValorTotal"></label>
     <br><br>
     <form method="post" action="controller">
         <input type="hidden" value="orcamento" name="acao">
         <input type="hidden" value="finalizarOrcamento" name="tipo">
-        <label><input type="checkbox" id="expiracao">Escolher data de expiração do Orçamento</label><br>
+        <label class="txt2">Escolher data de expiração do Orçamento <input style="font-size: 50px;" type="checkbox" id="expiracao"></label><br>
         <label id="displayData" hidden><input type="date" name="dataExpiracao"></label>
         <label>Desconto(%): <input type="number" name="descontoOrcamento" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
         <br><br><br>
-        <input type="submit" value="Fechar Orçamento" id="enviarInf">
+        <input type="submit" value="Fechar Orçamento" id="enviarInf" class="btnInterno">
     </form>
 </center>
 
