@@ -39,16 +39,19 @@
         </c:forEach>
     </table>
     <br><br><br>
-    <input type="hidden" value="${valorTotal}" id="valorTotal">
+
     <hr>
-    <label class="txt2">Valor Total: </label><label class="txt" id="displayValorTotal"></label>
+
     <br><br>
     <form method="post" action="controller">
         <input type="hidden" value="orcamento" name="acao">
         <input type="hidden" value="finalizarOrcamento" name="tipo">
-        <label class="txt2">Escolher data de expiração do Orçamento <input style="font-size: 50px;" type="checkbox" id="expiracao"></label><br>
+        <label class="txt2">Escolher data de expiração do Orçamento <input type="checkbox" id="expiracao"></label><br><br><br>
         <label id="displayData" hidden><input type="date" name="dataExpiracao"></label>
         <label>Desconto(%): <input type="number" name="descontoOrcamento" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
+        <br>
+        <input type="hidden" value="${valorTotal}" id="valorTotal">
+        <label class="txt2">Valor Total: </label><label class="txt" id="displayValorTotal"></label>
         <br><br><br>
         <input type="submit" value="Fechar Orçamento" id="enviarInf" class="btnInterno">
     </form>

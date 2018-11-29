@@ -20,20 +20,20 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <center>
-    <table>
-        <tr>
-            <th>Nº Orçamento</th>
-            <th>Nome do Cliente</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>Valor do Orçamento</th>
-            <th>Desconto(%)</th>
-            <th>Expiração</th>
-            <th>Status</th>
-            <th colspan="3">Ação</th>
+    <table width="90%" align="center" cellpadding="10">
+        <tr align="center" bgcolor="#EDEDED">
+            <td><strong>Nº Orçamento</strong></td>
+            <td><strong>Nome do Cliente</strong></td>
+            <td><strong>Email</strong></td>
+            <td><strong>Telefone</strong></td>
+            <td><strong>Valor do Orçamento</strong></td>
+            <td><strong>Desconto(%)</strong></td>
+            <td><strong>Expiração</strong></td>
+            <td><strong>Status</strong></td>
+            <td colspan="3"><strong>Ação</strong></td>
         </tr>
         <c:forEach var="orcamento" items="${listaOrcamentos}">
-            <tr>
+            <tr align="center" bgcolor="#EDEDED">
                 <c:if test="${orcamento.status != 'Incompleto'}">
                     <td>${orcamento.id}</td>
                     <td>${orcamento.clienteDTO.nome}</td>
@@ -49,9 +49,9 @@
                     </c:if>
                     <td>${orcamento.status}</td>
                     <c:if test="${orcamento.status != 'Expirado' && orcamento.status != 'Vendido'}">
-                        <td><a href="controller?acao=orcamento&tipo=comecarVendaOrcamento&id=${orcamento.id}">Vender</a>
+                        <td class="finalziar"><a href="controller?acao=orcamento&tipo=comecarVendaOrcamento&id=${orcamento.id}">Vender</a>
                         </td>
-                        <td><a href="controller?acao=orcamento&tipo=excluirOrcamento&id=${orcamento.id}">Excluir</a>
+                        <td class="cancelar"><a href="controller?acao=orcamento&tipo=excluirOrcamento&id=${orcamento.id}">Excluir</a>
                         </td>
                     </c:if>
                 </c:if>
