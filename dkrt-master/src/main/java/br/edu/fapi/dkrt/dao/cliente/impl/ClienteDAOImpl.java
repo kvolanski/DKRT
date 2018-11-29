@@ -127,34 +127,10 @@ public class ClienteDAOImpl implements ClienteDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){
-                UfDTO ufDTO = new UfDTO();
-                ufDTO.setId(resultSet.getInt("uf_id"));
-                ufDTO.setSigla(resultSet.getString("uf_sigla"));
-                ufDTO.setNome(resultSet.getString("uf_nome"));
-                EnderecoDTO enderecoDTO = new EnderecoDTO();
-                enderecoDTO.setUfDTO(ufDTO);
-                enderecoDTO.setId(resultSet.getInt("endereco_id"));
-                enderecoDTO.setCep(resultSet.getString("endereco_cep"));
-                enderecoDTO.setRua(resultSet.getString("endereco_rua"));
-                enderecoDTO.setNumero(resultSet.getString("endereco_numero"));
-                enderecoDTO.setComplemento(resultSet.getString("endereco_complemento"));
-                enderecoDTO.setBairro(resultSet.getString("endereco_bairro"));
-                enderecoDTO.setCidade(resultSet.getString("endereco_cidade"));
-                clienteBusca.setEnderecoDTO(enderecoDTO);
-                clienteBusca.setId(resultSet.getInt("cliente_id"));
-                clienteBusca.setNome(resultSet.getString("cliente_nome"));
-                clienteBusca.setNomeSocial(resultSet.getString("cliente_nomeSocial"));
-                clienteBusca.setRg(resultSet.getString("cliente_rg"));
-                clienteBusca.setCpf(resultSet.getString("cliente_cpf"));
-                clienteBusca.setDtNascimento(resultSet.getDate("cliente_dtNasc"));
-                clienteBusca.setEmail(resultSet.getString("cliente_email"));
-                clienteBusca.setCelular(resultSet.getString("cliente_celular"));
-                clienteBusca.setTelefone(resultSet.getString("cliente_telefone"));
-                clienteBusca.setAtivo((resultSet.getInt("cliente_ativo") == 1) ? true : false);
-                clienteBusca.setDataCadastro(resultSet.getDate("cliente_dataDeCadastro"));
-                clienteBusca.setDataAlteracao(resultSet.getDate("cliente_dataDeAlteracao"));
-                clienteBusca.setObservacao(resultSet.getString("cliente_observacao"));
+                clienteBusca = fillCliente(resultSet);
             }
+
+            return clienteBusca;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

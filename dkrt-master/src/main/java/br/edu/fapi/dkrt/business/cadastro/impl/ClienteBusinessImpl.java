@@ -44,4 +44,10 @@ public class ClienteBusinessImpl implements ClienteBusiness {
         return listaClientesLike;
     }
 
+    @Override
+    public ClienteDTO buscarClienteId(int id) {
+        ClienteDTO clienteBusca= clienteDAO.buscarCliente(id);
+        return clienteBusca;
+    }
+
 }

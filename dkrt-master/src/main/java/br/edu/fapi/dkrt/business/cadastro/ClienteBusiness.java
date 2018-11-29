@@ -10,4 +10,6 @@ public interface ClienteBusiness {
 
     List<ClienteDTO> pesquisarClienteLikeNome(String palavra);
 
+    ClienteDTO buscarClienteId(int id);
+
 }
