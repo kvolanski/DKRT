@@ -38,12 +38,6 @@
                 <li><a href="controller?acao=estoque&tipo=listarEstoque">Abrir Estoque</a></li>
             </ul>
         </li>
-        <li><a>RELATÓRIOS</a>
-            <ul>
-                <li><a href="controller?acao=relatorio&tipo=venda">Venda</a></li>
-                <li><a href="controller?acao=relatorio&tipo=estoque">Estoque</a></li>
-            </ul>
-        </li>
         <li><a>PESQUISAR</a>
             <ul>
                 <li><a href="controller?acao=pesquisa&tipo=cliente">Cliente</a></li>
