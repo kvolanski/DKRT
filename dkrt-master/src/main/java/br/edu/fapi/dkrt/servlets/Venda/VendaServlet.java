@@ -167,6 +167,7 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaClientes", listaClientes);
             setSessionAttribute(req, "mostraCliente", "nao");
             setSessionAttribute(req, "vendaBusca", vendaDTO);
+            setSessionAttribute(req, "tipoDeAcao", "venda");
             req.getSession().setAttribute("clienteBusca", clienteBusca);
             req.getSession().setAttribute("idVenda", vendaDTO.getId());
             req.getRequestDispatcher("WEB-INF/vendaOrcamento/efetuarVendaOrcamento.jsp").forward(req, resp);
