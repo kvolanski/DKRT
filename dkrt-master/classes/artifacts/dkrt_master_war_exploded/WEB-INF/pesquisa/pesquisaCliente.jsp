@@ -20,14 +20,16 @@
 
 <span class="geral">
     <form method="get" action="controller">
-        <input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por nome
-        <input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por id
-        <input type="radio" value="checkNumCompras" id="checkNumCompras" name="checkTudo"
-               onclick="validaTipoPesquisa()"> Listar por número de compras
+
+        <label><input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por nome</label><br>
+        <label><input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por id</label><br>
+        <label><input type="radio" value="checkNumCompras" id="checkNumCompras" name="checkTudo"
+               onclick="validaTipoPesquisa()"> Listar por número de compras</label>
+
         <input type="hidden" value="pesquisa" name="acao">
         <input type="hidden" value="clientePesquisa" name="tipo">
-        <br><br><label id="nomePesquisa" hidden>Nome: <input type="text" id="inputNomePesquisa" name="nomePesquisa"
-                                                             class="form-control"></label>
+        <br><br>
+        <label id="nomePesquisa" hidden>Nome: <input type="text" id="inputNomePesquisa" name="nomePesquisa" class="form-control"></label>
         <label id="idPesquisa" hidden>Id: <!--<input type="number" id="inputIdPesquisa" name="idPesquisa"
                                                  class="form-control">-->
             <select name="idPesquisa" id="selectIdPesquisa">
@@ -43,23 +45,23 @@
 <c:if test="${mostraTable == 'sim'}">
     <br>
     <center>
-        <table style="text-align: center">
-            <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Nome Social</th>
-                <th>RG</th>
-                <th>CPF</th>
-                <th>Dt. Nasc.</th>
-                <th>Email</th>
-                <th>Celular</th>
-                <th>Telefone</th>
-                <th>Ativo</th>
-                <th>Observação do Cliente</th>
-                <th>Numero de Compras </th>
+        <table width="90%" align="center" cellpadding="10">
+            <tr align="center" bgcolor="#EDEDED">
+                <td><strong>Id</strong></td>
+                <td><strong>Nome</strong></td>
+                <td><strong>Nome Social</strong></td>
+                <td><strong>RG</strong></td>
+                <td><strong>CPF</strong></td>
+                <td><strong>Dt. Nasc.</strong></td>
+                <td><strong>Email</strong></td>
+                <td><strong>Celular</strong></td>
+                <td><strong>Telefone</strong></td>
+                <td><strong>Ativo</strong></td>
+                <td><strong>Observação do Cliente</strong></td>
+                <td><strong>Numero de Compras</strong></td>
             </tr>
             <c:forEach var="cliente" items="${listaClientesLike}">
-                <tr>
+                <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                     <td>${cliente.id}</td>
                     <td>${cliente.nome}</td>
                     <td>${cliente.nomeSocial}</td>
@@ -85,30 +87,33 @@
     <center>
         <fieldset>
             <legend>Informações Pessoais</legend>
-            <label>Nome: ${clienteBusca.nome}</label><br>
-            <label>Nome Social: ${clienteBusca.nomeSocial}</label><br>
-            <label>RG: ${clienteBusca.rg}</label><br>
-            <label>CPF: ${clienteBusca.cpf}</label><br>
-            <label>Dt. Nasc.: <fmt:formatDate value="${clienteBusca.dtNascimento}" pattern="dd/MM/yyyy"/></label><br>
-            <label>E-mail: ${clienteBusca.email}</label><br>
-            <label>Observação: ${clienteBusca.observacao}</label><br>
+            <label class="formInterno" style="width: 300px;">Nome: ${clienteBusca.nome}</label>
+            <label class="formInterno" style="width: 300px;">Nome Social: ${clienteBusca.nomeSocial}</label>
+            <label class="formInterno" style="width: 300px;">RG: ${clienteBusca.rg}</label>
+            <label class="formInterno" style="width: 300px;">CPF: ${clienteBusca.cpf}</label>
+            <label class="formInterno" style="width: 300px;">Dt. Nasc.: <fmt:formatDate value="${clienteBusca.dtNascimento}" pattern="dd/MM/yyyy"/></label>
+            <label class="formInterno" style="width: 300px;">E-mail: ${clienteBusca.email}</label>
+            <label class="formInterno" style="width: 300px;">Observação: ${clienteBusca.observacao}</label><br>
+
         </fieldset>
         <fieldset>
             <legend>Endereço</legend>
-            <label>Nome da rua: ${clienteBusca.enderecoDTO.rua}</label><br>
-            <label>CEP: ${clienteBusca.enderecoDTO.cep}</label><br>
-            <label>Número da residência: ${clienteBusca.enderecoDTO.numero}</label><br>
-            <label>Complemento: ${clienteBusca.enderecoDTO.complemento}</label><br>
-            <label>Bairro: ${clienteBusca.enderecoDTO.bairro}</label><br>
-            <label>Cidade: ${clienteBusca.enderecoDTO.cidade}</label><br>
-            <label>Estado: ${clienteBusca.enderecoDTO.ufDTO.sigla}</label><br>
+            <label class="formInterno" style="width: 300px;">Nome da rua: ${clienteBusca.enderecoDTO.rua}</label>
+            <label class="formInterno" style="width: 300px;">CEP: ${clienteBusca.enderecoDTO.cep}</label>
+            <label class="formInterno" style="width: 300px;">Número da residência: ${clienteBusca.enderecoDTO.numero}</label>
+            <label class="formInterno" style="width: 300px;">Complemento: ${clienteBusca.enderecoDTO.complemento}</label>
+            <label class="formInterno" style="width: 300px;">Bairro: ${clienteBusca.enderecoDTO.bairro}</label>
+            <label class="formInterno" style="width: 300px;">Cidade: ${clienteBusca.enderecoDTO.cidade}</label>
+            <label class="formInterno" style="width: 300px;">Estado: ${clienteBusca.enderecoDTO.ufDTO.sigla}</label>
         </fieldset>
         <fieldset>
             <legend>Informações Adicionais</legend>
-            <label>Número de compras realizadas: ${clienteBusca.numeroCompras}</label><br>
+            <label class="formInterno" style="width: 300px;">Número de compras realizadas: ${clienteBusca.numeroCompras}</label>
         </fieldset>
     </center>
 </c:if>
+
+
 
 <script>
     function validaTipoPesquisa() {
