@@ -20,11 +20,12 @@
     <form method="post" action="controller">
         <input type="hidden" value="venda" name="acao">
         <input type="hidden" value="cancelamentoMotivo" name="tipo">
-        <label>
+        <label class="txt2">
             Digite o motivo do cancelamento da venda de número: ${idVenda}
-            <input type="text" name="motivoCancelamento">
+            <br><br>
+            <input class="formInterno" style="width: 300px" type="text" name="motivoCancelamento">
         </label><br>
-        <input type="submit" value="Enviar">
+        <input type="submit" value="Enviar" class="btnInterno">
     </form>
 </center>
 
