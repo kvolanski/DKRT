@@ -14,4 +14,6 @@ public interface ClienteBusiness {
 
     boolean adicionarCompraCliente(ClienteDTO clienteDTO);
 
+    List<ClienteDTO> listarClienteNumCompras();
+
 }

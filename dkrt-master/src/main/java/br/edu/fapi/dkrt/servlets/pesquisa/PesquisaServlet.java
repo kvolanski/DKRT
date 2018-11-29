@@ -58,6 +58,15 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
                 setSessionAttribute(req, "mostraTable", "nao");
                 setSessionAttribute(req, "mostrarDetalhe", "sim");
             }
+
+            if ("checkNumCompras".equalsIgnoreCase(check)){
+                ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
+                List<ClienteDTO> listaClientesLike = clienteBusiness.listarClienteNumCompras();
+                setSessionAttribute(req, "listaClientesLike", listaClientesLike);
+                setSessionAttribute(req, "mostraTable", "sim");
+                setSessionAttribute(req, "mostrarDetalhe", "nao");
+            }
+            
             ClienteDAO clienteDAO = new ClienteDAOImpl();
             List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
             setSessionAttribute(req, "listaClientes", listaClientes);

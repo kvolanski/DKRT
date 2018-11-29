@@ -30,9 +30,9 @@
                                       disabled="disabled"/></label><br>
 				<label>Nome *: <input type="text" name="nomeCliente" class="form-control" required/></label>
 				<label>RG *: <input type="text" name="rgCliente" class="form-control" required/></label>
-				<label>CPF *: <input type="text" onblur="limpaCampo(this.value)" id="cpfCliente" name="cpfCliente" onkeyup="validarCpf(this.value)" class="form-control" required/></label>
+				<label>CPF *: <input type="text" onclick="limpaCampo()" onblur="mostraErro(this.value)" id="cpfCliente" maxlength="11" name="cpfCliente" onkeyup="validarCpf(this.value)" class="form-control" required/></label>
 				<label>Dt. Nascimento *: <input type="text" name="dtNascCliente" class="form-control" required/></label>
-				<label>E-mail *: <input type="text" onblur="limpaCampo(this.value)" id="emailCliente" onkeyup="validarEmail(this.value)" name="emailCliente" class="form-control" required/></label>
+				<label>E-mail *: <input type="text" onclick="limpaCampo()" onblur="mostraErro(this.value)" id="emailCliente" onkeyup="validarEmail(this.value)" name="emailCliente" class="form-control" required/></label>
 				<label>Celular *: <input type="text" name="celularCliente" class="form-control" required/></label> <br>
 				<label>Telefone: <input type="text" name="telefoneCliente" class="form-control"/></label> <br>
 				<label>CEP *: <input type="text" name="cepEnderecoCliente"
@@ -77,6 +77,7 @@
         function validarEmail(email) {
 
             var emailCliente = document.getElementById("emailCliente");
+            document.getElementById('emailCliente').style.color="#000000";
 
             if(email != null && email.length > 0){
                 var usuario = email.substring(0, email.indexOf("@"));
@@ -138,7 +139,7 @@
 
         }
 
-        function limpaCampo(valor){
+        function mostraErro(valor){
 
             var emailCliente = document.getElementById("emailCliente");
             var cpfCliente = document.getElementById("cpfCliente");
@@ -147,12 +148,14 @@
 
 
                 if (emailCliente.style.borderColor == "red") {
-                    document.getElementById('emailCliente').value = "";
+                    document.getElementById('emailCliente').value = "E-mail inválido!";
+                    document.getElementById('emailCliente').style.color="#ff0000";
                 }
 
 
                 if (cpfCliente.style.borderColor == "red") {
-                    document.getElementById('cpfCliente').value = "";
+                    document.getElementById('cpfCliente').value = "CPF inválido!";
+                    document.getElementById('cpfCliente').style.color="#ff0000";
                 }
 
 
@@ -161,7 +164,24 @@
 
         }
 
+        function limpaCampo() {
+            var emailCliente = document.getElementById("emailCliente");
+            var cpfCliente = document.getElementById("cpfCliente");
 
+            if (emailCliente.style.borderColor == "red") {
+                document.getElementById('emailCliente').value = "";
+                document.getElementById('emailCliente').style.color="#000000";
+            }
+
+
+            if (cpfCliente.style.borderColor == "red") {
+                document.getElementById('cpfCliente').value = "";
+                document.getElementById('cpfCliente').style.color="#000000";
+            }
+
+
+
+        }
 
     </script>
 	

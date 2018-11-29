@@ -12,7 +12,7 @@ public interface ClienteDAO {
 
     ClienteDTO buscarCliente(int id);
 
-    List<ClienteDTO> pesquisarClienteLikeNome(String palavra);
+    List<ClienteDTO> listarClientePesquisa(String sql);
 
     boolean adicionaCompraCliente(ClienteDTO clienteDTO);
 }

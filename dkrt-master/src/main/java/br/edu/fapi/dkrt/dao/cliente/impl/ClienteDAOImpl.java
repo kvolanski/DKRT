@@ -114,14 +114,8 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
-    public List<ClienteDTO> pesquisarClienteLikeNome(String palavra) {
+    public List<ClienteDTO> listarClientePesquisa(String sql) {
         List<ClienteDTO> listaClientesLike = new ArrayList<>();
-        String sql = "SELECT clientes.cliente_id, clientes.cliente_nome, clientes.cliente_nomeSocial, clientes.cliente_rg, clientes.cliente_cpf, " +
-                "clientes.cliente_dtNasc, clientes.cliente_email, clientes.cliente_celular, clientes.cliente_telefone, clientes.cliente_ativo, " +
-                "clientes.cliente_dataDeCadastro, clientes.cliente_dataDeAlteracao, clientes.cliente_observacao, clientes.cliente_numeroCompras, enderecos.endereco_id, " +
-                "enderecos.endereco_cep, enderecos.endereco_rua, enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, " +
-                "enderecos.endereco_cidade, ufs.uf_id, ufs.uf_sigla, ufs.uf_nome FROM clientes INNER JOIN enderecos ON clientes.endereco_id = enderecos.endereco_id " +
-                "INNER JOIN ufs ON enderecos.uf_id = ufs.uf_id WHERE clientes.cliente_nome LIKE '%" + palavra + "%'";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 

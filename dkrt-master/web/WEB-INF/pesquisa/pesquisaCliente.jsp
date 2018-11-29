@@ -53,6 +53,7 @@
                 <th>Telefone</th>
                 <th>Ativo</th>
                 <th>Observação do Cliente</th>
+                <th>Numero de Compras </th>
             </tr>
             <c:forEach var="cliente" items="${listaClientesLike}">
                 <tr>
@@ -67,6 +68,7 @@
                     <td>${cliente.telefone}</td>
                     <td>${cliente.ativo}</td>
                     <td>${cliente.observacao}</td>
+                    <td>${cliente.numeroCompras}</td>
                 </tr>
             </c:forEach>
         </table>
