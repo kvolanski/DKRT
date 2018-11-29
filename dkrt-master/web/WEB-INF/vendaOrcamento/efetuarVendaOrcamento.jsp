@@ -164,7 +164,7 @@
                     <label>Deixar venda em aberto</label>
                     <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto" class="form-control" style="width: 20px; height: 20px"><br>
 
-                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled class="btn btn-success">
+                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar"  class="btn btn-success">
                 </c:otherwise>
             </c:choose>
         </form>
@@ -201,14 +201,6 @@
         }
     }
 
-    document.getElementById("checkAberto").addEventListener('click', function () {
-        var check = document.getElementById("checkAberto").checked;
-        if (check == true) {
-            document.getElementById("botaoFinalizar").disabled = false;
-        } else {
-            document.getElementById("botaoFinalizar").disabled = true;
-        }
-    })
 </script>
 </body>
 </html>
