@@ -39,9 +39,7 @@
         </c:forEach>
     </table>
     <br><br><br>
-
     <hr>
-
     <br><br>
     <form method="post" action="controller">
         <input type="hidden" value="orcamento" name="acao">
