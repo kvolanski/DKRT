@@ -165,6 +165,8 @@ public class ControllerServlet extends HttpServlet {
             } else if ("alteraProduto".equalsIgnoreCase(tipo)) {
                 String idProduto = req.getParameter("idProduto");
                 req.getRequestDispatcher("estoque?tipo=alteraProduto&idProduto=" + idProduto).forward(req, resp);
+            } else if ("excluiProduto".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("estoque?tipo=alteraProduto").forward(req, resp);
             }
         }
 
@@ -194,6 +196,13 @@ public class ControllerServlet extends HttpServlet {
             String tipo = req.getParameter("tipo");
             if ("deslogar".equalsIgnoreCase(tipo)){
 
+            }
+        }
+
+        if ("impressao".equalsIgnoreCase(acao)){
+            String tipo = req.getParameter("tipo");
+            if ("fichaCliente".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("impressao?tipo=clienteFicha").forward(req, resp);
             }
         }
     }

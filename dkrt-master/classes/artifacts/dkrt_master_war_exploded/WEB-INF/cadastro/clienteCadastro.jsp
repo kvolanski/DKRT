@@ -63,7 +63,7 @@
 				<input name="ibge" type="hidden" id="ibge" size="8"/></label><br/>
 			<br><br>
 			<input value="Limpar Dados" type="reset" class="btn btn-danger"/>
-			<input value="Cadastrar" type="submit" class="btn btn-success"/>
+			<input value="Cadastrar" id="cadastro" type="submit" class="btn btn-success"/>
 	</form>
 <input type="hidden" id="condicao" value="${condicao}">
 
@@ -92,9 +92,11 @@
                     (dominio.indexOf(".") >=1)&&
                     (dominio.lastIndexOf(".") < dominio.length - 1)) {
                     emailCliente.style.borderColor = "green";
+                    desbloqueaCampo();
                 }
                 else{
                     emailCliente.style.borderColor = "red";
+                    bloqueaCadastro();
                 }
             }
 
@@ -111,7 +113,9 @@
                 Soma = 0;
                 if (cpf == "00000000000"){
                     cpfCliente.style.borderColor = "red";
+                    bloqueaCadastro();
                     return false;
+
                 }
 
 
@@ -121,6 +125,7 @@
                 if ((Resto == 10) || (Resto == 11))  Resto = 0;
                 if (Resto != parseInt(cpf.substring(9, 10)) ) {
                     cpfCliente.style.borderColor = "red";
+                    bloqueaCadastro();
                     return false;
                 }
 
@@ -131,10 +136,14 @@
                 if ((Resto == 10) || (Resto == 11))  Resto = 0;
                 if (Resto != parseInt(cpf.substring(10, 11) ) ) {
                     cpfCliente.style.borderColor = "red";
+                    bloqueaCadastro();
                     return false;
+
                 }
                 cpfCliente.style.borderColor = "green";
+                desbloqueaCampo();
                 return true;
+
             }
 
         }
@@ -181,6 +190,14 @@
 
 
 
+        }
+
+        function bloqueaCadastro(){
+            document.getElementById("cadastro").disabled = true;
+        }
+
+        function desbloqueaCampo(){
+            document.getElementById("cadastro").disabled = false;
         }
 
     </script>

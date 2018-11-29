@@ -32,7 +32,7 @@
             <td><strong>Ativo</strong></td>
             <td><strong>Data de Cadastro</strong></td>
             <td><strong>Última modificação</strong></td>
-            <td><strong>Ação</strong></td>
+            <td colspan="2"><strong>Ação</strong></td>
         </tr>
          <c:forEach var="produto" items="${listaProdutos}">
             <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
@@ -46,6 +46,7 @@
                 <td><fmt:formatDate value="${produto.dataCadastro}" pattern="dd/MM/yyyy"/></td>
                 <td><fmt:formatDate value="${produto.dataAlteracao}" pattern="dd/MM/yyyy"/></td>
                 <td class="editar"><a href="controller?acao=estoque&tipo=alteraProduto&idProduto=${produto.id}">EDITAR</a></td>
+                <td class="editar"><a href="controller?acao=estoque&tipo=excluiProduto&idProduto=${produto.id}">EXCLUIR</a></td>
             </tr>
         </c:forEach>
     </table>
