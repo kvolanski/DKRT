@@ -38,17 +38,17 @@
         </c:forEach>
     </table>
 <br><br><br>
-    <input type="hidden" value="${valorTotal}" id="valorTotal">
-    Valor Total: <label id="displayValorTotal"></label>
+
     <br><br>
 <form method="post" action="controller">
     <input type="hidden" value="venda" name="acao">
     <input type="hidden" value="finalizarVenda" name="tipo">
-    <select name="formaDePagamento" id="pagamento" onmouseup="selecionaForma(), habilitaBotao()">
+    <select class="formInterno" style="width: 300px;" name="formaDePagamento" id="pagamento" onmouseup="selecionaForma(), habilitaBotao()">
         <option value="semForma">Selecione a forma de pagamento</option>
         <option value="Debito">Débito</option>
         <option value="Credito">Crédito</option>
     </select>
+    <br>
     <label id="numParcelas" hidden>Número de Parcelas:
     <select name="numeroParcelasVenda">
         <option value="1">1x</option>
@@ -66,8 +66,12 @@
     </select>
     </label>
     <label>Desconto(%): <input type="number" name="descontoVenda" value="${vendaBusca.desconto}" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
+    <br><br>
+    <input type="hidden" value="${valorTotal}" id="valorTotal">
+    <label class="txt2">Valor Total: </label><label class="txt" id="displayValorTotal"></label>
+
     <br><br><br>
-    <input type="submit" value="Fechar Venda" id="enviarInf" disabled class="btn btn-success">
+    <input class="btnInterno" type="submit" value="Fechar Venda" id="enviarInf" disabled class="btn btn-success">
 </form>
 </center>
 
