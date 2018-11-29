@@ -109,9 +109,9 @@
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
-            <label>Quantidade:<input type="number" name="quantidadeProduto" id="campoQuantidade" value="0"
+            <label>Quantidade:<input type="number" min="0" name="quantidadeProduto" id="campoQuantidade" value="0"
                                      class="form-control"></label>
-            <label>Valor Un.:<input value="${produtoBusca.precoVenda}" type="number" name="valorUnitProduto"
+            <label>Valor Un.:<input value="${produtoBusca.precoVenda}" min="0" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
             <label>Qtd. em Estoque:<input value="${produtoBusca.qtdEstoque}" type="number" disabled="disabled" class="form-control"></label><br><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
@@ -164,7 +164,7 @@
                     <label>Deixar venda em aberto</label>
                     <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto" class="form-control" style="width: 20px; height: 20px"><br>
 
-                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled class="btn btn-success">
+                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar"  class="btn btn-success">
                 </c:otherwise>
             </c:choose>
         </form>
@@ -201,14 +201,6 @@
         }
     }
 
-    document.getElementById("checkAberto").addEventListener('click', function () {
-        var check = document.getElementById("checkAberto").checked;
-        if (check == true) {
-            document.getElementById("botaoFinalizar").disabled = false;
-        } else {
-            document.getElementById("botaoFinalizar").disabled = true;
-        }
-    })
 </script>
 </body>
 </html>

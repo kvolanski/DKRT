@@ -4,6 +4,8 @@
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <title>Pesquisa de Produto - D.K.R.T</title>
     <style>
@@ -17,15 +19,12 @@
 
 <center>
     <form method="get" action="controller">
-        <input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar
-        por
-        nome
-        <input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por
-        id
+        <label><input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por nome</label>
+        <label><input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por id</label>
         <input type="hidden" value="pesquisa" name="acao">
         <input type="hidden" value="produtoPesquisa" name="tipo">
-        <br><br><label id="nomePesquisa" hidden>Nome: <input type="text" id="inputNomePesquisa" name="nomePesquisa"
-                                                             class="form-control"></label>
+        <br><br>
+        <label id="nomePesquisa" hidden>Nome: <input type="text" id="inputNomePesquisa" name="nomePesquisa" class="form-control"></label>
         <label id="idPesquisa" hidden>Id: <!--<input type="number" id="inputIdPesquisa" name="idPesquisa"
                                                  class="form-control">-->
             <select name="idPesquisa" id="selectIdPesquisa">
@@ -41,17 +40,17 @@
 <c:if test="${mostraTable == 'sim'}">
     <br>
     <center>
-        <table style="text-align: center">
-            <tr>
-                <th>Id</th>
-                <th>Nome do Produto</th>
-                <th>Descrição</th>
-                <th>Preço de Venda</th>
-                <th>Preço de Custo</th>
-                <th>Qtd. em Estoque</th>
+        <table width="90%" align="center" cellpadding="10">
+            <tr align="center" bgcolor="#EDEDED">
+                <td><strong>Id</strong></td>
+                <td><strong>Nome do Produto</strong></td>
+                <td><strong>Descrição</strong></td>
+                <td><strong>Preço de Venda</strong></td>
+                <td><strong>Preço de Custo</strong></td>
+                <td><strong>Qtd. em Estoque</strong></td>
             </tr>
             <c:forEach var="produto" items="${listaProdutosLike}">
-                <tr>
+                <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                     <td>${produto.id}</td>
                     <td>${produto.nome}</td>
                     <td>${produto.descricao}</td>
@@ -71,13 +70,13 @@
     <center>
         <fieldset>
             <legend>Informações do Produto</legend>
-            <label>Nome do Produto: ${produtoBusca.nome}</label><br>
-            <label>Descrição: ${produtoBusca.descricao}</label><br>
-            <label>Preço de Venda: ${produtoBusca.precoVenda}</label><br>
-            <label>Preço de Custo: ${produtoBusca.precoCusto}</label><br>
-            <label>Quantidade em Estoque: ${produtoBusca.qtdEstoque}</label><br>
-            <label>Data de Cadastro: <fmt:formatDate value="${produtoBusca.dataCadastro}" pattern="dd/MM/yyyy"/></label><br>
-            <label>Data da Última Alteração: <fmt:formatDate value="${produtoBusca.dataAlteracao}"
+            <label class="formInterno" style="width: 300px;"><strong style="color: black;">Nome do Produto:</strong> ${produtoBusca.nome}</label>
+            <label class="formInterno" style="width: 300px;">Descrição: ${produtoBusca.descricao}</label>
+            <label class="formInterno" style="width: 300px;">Preço de Venda: ${produtoBusca.precoVenda}</label>
+            <label class="formInterno" style="width: 300px;">Preço de Custo: ${produtoBusca.precoCusto}</label>
+            <label class="formInterno" style="width: 300px;">Quantidade em Estoque: ${produtoBusca.qtdEstoque}</label>
+            <label class="formInterno" style="width: 300px;">Data de Cadastro: <fmt:formatDate value="${produtoBusca.dataCadastro}" pattern="dd/MM/yyyy"/></label>
+            <label class="formInterno" style="width: 300px;">Data da Última Alteração: <fmt:formatDate value="${produtoBusca.dataAlteracao}"
                                                              pattern="dd/MM/yyyy"/></label><br>
         </fieldset>
     </center>
