@@ -46,7 +46,7 @@
     <form method="post" action="controller">
         <input type="hidden" value="orcamento" name="acao">
         <input type="hidden" value="finalizarOrcamento" name="tipo">
-        <label class="txt2">Escolher data de expiração do Orçamento <input style="font-size: 50px;" type="checkbox" id="expiracao"></label><br>
+        <label class="txt2">Escolher data de expiração do Orçamento <input type="checkbox" id="expiracao"></label><br><br>
         <label id="displayData" hidden><input type="date" name="dataExpiracao"></label>
         <label>Desconto(%): <input type="number" name="descontoOrcamento" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
         <br><br><br>

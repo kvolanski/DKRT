@@ -5,7 +5,6 @@ import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 
 import java.sql.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +72,9 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            produtoBusca = fillProduto(resultSet);
+            if (resultSet.next()){
+                produtoBusca = fillProduto(resultSet);
+            }
 
             return produtoBusca;
         } catch (SQLException e) {
@@ -121,7 +122,9 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            produtoBusca = fillProduto(resultSet);
+            if (resultSet.next()){
+                produtoBusca = fillProduto(resultSet);
+            }
 
             return produtoBusca;
         } catch (SQLException e) {
@@ -135,23 +138,15 @@ public class ProdutoDAOImpl implements ProdutoDAO {
     @Override
     public List<ProdutoDTO> listarProdutos() {
         List<ProdutoDTO> listaProdutos = new ArrayList<>();
-        String sql = "SELECT * FROM produtos";
+        String sql = "SELECT produto_id, produto_nome, produto_descricao, produto_precoVenda, produto_precoCusto, produto_qtdEstoque, " +
+                "produto_ativo, produto_dataCadastro, produto_dataAlteracao FROM produtos";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                ProdutoDTO produtoDTO = new ProdutoDTO();
-                produtoDTO.setId(resultSet.getInt("produto_id"));
-                produtoDTO.setNome(resultSet.getString("produto_nome"));
-                produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
-                produtoDTO.setPrecoVenda(resultSet.getFloat("produto_precoVenda"));
-                produtoDTO.setPrecoCusto(resultSet.getFloat("produto_precoCusto"));
-                produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
-                produtoDTO.setAtivo(resultSet.getInt("produto_ativo"));
-                produtoDTO.setDataCadastro(resultSet.getDate("produto_dataCadastro"));
-                produtoDTO.setDataAlteracao(resultSet.getDate("produto_dataAlteracao"));
+                ProdutoDTO produtoDTO = fillProduto(resultSet);
                 listaProdutos.add(produtoDTO);
             }
         } catch (SQLException e) {
@@ -206,19 +201,39 @@ public class ProdutoDAOImpl implements ProdutoDAO {
         return false;
     }
 
+    @Override
+    public List<ProdutoDTO> listarProdutoPesquisa(String sql) {
+        List<ProdutoDTO> listaProdutos = new ArrayList<>();
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProdutoDTO produtoDTO = fillProduto(resultSet);
+                listaProdutos.add(produtoDTO);
+            }
+
+            return listaProdutos;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return listaProdutos;
+    }
+
     private ProdutoDTO fillProduto(ResultSet resultSet) throws SQLException {
         ProdutoDTO produtoDTO = new ProdutoDTO();
-        if (resultSet.next()) {
-            produtoDTO.setId(resultSet.getInt("produto_id"));
-            produtoDTO.setNome(resultSet.getString("produto_nome"));
-            produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
-            produtoDTO.setPrecoVenda(resultSet.getFloat("produto_precoVenda"));
-            produtoDTO.setPrecoCusto(resultSet.getFloat("produto_precoCusto"));
-            produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
-            produtoDTO.setAtivo(resultSet.getInt("produto_ativo"));
-            produtoDTO.setDataCadastro(resultSet.getDate("produto_dataCadastro"));
-            produtoDTO.setDataAlteracao(resultSet.getDate("produto_dataAlteracao"));
-        }
+        produtoDTO.setId(resultSet.getInt("produto_id"));
+        produtoDTO.setNome(resultSet.getString("produto_nome"));
+        produtoDTO.setDescricao(resultSet.getString("produto_descricao"));
+        produtoDTO.setPrecoVenda(resultSet.getFloat("produto_precoVenda"));
+        produtoDTO.setPrecoCusto(resultSet.getFloat("produto_precoCusto"));
+        produtoDTO.setQtdEstoque(resultSet.getInt("produto_qtdEstoque"));
+        produtoDTO.setAtivo(resultSet.getInt("produto_ativo"));
+        produtoDTO.setDataCadastro(resultSet.getDate("produto_dataCadastro"));
+        produtoDTO.setDataAlteracao(resultSet.getDate("produto_dataAlteracao"));
         return produtoDTO;
     }
 }

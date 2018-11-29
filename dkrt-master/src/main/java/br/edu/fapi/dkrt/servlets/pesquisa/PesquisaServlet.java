@@ -1,10 +1,15 @@
 package br.edu.fapi.dkrt.servlets.pesquisa;
 
 import br.edu.fapi.dkrt.business.cadastro.ClienteBusiness;
+import br.edu.fapi.dkrt.business.cadastro.ProdutoBusiness;
 import br.edu.fapi.dkrt.business.cadastro.impl.ClienteBusinessImpl;
+import br.edu.fapi.dkrt.business.cadastro.impl.ProdutoBusinessImpl;
 import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
 import br.edu.fapi.dkrt.dao.cliente.impl.ClienteDAOImpl;
+import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
+import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
+import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 
 import javax.servlet.ServletException;
@@ -35,7 +40,11 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
         }
 
         if ("produto".equalsIgnoreCase(tipo)) {
-
+            setSessionAttribute(req, "mostraTable", "nao");
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+            setSessionAttribute(req, "listaProdutos", listaProdutos);
+            req.getRequestDispatcher("WEB-INF/pesquisa/pesquisaProduto.jsp").forward(req, resp);
         }
 
         if ("pesquisaCliente".equalsIgnoreCase(tipo)) {
@@ -50,7 +59,7 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
                 setSessionAttribute(req, "mostrarDetalhe", "nao");
             }
 
-            if ("checkId".equalsIgnoreCase(check)){
+            if ("checkId".equalsIgnoreCase(check)) {
                 String id = req.getParameter("idPesquisa");
                 ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
                 ClienteDTO clienteDTO = clienteBusiness.buscarClienteId(Integer.parseInt(id));
@@ -59,14 +68,14 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
                 setSessionAttribute(req, "mostrarDetalhe", "sim");
             }
 
-            if ("checkNumCompras".equalsIgnoreCase(check)){
+            if ("checkNumCompras".equalsIgnoreCase(check)) {
                 ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
                 List<ClienteDTO> listaClientesLike = clienteBusiness.listarClienteNumCompras();
                 setSessionAttribute(req, "listaClientesLike", listaClientesLike);
                 setSessionAttribute(req, "mostraTable", "sim");
                 setSessionAttribute(req, "mostrarDetalhe", "nao");
             }
-            
+
             ClienteDAO clienteDAO = new ClienteDAOImpl();
             List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
             setSessionAttribute(req, "listaClientes", listaClientes);
@@ -74,7 +83,30 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
         }
 
         if ("pesquisaProduto".equalsIgnoreCase(tipo)) {
-            String parametro = req.getParameter("parametro");
+            String check = req.getParameter("checkTudo");
+
+            if ("checkNome".equalsIgnoreCase(check)) {
+                String palavra = req.getParameter("nomePesquisa");
+                ProdutoBusiness produtoBusiness = new ProdutoBusinessImpl();
+                List<ProdutoDTO> listaProdutosLike = produtoBusiness.pesquisarProdutoLikeNome(palavra);
+                setSessionAttribute(req, "listaProdutosLike", listaProdutosLike);
+                setSessionAttribute(req, "mostraTable", "sim");
+                setSessionAttribute(req, "mostrarDetalhe", "nao");
+            }
+
+            if ("checkId".equalsIgnoreCase(check)) {
+                String id = req.getParameter("idPesquisa");
+                ProdutoBusiness produtoBusiness = new ProdutoBusinessImpl();
+                ProdutoDTO produtoDTO = produtoBusiness.buscarProdutoId(Integer.parseInt(id));
+                setSessionAttribute(req, "produtoBusca", produtoDTO);
+                setSessionAttribute(req, "mostraTable", "nao");
+                setSessionAttribute(req, "mostrarDetalhe", "sim");
+            }
+
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+            setSessionAttribute(req, "listaProdutos", listaProdutos);
+            req.getRequestDispatcher("WEB-INF/pesquisa/pesquisaProduto.jsp").forward(req, resp);
         }
     }
 }
