@@ -35,7 +35,8 @@
             </tr>
         </c:if>
         <c:if test="${tipoStatus == 'cancelada'}">
-            <tr >
+
+            <tr align="center" bgcolor="#EDEDED">
                 <th>Num. Venda</th>
                 <th>Nome Cliente</th>
                 <th>CPF</th>
@@ -67,7 +68,8 @@
                                 </td>
                                 <td class="editar">
                                     <a href="controller?acao=venda&tipo=adicionarProdutosEmAberto&id=${venda.id}&idCliente=${venda.clienteDTO.id}">Adicionar
-                                        Produtos</a></td>
+                                        Produtos</a>
+                                </td>
                                 <td class="cancelar"><a href="controller?acao=venda&tipo=cancelarVenda&id=${venda.id}">Cancelar</a></td>
                             </c:when>
                         </c:choose>
@@ -76,12 +78,12 @@
             </c:if>
             <c:if test="${tipoStatus == 'cancelada'}">
                 <c:if test="${venda.status == 'Cancelada' || venda.status == 'Incompleta'}">
-                    <tr>
+                    <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                         <td>${venda.id}</td>
                         <td>${venda.clienteDTO.nome}</td>
                         <td>${venda.clienteDTO.cpf}</td>
                         <td>${venda.status}</td>
-                        <td colspan="3">${venda.motivoCancelamento}</td>
+                        <td colspan="2">${venda.motivoCancelamento}</td>
                         <td><fmt:formatDate value="${venda.dataDeVenda}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
                         <c:choose>
                             <c:when test="${venda.status == 'Completa'}">
@@ -94,7 +96,8 @@
                                 </td>
                                 <td>
                                     <a href="controller?acao=venda&tipo=adicionarProdutosEmAberto&id=${venda.id}&idCliente=${venda.clienteDTO.id}">Adicionar
-                                        Produtos</a></td>
+                                        Produtos</a>
+                                </td>
                                 <td><a href="controller?acao=venda&tipo=cancelarVenda&id=${venda.id}">Cancelar</a></td>
                             </c:when>
                         </c:choose>
