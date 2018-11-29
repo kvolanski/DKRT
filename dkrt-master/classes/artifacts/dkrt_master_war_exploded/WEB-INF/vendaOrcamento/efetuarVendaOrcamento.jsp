@@ -118,7 +118,7 @@
             <input value="Adicionar" type="submit" class="btn btn-success" id="botaoAdiciona"/><br><br>
         </form>
 
-        <table width="40%" align="center" cellpadding="10" style="border: #ffffff solid 1px;">
+        <table width="40%" align="center" cellpadding="10">
             <tr align="center" bgcolor="#CCC">
                 <td><strong>Produto</strong></td>
                 <td><strong>Descrição</strong></td>
@@ -145,6 +145,7 @@
                             <td><a href="controller?acao=venda&tipo=tirarProdutoLista&id=${pedido.id}">Excluir</a></td>
                         </c:otherwise>
                     </c:choose>
+
                 </tr>
             </c:forEach>
 
@@ -160,8 +161,10 @@
                 <c:otherwise>
                     <input type="hidden" value="venda" name="acao">
                     <input type="hidden" value="finalizarVenda" name="tipo">
-                    <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto">Deixar venda em aberto
-                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled>
+                    <label>Deixar venda em aberto</label>
+                    <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto" class="form-control" style="width: 20px; height: 20px"><br>
+
+                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled class="btn btn-success">
                 </c:otherwise>
             </c:choose>
         </form>

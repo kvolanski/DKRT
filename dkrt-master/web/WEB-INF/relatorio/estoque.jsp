@@ -18,7 +18,6 @@
     </style>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
 
-
     <title>D.K.R.T</title>
 </head>
 

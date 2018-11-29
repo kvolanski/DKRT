@@ -126,6 +126,7 @@
                 <td><strong>Valor Unit.</strong></td>
                 <td><strong>Valor Total</strong></td>
                 <td><strong>Ação</strong></td>
+
             </tr>
 
             <c:forEach var="pedido" items="${listaPedido}">
@@ -144,6 +145,7 @@
                             <td><a href="controller?acao=venda&tipo=tirarProdutoLista&id=${pedido.id}">Excluir</a></td>
                         </c:otherwise>
                     </c:choose>
+
                 </tr>
             </c:forEach>
 
@@ -159,8 +161,10 @@
                 <c:otherwise>
                     <input type="hidden" value="venda" name="acao">
                     <input type="hidden" value="finalizarVenda" name="tipo">
-                    <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto">Deixar venda em aberto
-                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled>
+                    <label>Deixar venda em aberto</label>
+                    <input type="checkbox" id="checkAberto" value="emAberto" name="statusAberto" class="form-control" style="width: 20px; height: 20px"><br>
+
+                    <input type="submit" value="Finalizar Venda" id="botaoFinalizar" disabled class="btn btn-success">
                 </c:otherwise>
             </c:choose>
         </form>

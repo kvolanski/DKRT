@@ -1,7 +1,7 @@
 .drop_menu {
 	background:#EDEDED;
 	padding:0;
-	margin:0;
+	margin: -10;
 	list-style-type:none;
 	height:35px;
 
@@ -125,4 +125,23 @@ a{
 	cursor: pointer;
 }
 
+.abrir:hover{
+	background-color: deepskyblue;
+	cursor: pointer;
+}
+
+.cancelar:hover{
+	 background-color: #d9534f;
+	 cursor: pointer;
+ }
+
+.editar:hover{
+	 background-color: deepskyblue;
+	 cursor: pointer;
+ }
+
+.finalziar:hover{
+	background-color: #5cb85c;
+	cursor: pointer;
+}
 

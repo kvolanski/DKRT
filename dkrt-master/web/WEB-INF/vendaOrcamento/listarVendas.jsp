@@ -19,23 +19,23 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <center>
-    <table style="text-align: center">
+    <table width="90%" align="center" cellpadding="10">
         <c:if test="${tipoStatus == 'normal'}">
-            <tr>
-                <th>Num. Venda</th>
-                <th>Nome Cliente</th>
-                <th>CPF</th>
-                <th>Valor da Venda</th>
-                <th>Forma de Pagamento</th>
-                <th>Num. Parcelas</th>
-                <th>Status</th>
-                <th>Desconto(%)</th>
-                <th>Data da Venda</th>
+            <tr align="center" bgcolor="#EDEDED">
+                <td><strong>Num. Venda</strong></td>
+                <td><strong>Nome Cliente</strong></td>
+                <td><strong>CPF</strong></td>
+                <td><strong>Valor da Venda</strong></td>
+                <td><strong>Forma de Pagamento</strong></td>
+                <td><strong>Num. Parcelas</strong></td>
+                <td><strong>Status</strong></td>
+                <td><strong>Desconto(%)</strong></td>
+                <td><strong>Data da Venda</strong></td>
                 <th colspan="3">Ação</th>
             </tr>
         </c:if>
         <c:if test="${tipoStatus == 'cancelada'}">
-            <tr>
+            <tr >
                 <th>Num. Venda</th>
                 <th>Nome Cliente</th>
                 <th>CPF</th>
@@ -46,7 +46,7 @@
         <c:forEach var="venda" items="${listaVendas}">
             <c:if test="${tipoStatus == 'normal'}">
                 <c:if test="${venda.status != 'Cancelada' && venda.status != 'Incompleta'}">
-                    <tr>
+                    <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                         <td>${venda.id}</td>
                         <td>${venda.clienteDTO.nome}</td>
                         <td>${venda.clienteDTO.cpf}</td>
@@ -58,17 +58,17 @@
                         <td><fmt:formatDate value="${venda.dataDeVenda}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
                         <c:choose>
                             <c:when test="${venda.status == 'Completa'}">
-                                <td colspan="3"><a href="controller?acao=venda&tipo=buscaVenda&id=${venda.id}">Abrir</a>
-                                </td>
+                              <td class="abrir" colspan="3"><a href="controller?acao=venda&tipo=buscaVenda&id=${venda.id}">Abrir</a></td>
+
                             </c:when>
                             <c:when test="${venda.status == 'Em aberto'}">
-                                <td>
+                                <td class="finalziar">
                                     <a href="controller?acao=venda&tipo=finalizarVendaEmAberto&id=${venda.id}">Finalizar</a>
                                 </td>
-                                <td>
+                                <td class="editar">
                                     <a href="controller?acao=venda&tipo=adicionarProdutosEmAberto&id=${venda.id}&idCliente=${venda.clienteDTO.id}">Adicionar
                                         Produtos</a></td>
-                                <td><a href="controller?acao=venda&tipo=cancelarVenda&id=${venda.id}">Cancelar</a></td>
+                                <td class="cancelar"><a href="controller?acao=venda&tipo=cancelarVenda&id=${venda.id}">Cancelar</a></td>
                             </c:when>
                         </c:choose>
                     </tr>
