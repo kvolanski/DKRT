@@ -37,7 +37,7 @@ public class CadastroServlet extends AbstractBaseHttpServlet {
             ClienteBusinessImpl clienteBusiness = new ClienteBusinessImpl();
 
             ClienteDTO clienteDTO = clienteMapper.doMap(req);
-
+            clienteDTO.setNumeroCompras(0);
             String condicao = clienteBusiness.cadastrarCliente(clienteDTO);
 
             if ("sucesso".equalsIgnoreCase(condicao)) {

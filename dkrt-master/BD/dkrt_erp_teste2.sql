@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 28-Nov-2018 às 22:13
+-- Generation Time: 29-Nov-2018 às 02:36
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -42,6 +42,7 @@ CREATE TABLE `clientes` (
   `cliente_dataDeCadastro` date NOT NULL,
   `cliente_dataDeAlteracao` date DEFAULT NULL,
   `cliente_observacao` varchar(100) DEFAULT NULL,
+  `cliente_numeroCompras` int(11) DEFAULT NULL,
   `endereco_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -49,8 +50,9 @@ CREATE TABLE `clientes` (
 -- Extraindo dados da tabela `clientes`
 --
 
-INSERT INTO `clientes` (`cliente_id`, `cliente_nome`, `cliente_nomeSocial`, `cliente_rg`, `cliente_cpf`, `cliente_dtNasc`, `cliente_email`, `cliente_celular`, `cliente_telefone`, `cliente_ativo`, `cliente_dataDeCadastro`, `cliente_dataDeAlteracao`, `cliente_observacao`, `endereco_id`) VALUES
-(3, 'Tiago Cesar', NULL, '963738261', '84637281539', '1996-11-18', 'tiago.cesar@gmail.com', '98535283', '', 1, '2018-11-23', NULL, '', 6);
+INSERT INTO `clientes` (`cliente_id`, `cliente_nome`, `cliente_nomeSocial`, `cliente_rg`, `cliente_cpf`, `cliente_dtNasc`, `cliente_email`, `cliente_celular`, `cliente_telefone`, `cliente_ativo`, `cliente_dataDeCadastro`, `cliente_dataDeAlteracao`, `cliente_observacao`, `cliente_numeroCompras`, `endereco_id`) VALUES
+(3, 'Tiago Cesar', NULL, '963738261', '84637281539', '1996-11-18', 'tiago.cesar@gmail.com', '98535283', '', 1, '2018-11-23', NULL, '', 4, 6),
+(4, 'Tiago Cesar', NULL, '963738261', '54853555013', '1996-11-18', 'tiago@teste.com', '98535283', '', 1, '2018-11-28', NULL, '', 2, 7);
 
 -- --------------------------------------------------------
 
@@ -74,7 +76,8 @@ CREATE TABLE `enderecos` (
 --
 
 INSERT INTO `enderecos` (`endereco_id`, `endereco_cep`, `endereco_rua`, `endereco_numero`, `endereco_complemento`, `endereco_bairro`, `endereco_cidade`, `uf_id`) VALUES
-(6, '73642836', 'Rua das Flores', '289', '', 'Jardim das Flores', 'Curitiba', 1);
+(6, '73642836', 'Rua das Flores', '289', '', 'Jardim das Flores', 'Curitiba', 1),
+(7, '12345678', 'Rua TesteTeste', '289', '', 'Bairro TesteTeste', 'Cidade TesteTeste', 1);
 
 -- --------------------------------------------------------
 
@@ -140,7 +143,10 @@ INSERT INTO `pedidos` (`pedido_id`, `produto_id`, `pedido_quantidade`, `pedido_v
 (34, 5, 300, 2, 600, NULL, 19),
 (35, 5, 300, 2, 600, NULL, 21),
 (36, 5, 300, 2, 600, NULL, 22),
-(38, 5, 200, 2, 400, 5, NULL);
+(38, 5, 200, 2, 400, 5, NULL),
+(39, 5, 2, 2, 4, 6, NULL),
+(42, 6, 100, 2, 200, 7, NULL),
+(43, 6, 100, 2, 200, 8, NULL);
 
 -- --------------------------------------------------------
 
@@ -165,9 +171,9 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`produto_id`, `produto_nome`, `produto_descricao`, `produto_precoVenda`, `produto_precoCusto`, `produto_qtdEstoque`, `produto_ativo`, `produto_dataCadastro`, `produto_dataAlteracao`) VALUES
-(5, 'Caneta BIC Preta', 'Ponta Fina', 2, 1, 100, 1, '2018-11-23', NULL),
-(6, 'Caneta BIC Azul', 'Ponta Fina', 2, 1, 250, 1, '2018-11-23', NULL),
-(7, 'Caderno Hot Wheels', '10 Materias', 32, 15, 200, 1, '2018-11-23', NULL),
+(5, 'Caneta BIC Preta', 'Ponta Fina', 2, 1, 498, 1, '2018-11-23', NULL),
+(6, 'Caneta BIC Azul', 'Ponta Fina', 2, 1, 300, 1, '2018-11-23', NULL),
+(7, 'Caderno Hot Wheels', '10 Materias', 32, 15, 500, 1, '2018-11-23', NULL),
 (8, 'Caderno Barbie', '20 Materias', 45.99, 35.99, 500, 1, '2018-11-25', '2018-11-28');
 
 -- --------------------------------------------------------
@@ -264,7 +270,10 @@ INSERT INTO `vendas` (`venda_id`, `venda_valorTotal`, `venda_formaDePagamento`, 
 (2, 8160, 'Credito', 5, 1632, 'Completa', 20, '2018-11-28 11:40:07', 'A venda está incompleta pois foi encerrada de forma inesperada', NULL, 3),
 (3, 8400, 'Debito', 1, 8400, 'Completa', 20, '2018-11-28 12:04:09', 'A venda está incompleta pois foi encerrada de forma inesperada', 'Sim', 3),
 (4, NULL, NULL, NULL, NULL, 'Cancelada', 0, NULL, '', 'Nao', 3),
-(5, NULL, NULL, NULL, NULL, 'Incompleta', 0, NULL, 'A venda está incompleta pois foi encerrada de forma inesperada', 'Nao', 3);
+(5, NULL, NULL, NULL, NULL, 'Incompleta', 0, NULL, 'A venda está incompleta pois foi encerrada de forma inesperada', 'Nao', 3),
+(6, 4, 'Debito', 1, 4, 'Completa', 0, '2018-11-29 00:50:15', 'A venda está incompleta pois foi encerrada de forma inesperada', 'Nao', 3),
+(7, 190, 'Debito', 1, 190, 'Completa', 5, '2018-11-29 01:33:31', 'A venda está incompleta pois foi encerrada de forma inesperada', 'Nao', 4),
+(8, 180, 'Debito', 1, 180, 'Completa', 10, '2018-11-29 01:35:04', 'A venda está incompleta pois foi encerrada de forma inesperada', 'Nao', 4);
 
 --
 -- Indexes for dumped tables
@@ -333,13 +342,13 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT for table `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `cliente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cliente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `endereco_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `endereco_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `orcamentos`
@@ -351,7 +360,7 @@ ALTER TABLE `orcamentos`
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `produtos`
@@ -375,7 +384,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `venda_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `venda_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

@@ -1,5 +1,7 @@
 package br.edu.fapi.dkrt.servlets.Venda;
 
+import br.edu.fapi.dkrt.business.cadastro.ClienteBusiness;
+import br.edu.fapi.dkrt.business.cadastro.impl.ClienteBusinessImpl;
 import br.edu.fapi.dkrt.business.calculator.Calculator;
 import br.edu.fapi.dkrt.business.calculator.impl.CalculatorImpl;
 import br.edu.fapi.dkrt.business.venda.VendaBusiness;
@@ -73,8 +75,10 @@ public class VendaServlet extends AbstractBaseHttpServlet {
             vendaDTO.setValorTotal(valorCalculator.calcularValorTotal(listaPedido));
             if (vendaBusiness.finalizarVenda(vendaDTO)) {
                 ClienteDAO clienteDAO = new ClienteDAOImpl();
+                ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
                 List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
                 setSessionAttribute(req, "listaClientes", listaClientes);
+                clienteBusiness.adicionarCompraCliente(clienteDTO);
                 ClienteDTO clienteBusca = new ClienteDTO();
                 clienteBusca.setId(0);
                 req.getSession().removeAttribute("idVenda");

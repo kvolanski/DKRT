@@ -18,6 +18,7 @@ public class ClienteDTO {
     private Date dataCadastro;
     private Date dataAlteracao;
     private String observacao;
+    private int numeroCompras;
     private EnderecoDTO enderecoDTO;
 
     public int getId() {
@@ -122,6 +123,14 @@ public class ClienteDTO {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public int getNumeroCompras() {
+        return numeroCompras;
+    }
+
+    public void setNumeroCompras(int numeroCompras) {
+        this.numeroCompras = numeroCompras;
     }
 
     public EnderecoDTO getEnderecoDTO() {

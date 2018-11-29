@@ -2,6 +2,8 @@ package br.edu.fapi.dkrt.servlets.pesquisa;
 
 import br.edu.fapi.dkrt.business.cadastro.ClienteBusiness;
 import br.edu.fapi.dkrt.business.cadastro.impl.ClienteBusinessImpl;
+import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
+import br.edu.fapi.dkrt.dao.cliente.impl.ClienteDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 
@@ -26,6 +28,9 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
 
         if ("cliente".equalsIgnoreCase(tipo)) {
             setSessionAttribute(req, "mostraTable", "nao");
+            ClienteDAO clienteDAO = new ClienteDAOImpl();
+            List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
+            setSessionAttribute(req, "listaClientes", listaClientes);
             req.getRequestDispatcher("WEB-INF/pesquisa/pesquisaCliente.jsp").forward(req, resp);
         }
 
@@ -41,8 +46,21 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
                 ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
                 List<ClienteDTO> listaClientesLike = clienteBusiness.pesquisarClienteLikeNome(palavra);
                 setSessionAttribute(req, "listaClientesLike", listaClientesLike);
+                setSessionAttribute(req, "mostraTable", "sim");
+                setSessionAttribute(req, "mostrarDetalhe", "nao");
             }
-            setSessionAttribute(req, "mostraTable", "sim");
+
+            if ("checkId".equalsIgnoreCase(check)){
+                String id = req.getParameter("idPesquisa");
+                ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
+                ClienteDTO clienteDTO = clienteBusiness.buscarClienteId(Integer.parseInt(id));
+                setSessionAttribute(req, "clienteBusca", clienteDTO);
+                setSessionAttribute(req, "mostraTable", "nao");
+                setSessionAttribute(req, "mostrarDetalhe", "sim");
+            }
+            ClienteDAO clienteDAO = new ClienteDAOImpl();
+            List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
+            setSessionAttribute(req, "listaClientes", listaClientes);
             req.getRequestDispatcher("WEB-INF/pesquisa/pesquisaCliente.jsp").forward(req, resp);
         }
 
