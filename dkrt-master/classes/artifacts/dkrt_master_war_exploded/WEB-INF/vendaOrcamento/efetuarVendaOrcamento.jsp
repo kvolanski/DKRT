@@ -126,7 +126,6 @@
                 <td><strong>Valor Unit.</strong></td>
                 <td><strong>Valor Total</strong></td>
                 <td><strong>Ação</strong></td>
-
             </tr>
 
             <c:forEach var="pedido" items="${listaPedido}">

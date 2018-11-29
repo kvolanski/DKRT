@@ -30,9 +30,9 @@
                                       disabled="disabled"/></label><br>
 				<label>Nome *: <input type="text" name="nomeCliente" class="form-control" required/></label>
 				<label>RG *: <input type="text" name="rgCliente" class="form-control" required/></label>
-				<label>CPF *: <input type="text" name="cpfCliente" class="form-control" required/></label>
+				<label>CPF *: <input type="text" onclick="limpaCampo()" onblur="mostraErro(this.value)" id="cpfCliente" maxlength="11" name="cpfCliente" onkeyup="validarCpf(this.value)" class="form-control" required/></label>
 				<label>Dt. Nascimento *: <input type="text" name="dtNascCliente" class="form-control" required/></label>
-				<label>E-mail *: <input type="text" name="emailCliente" class="form-control" required/></label>
+				<label>E-mail *: <input type="text" onclick="limpaCampo()" onblur="mostraErro(this.value)" id="emailCliente" onkeyup="validarEmail(this.value)" name="emailCliente" class="form-control" required/></label>
 				<label>Celular *: <input type="text" name="celularCliente" class="form-control" required/></label> <br>
 				<label>Telefone: <input type="text" name="telefoneCliente" class="form-control"/></label> <br>
 				<label>CEP *: <input type="text" name="cepEnderecoCliente"
@@ -73,9 +73,120 @@
         if (condicao == "sucesso") {
             alert("Cadastro realizado com sucesso");
         }
+
+        function validarEmail(email) {
+
+            var emailCliente = document.getElementById("emailCliente");
+            document.getElementById('emailCliente').style.color="#000000";
+
+            if(email != null && email.length > 0){
+                var usuario = email.substring(0, email.indexOf("@"));
+                var dominio = email.substring(email.indexOf("@")+ 1, email.length);
+                if ((usuario.length >=1) &&
+                    (dominio.length >=3) &&
+                    (usuario.search("@")==-1) &&
+                    (dominio.search("@")==-1) &&
+                    (usuario.search(" ")==-1) &&
+                    (dominio.search(" ")==-1) &&
+                    (dominio.search(".")!=-1) &&
+                    (dominio.indexOf(".") >=1)&&
+                    (dominio.lastIndexOf(".") < dominio.length - 1)) {
+                    emailCliente.style.borderColor = "green";
+                }
+                else{
+                    emailCliente.style.borderColor = "red";
+                }
+            }
+
+        }
+
+        function validarCpf(cpf) {
+
+
+            var cpfCliente = document.getElementById("cpfCliente");
+
+            if(cpf != null && cpf.length > 0){
+                var Soma;
+                var Resto;
+                Soma = 0;
+                if (cpf == "00000000000"){
+                    cpfCliente.style.borderColor = "red";
+                    return false;
+                }
+
+
+                for (i=1; i<=9; i++) Soma = Soma + parseInt(cpf.substring(i-1, i)) * (11 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))  Resto = 0;
+                if (Resto != parseInt(cpf.substring(9, 10)) ) {
+                    cpfCliente.style.borderColor = "red";
+                    return false;
+                }
+
+                Soma = 0;
+                for (i = 1; i <= 10; i++) Soma = Soma + parseInt(cpf.substring(i-1, i)) * (12 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))  Resto = 0;
+                if (Resto != parseInt(cpf.substring(10, 11) ) ) {
+                    cpfCliente.style.borderColor = "red";
+                    return false;
+                }
+                cpfCliente.style.borderColor = "green";
+                return true;
+            }
+
+        }
+
+        function mostraErro(valor){
+
+            var emailCliente = document.getElementById("emailCliente");
+            var cpfCliente = document.getElementById("cpfCliente");
+
+            if (valor != null && valor.length >0) {
+
+
+                if (emailCliente.style.borderColor == "red") {
+                    document.getElementById('emailCliente').value = "E-mail inválido!";
+                    document.getElementById('emailCliente').style.color="#ff0000";
+                }
+
+
+                if (cpfCliente.style.borderColor == "red") {
+                    document.getElementById('cpfCliente').value = "CPF inválido!";
+                    document.getElementById('cpfCliente').style.color="#ff0000";
+                }
+
+
+            }
+
+
+        }
+
+        function limpaCampo() {
+            var emailCliente = document.getElementById("emailCliente");
+            var cpfCliente = document.getElementById("cpfCliente");
+
+            if (emailCliente.style.borderColor == "red") {
+                document.getElementById('emailCliente').value = "";
+                document.getElementById('emailCliente').style.color="#000000";
+            }
+
+
+            if (cpfCliente.style.borderColor == "red") {
+                document.getElementById('cpfCliente').value = "";
+                document.getElementById('cpfCliente').style.color="#000000";
+            }
+
+
+
+        }
+
     </script>
 	
 	
 </span>
 </body>
 </html>
+

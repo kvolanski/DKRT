@@ -44,4 +44,21 @@ public class ClienteBusinessImpl implements ClienteBusiness {
         return listaClientesLike;
     }
 
+    @Override
+    public ClienteDTO buscarClienteId(int id) {
+        ClienteDTO clienteBusca= clienteDAO.buscarCliente(id);
+        return clienteBusca;
+    }
+
+    @Override
+    public boolean adicionarCompraCliente(ClienteDTO clienteDTO) {
+        if (clienteDTO != null){
+            clienteDTO.setNumeroCompras(clienteDTO.getNumeroCompras()+1);
+            if (clienteDAO.adicionaCompraCliente(clienteDTO)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
