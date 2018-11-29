@@ -19,16 +19,16 @@
 <center>
 <h1>Venda número ${idVenda}</h1>
 <h2>Lista de produtos</h2><br>
-    <table>
-        <tr>
-            <th>Produto</th>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Valor Unit.</th>
-            <th>Valor Total</th>
+    <table width="90%" align="center" cellpadding="10">
+        <tr align="center" bgcolor="#EDEDED">
+            <td><strong>Produto</strong></td>
+            <td><strong>Descrição</strong></td>
+            <td><strong>Quantidade</strong></td>
+            <td><strong>Valor Unit.</strong></td>
+            <td><strong>Valor Total</strong></td>
         </tr>
         <c:forEach var="pedido" items="${listaPedido}">
-            <tr>
+            <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                 <td>${pedido.produtoDTO.nome}</td>
                 <td>${pedido.produtoDTO.descricao}</td>
                 <td>${pedido.quantidade}</td>
