@@ -118,7 +118,7 @@
             <input value="Adicionar" type="submit" class="btn btn-success" id="botaoAdiciona"/><br><br>
         </form>
 
-        <table width="40%" align="center" cellpadding="10" style="border: #ffffff solid 1px;">
+        <table width="40%" align="center" cellpadding="10">
             <tr align="center" bgcolor="#CCC">
                 <td><strong>Produto</strong></td>
                 <td><strong>Descrição</strong></td>
@@ -126,7 +126,6 @@
                 <td><strong>Valor Unit.</strong></td>
                 <td><strong>Valor Total</strong></td>
                 <td><strong>Ação</strong></td>
-
             </tr>
 
             <c:forEach var="pedido" items="${listaPedido}">

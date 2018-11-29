@@ -12,4 +12,6 @@ public interface ClienteBusiness {
 
     ClienteDTO buscarClienteId(int id);
 
+    boolean adicionarCompraCliente(ClienteDTO clienteDTO);
+
 }

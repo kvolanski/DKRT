@@ -13,4 +13,6 @@ public interface ClienteDAO {
     ClienteDTO buscarCliente(int id);
 
     List<ClienteDTO> pesquisarClienteLikeNome(String palavra);
+
+    boolean adicionaCompraCliente(ClienteDTO clienteDTO);
 }

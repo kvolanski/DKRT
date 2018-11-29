@@ -27,13 +27,12 @@
                                                              class="form-control"></label>
         <label id="idPesquisa" hidden>Id: <!--<input type="number" id="inputIdPesquisa" name="idPesquisa"
                                                  class="form-control">-->
-            <select name="idPesquisa">
+            <select name="idPesquisa" id="selectIdPesquisa">
                 <c:forEach var="cliente" items="${listaClientes}">
                     <option value="${cliente.id}">${cliente.id} - ${cliente.nome}</option>
                 </c:forEach>
             </select>
         </label><br>
-        <label id="idNumCompras"><input type="hidden" value="inputNumCompras" name="numComprasPesquisa"></label>
         <br><input value="Pesquisar" type="submit" id="botaoPesquisa" class="btn btn-success" disabled/>
     </form>
 </span>
@@ -87,6 +86,21 @@
             <label>CPF: ${clienteBusca.cpf}</label><br>
             <label>Dt. Nasc.: <fmt:formatDate value="${clienteBusca.dtNascimento}" pattern="dd/MM/yyyy"/></label><br>
             <label>E-mail: ${clienteBusca.email}</label><br>
+            <label>Observação: ${clienteBusca.observacao}</label><br>
+        </fieldset>
+        <fieldset>
+            <legend>Endereço</legend>
+            <label>Nome da rua: ${clienteBusca.enderecoDTO.rua}</label><br>
+            <label>CEP: ${clienteBusca.enderecoDTO.cep}</label><br>
+            <label>Número da residência: ${clienteBusca.enderecoDTO.numero}</label><br>
+            <label>Complemento: ${clienteBusca.enderecoDTO.complemento}</label><br>
+            <label>Bairro: ${clienteBusca.enderecoDTO.bairro}</label><br>
+            <label>Cidade: ${clienteBusca.enderecoDTO.cidade}</label><br>
+            <label>Estado: ${clienteBusca.enderecoDTO.ufDTO.sigla}</label><br>
+        </fieldset>
+        <fieldset>
+            <legend>Informações Adicionais</legend>
+            <label>Número de compras realizadas: ${clienteBusca.numeroCompras}</label><br>
         </fieldset>
     </center>
 </c:if>
@@ -103,7 +117,6 @@
             document.getElementById("idPesquisa").hidden = true;
             document.getElementById("botaoPesquisa").disabled = false;
             document.getElementById("inputNomePesquisa").required = true;
-            document.getElementById("inputIdPesquisa").value = "";
         } else {
             document.getElementById("nomePesquisa").hidden = true;
             document.getElementById("inputNomePesquisa").required = false;
@@ -113,22 +126,18 @@
             document.getElementById("nomePesquisa").hidden = true;
             document.getElementById("idPesquisa").hidden = false;
             document.getElementById("botaoPesquisa").disabled = false;
-            document.getElementById("inputIdPesquisa").required = true;
             document.getElementById("inputNomePesquisa").value = "";
         } else {
             document.getElementById("idPesquisa").hidden = true;
-            document.getElementById("inputIdPesquisa").required = false;
         }
 
         if (check3 == true) {
             document.getElementById("nomePesquisa").hidden = true;
             document.getElementById("idPesquisa").hidden = true;
-            document.getElementById("idNumCompras").hidden = false;
             document.getElementById("botaoPesquisa").disabled = false;
             document.getElementById("inputNomePesquisa").required = false;
-            document.getElementById("inputIdPesquisa").required = false;
             document.getElementById("inputNomePesquisa").value = "";
-            document.getElementById("inputIdPesquisa").value = "";
+            document.getElementById("selectIdPesquisa").value = "";
         }
     }
 
