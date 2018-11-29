@@ -33,7 +33,7 @@
             <td colspan="3"><strong>Ação</strong></td>
         </tr>
         <c:forEach var="orcamento" items="${listaOrcamentos}">
-            <tr align="center" bgcolor="#EDEDED">
+            <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
                 <c:if test="${orcamento.status != 'Incompleto'}">
                     <td>${orcamento.id}</td>
                     <td>${orcamento.clienteDTO.nome}</td>
