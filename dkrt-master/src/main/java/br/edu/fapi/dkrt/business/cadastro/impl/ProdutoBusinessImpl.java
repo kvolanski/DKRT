@@ -7,6 +7,8 @@ import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 
+import java.util.List;
+
 public class ProdutoBusinessImpl implements ProdutoBusiness {
     ProdutoDAO produtoDAO;
     ProdutoValidator produtoValidator;
@@ -37,5 +39,19 @@ public class ProdutoBusinessImpl implements ProdutoBusiness {
             }
         }
         return condicao;
+    }
+
+    @Override
+    public List<ProdutoDTO> pesquisarProdutoLikeNome(String palavra) {
+        String sql = "SELECT produto_id, produto_nome, produto_descricao, produto_precoVenda, produto_precoCusto, produto_qtdEstoque, produto_ativo, produto_dataCadastro, " +
+                "produto_dataAlteracao FROM produtos WHERE produto_nome LIKE '%"+palavra+"%'";
+        List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutoPesquisa(sql);
+        return listaProdutos;
+    }
+
+    @Override
+    public ProdutoDTO buscarProdutoId(int id) {
+        ProdutoDTO produtoDTO = produtoDAO.buscaProdutoPorId(id);
+        return produtoDTO;
     }
 }

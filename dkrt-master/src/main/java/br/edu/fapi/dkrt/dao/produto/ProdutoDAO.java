@@ -22,4 +22,6 @@ public interface ProdutoDAO {
 
     boolean aumentarEstoque(ProdutoDTO produtoDTO);
 
+    List<ProdutoDTO> listarProdutoPesquisa(String sql);
+
 }
