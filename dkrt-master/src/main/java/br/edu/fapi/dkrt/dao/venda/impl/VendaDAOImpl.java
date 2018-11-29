@@ -135,7 +135,7 @@ public class VendaDAOImpl implements VendaDAO {
                 "clientes.cliente_ativo, clientes.cliente_observacao, enderecos.endereco_id, enderecos.endereco_cep, enderecos.endereco_rua, " +
                 "enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, enderecos.endereco_cidade, ufs.uf_id, " +
                 "ufs.uf_sigla FROM vendas INNER JOIN clientes ON vendas.cliente_id = clientes.cliente_id INNER JOIN enderecos ON clientes.endereco_id = " +
-                "enderecos.endereco_id INNER JOIN ufs ON enderecos.uf_id = ufs.uf_id";
+                "enderecos.endereco_id INNER JOIN ufs ON enderecos.uf_id = ufs.uf_id ORDER BY vendas.venda_id";
         try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
