@@ -39,18 +39,12 @@
         </c:forEach>
     </table>
     <br><br><br>
-
     <hr>
-
     <br><br>
     <form method="post" action="controller">
         <input type="hidden" value="orcamento" name="acao">
         <input type="hidden" value="finalizarOrcamento" name="tipo">
-<<<<<<< HEAD
         <label class="txt2">Escolher data de expiração do Orçamento <input type="checkbox" id="expiracao"></label><br><br><br>
-=======
-        <label class="txt2">Escolher data de expiração do Orçamento <input type="checkbox" id="expiracao"></label><br><br>
->>>>>>> 8f2ffab49e13e30c3b915c40aa7a0154cc9e5f75
         <label id="displayData" hidden><input type="date" name="dataExpiracao"></label>
         <label>Desconto(%): <input type="number" name="descontoOrcamento" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
         <br>
