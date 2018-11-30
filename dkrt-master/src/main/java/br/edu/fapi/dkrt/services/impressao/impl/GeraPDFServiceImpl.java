@@ -2,12 +2,12 @@ package br.edu.fapi.dkrt.services.impressao.impl;
 
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.services.impressao.GeraPDFService;
-import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,8 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class GeraPDFServiceImpl implements GeraPDFService {
-
-
 
     @Override
     public boolean gerarPdfFichaCliente(ClienteDTO clienteDTO, String caminho) throws IOException {
@@ -43,9 +41,15 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             int posicaox2 = 350;
             int tamFonte = 8;
 
+            PDImageXObject pdImage = PDImageXObject.createFromFile(caminho+"\\PdfsDKRT\\Logo\\logo.png", document);
+
+            //Logo
+            contentStream.drawXObject(pdImage, 230, 660, 160, 160);
+
+            //Inicio Informações pessoais
             contentStream.beginText();
             contentStream.setFont(pdFontTitulo, 10);
-            contentStream.moveTextPositionByAmount(206, 670);
+            contentStream.moveTextPositionByAmount(250, 670);
             contentStream.drawString("Informações Pessoais");
             contentStream.endText();
 
@@ -97,7 +101,7 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
             contentStream.drawString("Telefone Secundario: " + clienteDTO.getTelefone());
             contentStream.endText();
-            posicaoY = posicaoInicialY;
+            posicaoY = 625;
 
             contentStream.beginText();
             contentStream.setFont(pdFont, tamFonte);
@@ -120,17 +124,51 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             contentStream.moveTextPositionByAmount(posicaox2, posicaoY);
             contentStream.drawString("Data de Cadastro: " + clienteDTO.getObservacao());
             contentStream.endText();
+            posicaoY -= 10;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaox2, posicaoY);
+            contentStream.drawString("Número de compras realizadas: " + clienteDTO.getNumeroCompras());
+            contentStream.endText();
+
+            //Inicio Informações de Endereço
+            posicaoY = 540;
+            contentStream.beginText();
+            contentStream.setFont(pdFontTitulo, 10);
+            contentStream.moveTextPositionByAmount(245, 555);
+            contentStream.drawString("Informações de Endereço");
+            contentStream.endText();
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("Nome da Rua: " + clienteDTO.getEnderecoDTO().getRua());
+            contentStream.endText();
+            posicaoY -= 10;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("CEP: " + clienteDTO.getEnderecoDTO().getCep());
+            contentStream.endText();
+            posicaoY -= 10;
+
 
             contentStream.close();
 
             try {
-                if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT"))){
+                if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT"))) {
                     Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT"));
+                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\PDFs"))){
+                        Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\PDFs"));
+                    }
+                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"))){
+                        Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"));
+                    }
                 }
-                document.save(caminho+"\\PdfsDKRT\\Relatorio_Cliente_" + nome + "_" + data + ".pdf");
+                document.save(caminho + "\\PdfsDKRT\\PDFs\\Relatorio_Cliente_" + nome + "_" + data + ".pdf");
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (COSVisitorException e) {
                 e.printStackTrace();
             }
 
