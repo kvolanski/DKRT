@@ -109,7 +109,7 @@
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
-            <label>Quantidade:<input type="number" min="1" name="quantidadeProduto" id="campoQuantidade"
+            <label>Quantidade:<input type="number" min="1" onclick="limpaCampoQuantidade()" name="quantidadeProduto" id="campoQuantidade"
                                      class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" min="0" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
@@ -188,9 +188,9 @@
 
         if(campoQuantidade > qtdeProdutoEstoque){
             alert("Quantidade de venda não pode ser maior que a quantidade em estoque");
+            document.getElementById("campoQuantidade").value = "0";
         }
     }
-
 
     function validaSelecaoCliente() {
         var selecionaCliente = document.getElementById("selecionaCliente").value;
@@ -208,6 +208,10 @@
         } else {
             document.getElementById("inputCarregarProduto").disabled = false;
         }
+    }
+
+    function limpaCampoQuantidade() {
+        document.getElementById("campoQuantidade").value = "";
     }
 
 </script>
