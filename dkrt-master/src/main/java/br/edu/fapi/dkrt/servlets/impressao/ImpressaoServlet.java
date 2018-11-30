@@ -35,5 +35,10 @@ public class ImpressaoServlet extends AbstractBaseHttpServlet {
             }
         }
 
+        if ("produtoFicha".equalsIgnoreCase(tipo)){
+            String idProduto = req.getParameter("id");
+            ImpressaoBusiness impressaoBusiness = new ImpressaoBusinessImpl();
+        }
+
     }
 }

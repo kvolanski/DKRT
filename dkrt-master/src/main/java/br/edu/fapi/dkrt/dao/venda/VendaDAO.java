@@ -17,6 +17,8 @@ public interface VendaDAO {
 
     List<VendaDTO> listarVendas();
 
+    List<VendaDTO> listarVendasPorCliente(int idCliente);
+
     VendaDTO buscaVenda(int id);
 
     boolean atualizaStatus(VendaDTO vendaDTO);
