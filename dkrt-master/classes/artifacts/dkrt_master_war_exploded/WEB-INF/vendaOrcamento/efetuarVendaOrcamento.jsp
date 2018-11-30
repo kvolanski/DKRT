@@ -175,9 +175,14 @@
 
 <script>
 
+
+    function bloqueaAdionar(){
+        document.getElementById("botaoAdiciona").disabled = true;
+    }
+
     function pegaValorEstoque() {
-       var qtdeProdutoEstoque = document.getElementById("qtdeProdutoEstoque").value;
-       return qtdeProdutoEstoque;
+        var qtdeProdutoEstoque = document.getElementById("qtdeProdutoEstoque").value;
+        return qtdeProdutoEstoque;
     }
 
     function verificaQuantidades() {
@@ -189,7 +194,9 @@
         if(campoQuantidade > qtdeProdutoEstoque){
             alert("Quantidade de venda não pode ser maior que a quantidade em estoque");
             document.getElementById("campoQuantidade").value = "0";
-        }
+        }else{
+            ativaAdicionar();
+    }
     }
 
     function validaSelecaoCliente() {
@@ -212,6 +219,10 @@
 
     function limpaCampoQuantidade() {
         document.getElementById("campoQuantidade").value = "";
+    }
+
+    function ativaAdicionar() {
+        document.getElementById("botaoAdiciona").disabled = false;
     }
 
 </script>
