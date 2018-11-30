@@ -10,14 +10,18 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class GeraPDFServiceImpl implements GeraPDFService {
 
+
+
     @Override
-    public boolean gerarPdfFichaCliente(ClienteDTO clienteDTO) throws IOException {
+    public boolean gerarPdfFichaCliente(ClienteDTO clienteDTO, String caminho) throws IOException {
         if (clienteDTO != null) {
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             String data = dateFormat.format(new Date());
@@ -120,7 +124,10 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             contentStream.close();
 
             try {
-                document.save("C:\\Users\\Archibald\\Documents\\DKRT\\dkrt-master\\pdfs\\Relatorio_Cliente_" + nome + "_" + data + ".pdf");
+                if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT"))){
+                    Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT"));
+                }
+                document.save(caminho+"\\PdfsDKRT\\Relatorio_Cliente_" + nome + "_" + data + ".pdf");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (COSVisitorException e) {

@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class ImpressaoBusinessImpl implements ImpressaoBusiness {
     GeraPDFService geraPDFService;
+    String caminho = System.getProperty("user.home");
 
     public ImpressaoBusinessImpl(){
         geraPDFService = new GeraPDFServiceImpl();
@@ -19,7 +20,7 @@ public class ImpressaoBusinessImpl implements ImpressaoBusiness {
     public boolean gerarPdfFichaCliente(ClienteDTO clienteDTO) {
         if (clienteDTO != null){
             try {
-                if (geraPDFService.gerarPdfFichaCliente(clienteDTO)){
+                if (geraPDFService.gerarPdfFichaCliente(clienteDTO, caminho)){
                     return true;
                 }
             } catch (IOException e) {

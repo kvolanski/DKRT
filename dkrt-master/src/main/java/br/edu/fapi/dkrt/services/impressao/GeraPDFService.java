@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public interface GeraPDFService {
 
-    boolean gerarPdfFichaCliente(ClienteDTO clienteDTO) throws IOException;
+    boolean gerarPdfFichaCliente(ClienteDTO clienteDTO, String caminho) throws IOException;
 
 }

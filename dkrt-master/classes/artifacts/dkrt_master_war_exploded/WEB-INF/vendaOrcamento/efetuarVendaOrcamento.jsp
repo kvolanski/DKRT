@@ -109,13 +109,13 @@
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
-            <label>Quantidade:<input type="number" min="0" name="quantidadeProduto" id="campoQuantidade" value="0"
+            <label>Quantidade:<input type="number" min="1" onclick="limpaCampoQuantidade()" name="quantidadeProduto" id="campoQuantidade"
                                      class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" min="0" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
-            <label>Qtd. em Estoque:<input value="${produtoBusca.qtdEstoque}" type="number" disabled="disabled" class="form-control"></label><br><br>
+            <label>Qtd. em Estoque:<input value="${produtoBusca.qtdEstoque}" id="qtdeProdutoEstoque" type="number" disabled="disabled" class="form-control"></label><br><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
-            <input value="Adicionar" type="submit" class="btn btn-success" id="botaoAdiciona"/><br><br>
+            <input value="Adicionar" type="submit" onclick="verificaQuantidades()" class="btn btn-success" id="botaoAdiciona"/><br><br>
         </form>
 
         <table width="40%" align="center" cellpadding="10">
@@ -175,6 +175,23 @@
 
 <script>
 
+    function pegaValorEstoque() {
+       var qtdeProdutoEstoque = document.getElementById("qtdeProdutoEstoque").value;
+       return qtdeProdutoEstoque;
+    }
+
+    function verificaQuantidades() {
+
+        var qtdeProdutoEstoque = pegaValorEstoque();
+
+        var campoQuantidade = document.getElementById("campoQuantidade").value;
+
+        if(campoQuantidade > qtdeProdutoEstoque){
+            alert("Quantidade de venda não pode ser maior que a quantidade em estoque");
+            document.getElementById("campoQuantidade").value = "0";
+        }
+    }
+
     function validaSelecaoCliente() {
         var selecionaCliente = document.getElementById("selecionaCliente").value;
         if (selecionaCliente == 0) {
@@ -191,6 +208,10 @@
         } else {
             document.getElementById("inputCarregarProduto").disabled = false;
         }
+    }
+
+    function limpaCampoQuantidade() {
+        document.getElementById("campoQuantidade").value = "";
     }
 
 </script>

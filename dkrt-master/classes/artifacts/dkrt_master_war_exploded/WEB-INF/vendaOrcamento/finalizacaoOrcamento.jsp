@@ -45,7 +45,7 @@
         <input type="hidden" value="orcamento" name="acao">
         <input type="hidden" value="finalizarOrcamento" name="tipo">
         <label class="txt2">Escolher data de expiração do Orçamento <input type="checkbox" id="expiracao"></label><br><br><br>
-        <label id="displayData" hidden><input type="date" name="dataExpiracao"></label>
+        <label id="displayData" hidden><input type="date" onchange="validaData()" id="dataExpiracao" name="dataExpiracao"></label>
         <label>Desconto(%): <input type="number" name="descontoOrcamento" value="0" onkeyup="updateValorTotal()" onclick="updateValorTotal()" id="desconto" required></label><br>
         <br>
         <input type="hidden" value="${valorTotal}" id="valorTotal">
@@ -58,6 +58,36 @@
 <script>
     var valorTotal = document.getElementById("valorTotal").value;
     document.getElementById("displayValorTotal").innerHTML = valorTotal;
+
+    function pegaDataExpiracao() {
+        var dataExpiracao = document.getElementById("dataExpiracao").value;
+
+        return dataExpiracao;
+    }
+
+    function validaData() {
+
+        var dataExpiracao = pegaDataExpiracao();
+
+        dataExpiracao = new Date(dataExpiracao);
+
+        var dataAtual = new Date();
+
+        dataAtual.setHours(22);
+        dataAtual.setMinutes(0);
+        dataAtual.setSeconds(0);
+
+
+        if(dataExpiracao  < dataAtual){
+            alert("Data da Expiração não pode ser menor que a data atual!");
+            document.getElementById('dataExpiracao').value = "";
+        }
+
+
+
+
+
+    }
 
     function updateValorTotal() {
         var valorTotal = document.getElementById("valorTotal").value;
