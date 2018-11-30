@@ -21,8 +21,8 @@
 <span class="geral">
     <form method="get" action="controller">
 
-        <label><input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por nome</label><br>
-        <label><input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por id</label><br>
+        <label><input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por nome</label>
+        <label><input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por id</label>
         <label><input type="radio" value="checkNumCompras" id="checkNumCompras" name="checkTudo"
                onclick="validaTipoPesquisa()"> Listar por número de compras</label>
 
