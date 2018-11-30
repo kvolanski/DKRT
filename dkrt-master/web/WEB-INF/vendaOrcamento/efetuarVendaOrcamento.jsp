@@ -109,13 +109,13 @@
             <input type="hidden" value="${produtoBusca.id}" name="idProduto">
             <label>Descricao:<input value="${produtoBusca.descricao}" type="text" name="descricaoProduto"
                                     class="form-control" disabled="disabled" id="descricaoAdiciona"></label>
-            <label>Quantidade:<input type="number" min="1" onclick="limpaCampoQuantidade()" name="quantidadeProduto" id="campoQuantidade"
+            <label>Quantidade:<input type="number" min="1" onkeyup="ativaAdicionar()" onclick="limpaCampoQuantidade()" name="quantidadeProduto" id="campoQuantidade"
                                      class="form-control"></label>
             <label>Valor Un.:<input value="${produtoBusca.precoVenda}" min="0" type="number" name="valorUnitProduto"
                                     class="form-control" step="any"></label>
             <label>Qtd. em Estoque:<input value="${produtoBusca.qtdEstoque}" id="qtdeProdutoEstoque" type="number" disabled="disabled" class="form-control"></label><br><br>
             <input value="Limpar Campos" type="reset" class="btn btn-danger"/>
-            <input value="Adicionar" type="submit" onclick="verificaQuantidades()" class="btn btn-success" id="botaoAdiciona"/><br><br>
+            <input value="Adicionar" type="submit" disabled onclick="verificaQuantidades()" class="btn btn-success" id="botaoAdiciona"/><br><br>
         </form>
 
         <table width="40%" align="center" cellpadding="10">
@@ -176,12 +176,8 @@
 <script>
 
 
-    function bloqueaAdionar(){
-        document.getElementById("botaoAdiciona").disabled = true;
-    }
-
     function pegaValorEstoque() {
-        var qtdeProdutoEstoque = document.getElementById("qtdeProdutoEstoque").value;
+        var qtdeProdutoEstoque = +document.getElementById("qtdeProdutoEstoque").value;
         return qtdeProdutoEstoque;
     }
 
@@ -189,14 +185,13 @@
 
         var qtdeProdutoEstoque = pegaValorEstoque();
 
-        var campoQuantidade = document.getElementById("campoQuantidade").value;
+        var campoQuantidade = +document.getElementById("campoQuantidade").value;
 
         if(campoQuantidade > qtdeProdutoEstoque){
             alert("Quantidade de venda não pode ser maior que a quantidade em estoque");
             document.getElementById("campoQuantidade").value = "0";
-        }else{
-            ativaAdicionar();
-    }
+        }
+
     }
 
     function validaSelecaoCliente() {
@@ -219,10 +214,15 @@
 
     function limpaCampoQuantidade() {
         document.getElementById("campoQuantidade").value = "";
+        document.getElementById("botaoAdiciona").disabled = true;
     }
 
     function ativaAdicionar() {
-        document.getElementById("botaoAdiciona").disabled = false;
+
+        var campoQuantidade = document.getElementById("campoQuantidade").value;
+        if(campoQuantidade.length > 0 && campoQuantidade > 0 && campoQuantidade != null){
+            document.getElementById("botaoAdiciona").disabled = false;
+        }
     }
 
 </script>
