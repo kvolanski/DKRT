@@ -111,7 +111,7 @@
             <label class="formInterno" style="width: 300px;">Número de compras realizadas: ${clienteBusca.numeroCompras}</label>
         </fieldset>
 
-        <button><a href="controller?acao=impressao&tipo=fichaCliente">IMPRIMIR</a></button>
+        <button><a href="controller?acao=impressao&tipo=fichaCliente&id=${clienteBusca.id}">IMPRIMIR</a></button>
     </center>
 </c:if>
 

@@ -1,5 +1,7 @@
 package br.edu.fapi.dkrt.servlets.estoque;
 
+import br.edu.fapi.dkrt.business.cadastro.ProdutoBusiness;
+import br.edu.fapi.dkrt.business.cadastro.impl.ProdutoBusinessImpl;
 import br.edu.fapi.dkrt.business.estoque.EstoqueBusiness;
 import br.edu.fapi.dkrt.business.estoque.impl.EstoqueBusinessImpl;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
@@ -56,6 +58,17 @@ public class EstoqueServlet extends AbstractBaseHttpServlet {
             ProdutoDTO produtoBusca = produtoDAO.buscaProdutoPorId(Integer.parseInt(idProduto));
             setSessionAttribute(req, "produtoBusca", produtoBusca);
             req.getRequestDispatcher("WEB-INF/estoque/edicaoProduto.jsp").forward(req, resp);
+        }
+
+        if ("excluiProduto".equalsIgnoreCase(tipo)){
+            ProdutoBusiness produtoBusiness = new ProdutoBusinessImpl();
+            ProdutoDAO produtoDAO = new ProdutoDAOImpl();
+            String idProduto = req.getParameter("idProduto");
+            if (produtoBusiness.excluirProduto(Integer.parseInt(idProduto))){
+                List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
+                setSessionAttribute(req, "listaProdutos", listaProdutos);
+                req.getRequestDispatcher("WEB-INF/estoque/listarEstoque.jsp").forward(req, resp);
+            }
         }
     }
 

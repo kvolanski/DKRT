@@ -24,4 +24,6 @@ public interface ProdutoDAO {
 
     List<ProdutoDTO> listarProdutoPesquisa(String sql);
 
+    boolean excluiProduto(int id);
+
 }

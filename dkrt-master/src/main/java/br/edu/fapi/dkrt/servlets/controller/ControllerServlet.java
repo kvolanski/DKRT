@@ -166,7 +166,7 @@ public class ControllerServlet extends HttpServlet {
                 String idProduto = req.getParameter("idProduto");
                 req.getRequestDispatcher("estoque?tipo=alteraProduto&idProduto=" + idProduto).forward(req, resp);
             } else if ("excluiProduto".equalsIgnoreCase(tipo)){
-                req.getRequestDispatcher("estoque?tipo=alteraProduto").forward(req, resp);
+                req.getRequestDispatcher("estoque?tipo=excluiProduto").forward(req, resp);
             }
         }
 
