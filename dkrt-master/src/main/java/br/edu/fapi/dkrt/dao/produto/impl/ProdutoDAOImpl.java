@@ -223,6 +223,26 @@ public class ProdutoDAOImpl implements ProdutoDAO {
         return listaProdutos;
     }
 
+    @Override
+    public boolean excluiProduto(int id) {
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM produtos WHERE produto_id = ?");
+
+            preparedStatement.setInt(1, id);
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private ProdutoDTO fillProduto(ResultSet resultSet) throws SQLException {
         ProdutoDTO produtoDTO = new ProdutoDTO();
         produtoDTO.setId(resultSet.getInt("produto_id"));

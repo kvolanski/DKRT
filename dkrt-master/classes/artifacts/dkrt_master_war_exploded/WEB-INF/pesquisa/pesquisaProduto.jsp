@@ -70,7 +70,7 @@
     <center>
         <fieldset>
             <legend>Informações do Produto</legend>
-            <label class="formInterno" style="width: 300px;"><strong style="color: black;">Nome do Produto:</strong> ${produtoBusca.nome}</label>
+            <label class="formInterno" style="width: 300px;">Nome do Produto:</strong> ${produtoBusca.nome}</label>
             <label class="formInterno" style="width: 300px;">Descrição: ${produtoBusca.descricao}</label>
             <label class="formInterno" style="width: 300px;">Preço de Venda: ${produtoBusca.precoVenda}</label>
             <label class="formInterno" style="width: 300px;">Preço de Custo: ${produtoBusca.precoCusto}</label>

@@ -1,8 +1,9 @@
 package br.edu.fapi.dkrt.servlets.impressao;
 
+import br.edu.fapi.dkrt.business.cadastro.ClienteBusiness;
+import br.edu.fapi.dkrt.business.cadastro.impl.ClienteBusinessImpl;
 import br.edu.fapi.dkrt.business.impressao.ImpressaoBusiness;
 import br.edu.fapi.dkrt.business.impressao.impl.ImpressaoBusinessImpl;
-import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet (urlPatterns = "/impressao")
+@WebServlet(urlPatterns = "/impressao")
 public class ImpressaoServlet extends AbstractBaseHttpServlet {
 
     @Override
@@ -24,10 +25,12 @@ public class ImpressaoServlet extends AbstractBaseHttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String tipo = req.getParameter("tipo");
 
-        if ("clienteFicha".equalsIgnoreCase(tipo)){
+        if ("clienteFicha".equalsIgnoreCase(tipo)) {
+            String idCliente = req.getParameter("id");
             ImpressaoBusiness impressaoBusiness = new ImpressaoBusinessImpl();
-            ClienteDTO clienteDTO = new ClienteDTO();
-            if (impressaoBusiness.gerarPdfFichaCliente(clienteDTO)){
+            ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
+            ClienteDTO clienteDTO = clienteBusiness.buscarClienteId(Integer.parseInt(idCliente));
+            if (impressaoBusiness.gerarPdfFichaCliente(clienteDTO)) {
                 req.getRequestDispatcher("controller?acao=pesquisa&tipo=cliente").forward(req, resp);
             }
         }

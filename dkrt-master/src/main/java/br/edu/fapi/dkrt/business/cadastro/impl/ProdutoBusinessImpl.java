@@ -54,4 +54,14 @@ public class ProdutoBusinessImpl implements ProdutoBusiness {
         ProdutoDTO produtoDTO = produtoDAO.buscaProdutoPorId(id);
         return produtoDTO;
     }
+
+    @Override
+    public boolean excluirProduto(int id) {
+        if (id != 0){
+            if (produtoDAO.excluiProduto(id)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

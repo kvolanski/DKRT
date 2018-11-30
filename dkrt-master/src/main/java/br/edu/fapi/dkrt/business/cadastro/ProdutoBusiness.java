@@ -12,4 +12,6 @@ public interface ProdutoBusiness {
 
     ProdutoDTO buscarProdutoId(int id);
 
+    boolean excluirProduto(int id);
+
 }

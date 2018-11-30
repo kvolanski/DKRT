@@ -174,14 +174,6 @@
 </center>
 
 <script>
-    var descricao = document.getElementById("descricaoAdiciona").value;
-
-    if (descricao != "") {
-        alert(botaoQuantidade);
-        document.getElementById("botaoAdiciona").disabled = false;
-    } else {
-        document.getElementById("botaoAdiciona").disabled = true;
-    }
 
     function validaSelecaoCliente() {
         var selecionaCliente = document.getElementById("selecionaCliente").value;
