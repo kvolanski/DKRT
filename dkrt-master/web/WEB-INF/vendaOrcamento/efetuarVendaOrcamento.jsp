@@ -191,7 +191,6 @@
             alert("Quantidade de venda não pode ser maior que a quantidade em estoque");
             document.getElementById("campoQuantidade").value = "0";
         }
-
     }
 
     function validaSelecaoCliente() {
@@ -222,6 +221,8 @@
         var campoQuantidade = document.getElementById("campoQuantidade").value;
         if(campoQuantidade.length > 0 && campoQuantidade > 0 && campoQuantidade != null){
             document.getElementById("botaoAdiciona").disabled = false;
+        }else{
+            document.getElementById("botaoAdiciona").disabled = true;
         }
     }
 
