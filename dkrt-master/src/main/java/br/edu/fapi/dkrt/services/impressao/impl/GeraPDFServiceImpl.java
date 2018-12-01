@@ -263,13 +263,65 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             //Logo
             contentStream.drawXObject(pdImage, 230, 660, 160, 160);
 
-            //Inicio Informações pessoais
+            //Inicio Informações produtos
             contentStream.beginText();
             contentStream.setFont(pdFontTitulo, tamFonteTitulo);
             contentStream.moveTextPositionByAmount(250, 670);
-            contentStream.drawString("Informações Pessoais");
+            contentStream.drawString("Informações Dos Produtos");
             contentStream.endText();
 
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("Nome Produto: " + produtoDTO.getNome());
+            contentStream.endText();
+            posicaoY -= 10;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("Descrição: " + produtoDTO.getDescricao());
+            contentStream.endText();
+            posicaoY -= 10;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("Quantidade: " + produtoDTO.getQtdEstoque());
+            contentStream.endText();
+            posicaoY -= 10;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("Preço Custo: " + produtoDTO.getPrecoCusto());
+            contentStream.endText();
+            posicaoY -= 10;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("Preço Venda: " + produtoDTO.getPrecoVenda());
+            contentStream.endText();
+            posicaoY = 625;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX2, posicaoY);
+            contentStream.drawString("Data de Cadastro: " + dateFormat.format(produtoDTO.getDataCadastro().getTime()));
+            contentStream.endText();
+            posicaoY -= 10;
+
+            if (produtoDTO.getDataAlteracao() != null) {
+                contentStream.beginText();
+                contentStream.setFont(pdFont, tamFonte);
+                contentStream.moveTextPositionByAmount(posicaoX2, posicaoY);
+                contentStream.drawString("Data de Alteracão: " + dateFormat.format(produtoDTO.getDataAlteracao().getTime()));
+                contentStream.endText();
+                posicaoY -= 10;
+            }
+
+            contentStream.close();
             try {
                 if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT"))) {
                     Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT"));
@@ -280,7 +332,7 @@ public class GeraPDFServiceImpl implements GeraPDFService {
                         Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"));
                     }
                 }
-                document.save(caminho + "\\PdfsDKRT\\PDFs\\Produtos\\Relatorio_Produto_" + nome + "_" + data + ".pdf");
+                document.save(caminho + "\\PdfsDKRT\\PDFs\\Produtos\\Relatorio_Produtos_" + nome + "_" + data + ".pdf");
             } catch (IOException e) {
                 e.printStackTrace();
             }
