@@ -30,7 +30,7 @@
 				<label>Nome *: <input type="text" id="nomeCliente" name="nomeCliente" class="form-control" required/></label>
 				<label>RG *: <input type="text" id="rgCliente" name="rgCliente" class="form-control" required/></label>
 				<label>CPF *: <input type="text" onclick="limpaCampo()" onblur="mostraErro(this.value)" id="cpfCliente" maxlength="11" name="cpfCliente" onkeyup="validarCpf(this.value)" class="form-control" required/></label>
-				<label>Dt. Nascimento *: <input type="text" name="dtNascCliente" class="form-control" required/></label>
+				<label>Dt. Nascimento *: <input type="text" onblur="validaData()" id="dtNascCliente" name="dtNascCliente" class="form-control" required/></label>
 				<label>E-mail *: <input type="text" onclick="limpaCampo()" onblur="mostraErro(this.value)" id="emailCliente" onkeyup="validarEmail(this.value)" name="emailCliente" class="form-control" required/></label>
 				<label>Celular *: <input type="text" name="celularCliente" class="form-control" required/></label> <br>
 				<label>Telefone: <input type="text" name="telefoneCliente" class="form-control"/></label> <br>
@@ -49,14 +49,15 @@
                 <label>Observação: <input type="text" name="observacaoCliente" class="form-control"/></label>
 				<%--<label>Estado: <input type="text" name="estadoEnderecoCliente" id="uf" class="form-control"/></label>--%>
          <br><br><label>Uf *:
-         <select name="clienteUfId" class="form-control" style="width: 300px;">
-            <option value="0">Selecione uma opção</option>
-            <c:forEach var="uf" items="${listaUfs}">
-                <c:if test="${uf.sigla != 'N/A'}">
-                    <option value="${uf.id}">${uf.sigla}</option>
-                </c:if>
-            </c:forEach>
-         </select>
+                <input type="text" name="uf" style="width:44px;font-size:13px"  id="uf" disabled class="form-control"/></label>
+         <%--<select name="clienteUfId" class="form-control" style="width: 300px;">--%>
+            <%--<option value="0">Selecione uma opção</option>--%>
+            <%--<c:forEach var="uf" items="${listaUfs}">--%>
+                <%--<c:if test="${uf.sigla != 'N/A'}">--%>
+                    <%--<option value="${uf.id}">${uf.sigla}</option>--%>
+                <%--</c:if>--%>
+            <%--</c:forEach>--%>
+         <%--</select>--%>
              </label>
 
 				<input name="ibge" type="hidden" id="ibge" size="8"/></label><br/>
@@ -204,7 +205,7 @@
             document.getElementById('rua').value=("");
             document.getElementById('bairro').value=("");
             document.getElementById('cidade').value=("");
-            //document.getElementById('uf').value=("");
+            document.getElementById('uf').value=("");
             document.getElementById('ibge').value=("");
         }
 
@@ -214,7 +215,7 @@
                 document.getElementById('rua').value=(conteudo.logradouro);
                 document.getElementById('bairro').value=(conteudo.bairro);
                 document.getElementById('cidade').value=(conteudo.localidade);
-                //document.getElementById('uf').value=(conteudo.uf);
+                document.getElementById('uf').value=(conteudo.uf);
                 document.getElementById('ibge').value=(conteudo.ibge);
             } //end if.
             else {
@@ -266,6 +267,8 @@
                 limpa_formulario_cep();
             }
         }
+
+
 
 
 
