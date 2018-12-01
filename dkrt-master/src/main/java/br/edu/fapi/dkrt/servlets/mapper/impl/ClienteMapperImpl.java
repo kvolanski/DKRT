@@ -53,7 +53,7 @@ public class ClienteMapperImpl implements BaseMapper<HttpServletRequest, Cliente
         clienteDTO.setCelular(celular);
         clienteDTO.setTelefone(telefone);
         clienteDTO.setObservacao(observacao);
-        clienteDTO.setAtivo(true);
+        clienteDTO.setAtivo(1);
         String hoje = dateFormat.format(new Date());
         try {
             clienteDTO.setDataCadastro(dateFormat.parse(hoje));

@@ -29,11 +29,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             preparedStatement.setString(6, clienteDTO.getEmail());
             preparedStatement.setString(7, clienteDTO.getCelular());
             preparedStatement.setString(8, clienteDTO.getTelefone());
-            if (clienteDTO.isAtivo()){
-                preparedStatement.setInt(9, 1);
-            } else {
-                preparedStatement.setInt(9, 0);
-            }
+            preparedStatement.setInt(9, clienteDTO.getAtivo());
             preparedStatement.setDate(10, new java.sql.Date(clienteDTO.getDataCadastro().getTime()));
             preparedStatement.setString(11, clienteDTO.getObservacao());
             preparedStatement.setInt(12, clienteDTO.getNumeroCompras());
@@ -42,7 +38,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 idCliente = resultSet.getInt(1);
             }
             return idCliente;
@@ -65,12 +61,12 @@ public class ClienteDAOImpl implements ClienteDAO {
                 "enderecos.endereco_cep, enderecos.endereco_rua, enderecos.endereco_numero, enderecos.endereco_complemento, enderecos.endereco_bairro, " +
                 "enderecos.endereco_cidade, ufs.uf_id, ufs.uf_sigla, ufs.uf_nome FROM clientes INNER JOIN enderecos ON clientes.endereco_id = enderecos.endereco_id " +
                 "INNER JOIN ufs ON enderecos.uf_id = ufs.uf_id";
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 ClienteDTO clienteDTO = fillCliente(resultSet);
                 listaClientes.add(clienteDTO);
             }
@@ -93,14 +89,14 @@ public class ClienteDAOImpl implements ClienteDAO {
                 "enderecos.endereco_cidade, ufs.uf_id, ufs.uf_sigla, ufs.uf_nome FROM clientes INNER JOIN enderecos ON clientes.endereco_id = enderecos.endereco_id " +
                 "INNER JOIN ufs ON enderecos.uf_id = ufs.uf_id WHERE cliente_id = ?";
 
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 clienteBusca = fillCliente(resultSet);
             }
 
@@ -138,7 +134,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     @Override
     public boolean adicionaCompraCliente(ClienteDTO clienteDTO) {
         String sql = "UPDATE clientes SET cliente_numeroCompras = ? WHERE cliente_id = ?";
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, clienteDTO.getNumeroCompras());
@@ -146,7 +142,29 @@ public class ClienteDAOImpl implements ClienteDAO {
 
             int resultado = preparedStatement.executeUpdate();
 
-            if (resultado != 0){
+            if (resultado != 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean excluirCliente(int id) {
+        String sql = "UPDATE clientes SET cliente_ativo = ? WHERE cliente_id = ?";
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setInt(2, id);
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0) {
                 return true;
             }
         } catch (SQLException e) {
@@ -181,12 +199,7 @@ public class ClienteDAOImpl implements ClienteDAO {
         clienteBusca.setEmail(resultSet.getString("cliente_email"));
         clienteBusca.setCelular(resultSet.getString("cliente_celular"));
         clienteBusca.setTelefone(resultSet.getString("cliente_telefone"));
-        int aux = resultSet.getInt("cliente_ativo");
-        if (aux == 1){
-            clienteBusca.setAtivo(true);
-        } else {
-            clienteBusca.setAtivo(false);
-        }
+        clienteBusca.setAtivo(resultSet.getInt("cliente_ativo"));
         clienteBusca.setDataCadastro(resultSet.getDate("cliente_dataDeCadastro"));
         clienteBusca.setDataAlteracao(resultSet.getDate("cliente_dataDeAlteracao"));
         clienteBusca.setObservacao(resultSet.getString("cliente_observacao"));

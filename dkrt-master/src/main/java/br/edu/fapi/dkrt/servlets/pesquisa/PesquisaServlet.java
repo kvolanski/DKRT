@@ -108,5 +108,23 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
             setSessionAttribute(req, "listaProdutos", listaProdutos);
             req.getRequestDispatcher("WEB-INF/pesquisa/pesquisaProduto.jsp").forward(req, resp);
         }
+
+        if ("listarClientes".equalsIgnoreCase(tipo)) {
+            ClienteDAO clienteDAO = new ClienteDAOImpl();
+            List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
+            setSessionAttribute(req, "listaClientes", listaClientes);
+            req.getRequestDispatcher("WEB-INF/clientes/listarClientes.jsp").forward(req, resp);
+        }
+
+        if ("excluirCliente".equalsIgnoreCase(tipo)){
+            ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
+            ClienteDAO clienteDAO = new ClienteDAOImpl();
+            String idCliente = req.getParameter("id");
+            if (clienteBusiness.excluirCliente(Integer.parseInt(idCliente))){
+                List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
+                setSessionAttribute(req, "listaClientes", listaClientes);
+                req.getRequestDispatcher("WEB-INF/clientes/listarClientes.jsp").forward(req, resp);
+            }
+        }
     }
 }

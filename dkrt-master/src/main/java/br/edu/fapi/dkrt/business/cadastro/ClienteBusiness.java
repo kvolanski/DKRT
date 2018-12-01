@@ -16,4 +16,6 @@ public interface ClienteBusiness {
 
     List<ClienteDTO> listarClienteNumCompras();
 
+    boolean excluirCliente(int id);
+
 }

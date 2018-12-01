@@ -14,7 +14,7 @@ public class ClienteDTO {
     private String email;
     private String celular;
     private String telefone;
-    private boolean ativo;
+    private int ativo;
     private Date dataCadastro;
     private Date dataAlteracao;
     private String observacao;
@@ -93,11 +93,11 @@ public class ClienteDTO {
         this.telefone = telefone;
     }
 
-    public boolean isAtivo() {
+    public int getAtivo() {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(int ativo) {
         this.ativo = ativo;
     }
 

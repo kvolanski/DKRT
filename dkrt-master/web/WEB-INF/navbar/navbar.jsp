@@ -35,7 +35,7 @@
         </li>
         <li><a>CLIENTES</a>
             <ul>
-                <li><a href="controller?acao=estoque&tipo=listarEstoque">Abrir Estoque</a></li>
+                <li><a href="controller?acao=pesquisa&tipo=listarClientes">Listar Clientes</a></li>
             </ul>
         </li>
         <li><a>ESTOQUE</a>

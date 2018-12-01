@@ -18,6 +18,7 @@ import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 import br.edu.fapi.dkrt.servlets.mapper.BaseMapper;
+import br.edu.fapi.dkrt.servlets.mapper.impl.ClienteMapperImpl;
 import br.edu.fapi.dkrt.servlets.mapper.impl.PedidoMapperImpl;
 import br.edu.fapi.dkrt.servlets.mapper.impl.VendaMapperImpl;
 
@@ -67,7 +68,14 @@ public class VendaServlet extends AbstractBaseHttpServlet {
 
         if ("finalizarVenda".equalsIgnoreCase(tipo)) {
             VendaBusiness vendaBusiness = new VendaBusinessImpl();
-            VendaDTO vendaDTO = vendaMapper.doMap(req);
+            VendaDTO vendaDTO = new VendaDTO();
+            System.out.println(vendaDTO.getStatus());
+            System.out.println(vendaDTO.getId());
+            System.out.println(vendaDTO.getDesconto());
+            vendaDTO = vendaMapper.doMap(req);
+            System.out.println(vendaDTO.getStatus());
+            System.out.println(vendaDTO.getId());
+            System.out.println(vendaDTO.getDesconto());
             ClienteDTO clienteDTO = (ClienteDTO) req.getSession().getAttribute("clienteBusca");
             vendaDTO.setClienteDTO(clienteDTO);
             Calculator valorCalculator = new CalculatorImpl();
