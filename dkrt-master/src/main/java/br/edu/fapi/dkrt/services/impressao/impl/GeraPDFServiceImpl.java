@@ -250,6 +250,26 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             PDFont pdFont = PDType1Font.COURIER;
             PDFont pdFontTitulo = PDType1Font.COURIER_BOLD;
 
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            int posicaoY = 650;
+            int posicaoX1 = 150;
+            int posicaoX2 = 350;
+            int tamFonte = 8;
+            int tamFonteTitulo = 10;
+
+            PDImageXObject pdImage = PDImageXObject.createFromFile(caminho + "\\PdfsDKRT\\Logo\\logo.png", document);
+
+            //Logo
+            contentStream.drawXObject(pdImage, 230, 660, 160, 160);
+
+            //Inicio Informações pessoais
+            contentStream.beginText();
+            contentStream.setFont(pdFontTitulo, tamFonteTitulo);
+            contentStream.moveTextPositionByAmount(250, 670);
+            contentStream.drawString("Informações Pessoais");
+            contentStream.endText();
+
             try {
                 if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT"))) {
                     Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT"));
