@@ -236,10 +236,11 @@ public class GeraPDFServiceImpl implements GeraPDFService {
     }
 
     @Override
-    public boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO, String caminho) throws IOException {
+    public boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO, String caminho, float valorTotal) throws IOException {
         if (produtoDTO != null) {
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             String data = dateFormat.format(new Date());
+            dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String nome = produtoDTO.getNome();
             nome = nome.replaceAll(" ", "_");
             PDDocument document = new PDDocument();
@@ -302,6 +303,13 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             contentStream.setFont(pdFont, tamFonte);
             contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
             contentStream.drawString("Preço Venda: " + produtoDTO.getPrecoVenda());
+            contentStream.endText();
+            posicaoY -= 10;
+
+            contentStream.beginText();
+            contentStream.setFont(pdFont, tamFonte);
+            contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
+            contentStream.drawString("Estoque em R$: " + valorTotal);
             contentStream.endText();
             posicaoY = 650;
 
