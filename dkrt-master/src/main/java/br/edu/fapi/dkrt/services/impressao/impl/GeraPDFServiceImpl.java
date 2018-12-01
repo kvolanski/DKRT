@@ -303,7 +303,7 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             contentStream.moveTextPositionByAmount(posicaoX1, posicaoY);
             contentStream.drawString("Preço Venda: " + produtoDTO.getPrecoVenda());
             contentStream.endText();
-            posicaoY = 625;
+            posicaoY = 650;
 
             contentStream.beginText();
             contentStream.setFont(pdFont, tamFonte);

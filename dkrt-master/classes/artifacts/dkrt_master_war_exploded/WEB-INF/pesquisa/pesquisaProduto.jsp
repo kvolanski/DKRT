@@ -58,13 +58,9 @@
                     <td>${produto.precoVenda}</td>
                     <td>${produto.precoCusto}</td>
                     <td>${produto.qtdEstoque}</td>
-                    <td><a class="btn btn-success" href="controller?acao=impressao&tipo=fichaProduto&id=${produtoBusca.id}">IMPRIMIR</a></td><br>
                 </tr>
             </c:forEach>
         </table>
-
-
-
 
         <form method="post" action="controller">
 
