@@ -21,6 +21,7 @@
     <form method="get" action="controller">
         <label><input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por nome</label>
         <label><input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por id</label>
+        <input type="hidden" value="${pdfSucesso}" id="msgErro">
         <input type="hidden" value="pesquisa" name="acao">
         <input type="hidden" value="produtoPesquisa" name="tipo">
         <br><br>
@@ -86,6 +87,12 @@
 </c:if>
 
 <script>
+    var msgErro = document.getElementById("msgErro").value;
+
+    if (msgErro == 'sim'){
+        alert("PDF gerado com sucesso");
+    }
+
     function validaTipoPesquisa() {
         var check1 = document.getElementsByName("checkTudo")[0].checked;
         var check2 = document.getElementsByName("checkTudo")[1].checked;
