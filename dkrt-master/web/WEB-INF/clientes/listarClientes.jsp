@@ -19,31 +19,31 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <center>
-    <table style="text-align: center">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>RG</th>
-            <th>CPF</th>
-            <th>Data de Nascimento</th>
-            <th>Email</th>
-            <th>Telefone Principal</th>
-            <th>Telefone Secundário</th>
-            <th>Data de Cadastro</th>
-            <th>Data de Alteração</th>
-            <th>Observação</th>
-            <th>Número de Compras</th>
-            <th>Rua</th>
-            <th>Cep</th>
-            <th>Número</th>
-            <th>Bairro</th>
-            <th>Cidade</th>
-            <th>Estado</th>
-            <th>Ação</th>
+    <table width="90%" align="center" cellpadding="10">
+        <tr align="center" bgcolor="#EDEDED">
+            <td><strong>ID</strong></td>
+            <td><strong>Nome</strong></td>
+            <td><strong>RG</strong></td>
+            <td><strong>CPF</strong></td>
+            <td><strong>Data de Nascimento</strong></td>
+            <td><strong>Email</strong></td>
+            <td><strong>Telefone Principal</strong></td>
+            <td><strong>Telefone Secundário</strong></td>
+            <td><strong>Data de Cadastro</strong></td>
+            <td><strong>Data de Alteração</strong></td>
+            <td><strong>Observação</strong></td>
+            <td><strong>Número de Compras</strong></td>
+            <td><strong>Rua</strong></td>
+            <td><strong>Cep</strong></td>
+            <td><strong>Número</strong></td>
+            <td><strong>Bairro</strong></td>
+            <td><strong>Cidade</strong></td>
+            <td><strong>Estado</strong></td>
+            <td><strong>Ação</strong></td>
         </tr>
         <c:forEach var="cliente" items="${listaClientes}">
             <c:if test="${cliente.ativo != 0}">
-                <tr>
+                <tr align="center" bgcolor="#EDEDED">
                     <td>${cliente.id}</td>
                     <td>${cliente.nome}</td>
                     <td>${cliente.rg}</td>
@@ -62,7 +62,7 @@
                     <td>${cliente.enderecoDTO.bairro}</td>
                     <td>${cliente.enderecoDTO.cidade}</td>
                     <td>${cliente.enderecoDTO.ufDTO.sigla}</td>
-                    <td><a href="controller?acao=pesquisa&tipo=excluirCliente&id=${cliente.id}">Excluir</a></td>
+                    <td class="cancelar"><a href="controller?acao=pesquisa&tipo=excluirCliente&id=${cliente.id}">Excluir</a></td>
                 </tr>
             </c:if>
         </c:forEach>
