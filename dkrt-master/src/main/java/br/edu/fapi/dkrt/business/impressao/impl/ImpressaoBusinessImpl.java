@@ -48,6 +48,7 @@ public class ImpressaoBusinessImpl implements ImpressaoBusiness {
     public boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO) {
         if (produtoDTO != null){
             try {
+
                 if (geraPDFService.gerarPdfFichaProduto(produtoDTO, caminho)){
                     return true;
                 }
