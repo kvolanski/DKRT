@@ -175,6 +175,38 @@ public class ClienteDAOImpl implements ClienteDAO {
         return false;
     }
 
+    @Override
+    public boolean editarCliente(ClienteDTO clienteDTO) {
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE clientes SET cliente_nome = ?, cliente_nomeSocial = ?, " +
+                    "cliente_rg = ?, cliente_cpf = ?, cliente_dtNasc = ?, cliente_email = ?, cliente_celular = ?, cliente_telefone = ?, " +
+                    "cliente_dataDeAlteracao = ?, cliente_observacao = ? WHERE cliente_id = ?");
+
+            preparedStatement.setString(1, clienteDTO.getNome());
+            preparedStatement.setString(2, clienteDTO.getNomeSocial());
+            preparedStatement.setString(3, clienteDTO.getRg());
+            preparedStatement.setString(4, clienteDTO.getCpf());
+            preparedStatement.setDate(5, new java.sql.Date(clienteDTO.getDtNascimento().getTime()));
+            preparedStatement.setString(6, clienteDTO.getEmail());
+            preparedStatement.setString(7, clienteDTO.getCelular());
+            preparedStatement.setString(8, clienteDTO.getTelefone());
+            preparedStatement.setDate(9, new java.sql.Date(clienteDTO.getDataAlteracao().getTime()));
+            preparedStatement.setString(10, clienteDTO.getObservacao());
+            preparedStatement.setInt(11, clienteDTO.getId());
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private ClienteDTO fillCliente(ResultSet resultSet) throws SQLException {
         UfDTO ufDTO = new UfDTO();
         ufDTO.setId(resultSet.getInt("uf_id"));

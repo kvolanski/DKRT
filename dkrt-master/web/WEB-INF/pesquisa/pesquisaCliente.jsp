@@ -20,7 +20,7 @@
 
 <span class="geral">
     <form method="get" action="controller">
-
+        <input type="hidden" value="${pdfSucesso}" id="msgErro">
         <label><input type="radio" value="checkNome" id="checkNome" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por nome</label>
         <label><input type="radio" value="checkId" id="checkId" name="checkTudo" onclick="validaTipoPesquisa()"> Pesquisar por id</label>
         <label><input type="radio" value="checkNumCompras" id="checkNumCompras" name="checkTudo"
@@ -41,6 +41,8 @@
         <br><input value="Pesquisar" type="submit" id="botaoPesquisa" class="btn btn-success" disabled/>
     </form>
 </span>
+
+
 
 <c:if test="${mostraTable == 'sim'}">
     <br>
@@ -118,6 +120,13 @@
 
 
 <script>
+    var msgErro = document.getElementById("msgErro").value;
+
+    if (msgErro == 'sim'){
+        alert("PDF gerado com sucesso");
+    }
+
+
     function validaTipoPesquisa() {
         var check1 = document.getElementsByName("checkTudo")[0].checked;
         var check2 = document.getElementsByName("checkTudo")[1].checked;

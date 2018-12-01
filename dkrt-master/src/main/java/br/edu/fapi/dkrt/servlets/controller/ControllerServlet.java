@@ -19,18 +19,7 @@ public class ControllerServlet extends HttpServlet {
         String acao = req.getParameter("acao");
 
         if ("login".equalsIgnoreCase(acao)) {
-            String usuario = req.getParameter("usuario");
-            String senha = req.getParameter("senha");
-
-            UsuarioDTO usuarioDTO = new UsuarioDTO();
-            usuarioDTO.setEmail(usuario);
-            usuarioDTO.setSenha(senha);
-            req.getSession().setAttribute("usuario", usuarioDTO);
-            req.getRequestDispatcher("login").forward(req, resp);
-        }
-
-        if ("excluir".equalsIgnoreCase(acao)) {
-            req.getRequestDispatcher("/excluir").forward(req, resp);
+            req.getRequestDispatcher("login?tipo=logar").forward(req, resp);
         }
 
         if ("cadastro".equalsIgnoreCase(acao)) {
@@ -42,6 +31,8 @@ public class ControllerServlet extends HttpServlet {
             } else if ("alteraProduto".equalsIgnoreCase(tipo)) {
                 String idProduto = req.getParameter("idProduto");
                 req.getRequestDispatcher("cadastro?tipo=alteraProduto&idProduto=" + idProduto).forward(req, resp);
+            } else if ("editarCliente".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("cadastro?tipo=editarCliente").forward(req, resp);
             }
         }
 
@@ -193,6 +184,8 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("pesquisa?tipo=listarClientes").forward(req, resp);
             } else if ("excluirCliente".equalsIgnoreCase(tipo)){
                 req.getRequestDispatcher("pesquisa?tipo=excluirCliente").forward(req, resp);
+            } else if ("editarCliente".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("pesquisa?tipo=editarCliente").forward(req, resp);
             }
         }
 

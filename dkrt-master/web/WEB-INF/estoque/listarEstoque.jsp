@@ -46,7 +46,7 @@
                 <td><fmt:formatDate value="${produto.dataCadastro}" pattern="dd/MM/yyyy"/></td>
                 <td><fmt:formatDate value="${produto.dataAlteracao}" pattern="dd/MM/yyyy"/></td>
                 <td class="editar"><a href="controller?acao=estoque&tipo=alteraProduto&idProduto=${produto.id}">EDITAR</a></td>
-                <td class="editar"><a href="controller?acao=estoque&tipo=excluiProduto&idProduto=${produto.id}">EXCLUIR</a></td>
+                <td class="cancelar"><a href="controller?acao=estoque&tipo=excluiProduto&idProduto=${produto.id}">EXCLUIR</a></td>
             </tr>
         </c:forEach>
     </table>

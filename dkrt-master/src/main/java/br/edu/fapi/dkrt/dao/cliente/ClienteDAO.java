@@ -17,4 +17,6 @@ public interface ClienteDAO {
     boolean adicionaCompraCliente(ClienteDTO clienteDTO);
 
     boolean excluirCliente(int id);
+
+    boolean editarCliente(ClienteDTO clienteDTO);
 }

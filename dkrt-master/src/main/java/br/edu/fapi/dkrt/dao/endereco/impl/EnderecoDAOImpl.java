@@ -22,13 +22,7 @@ public class EnderecoDAOImpl implements EnderecoDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                enderecoBusca.setId(resultSet.getInt("endereco_id"));
-                enderecoBusca.setCep(resultSet.getString("endereco_cep"));
-                enderecoBusca.setRua(resultSet.getString("endereco_rua"));
-                enderecoBusca.setNumero(resultSet.getString("endereco_numero"));
-                enderecoBusca.setComplemento(resultSet.getString("endereco_complemento"));
-                enderecoBusca.setBairro(resultSet.getString("endereco_bairro"));
-                enderecoBusca.setCidade(resultSet.getString("endereco_cidade"));
+                enderecoBusca = fillEndereco(resultSet);
             } else {
                 enderecoBusca.setId(criaEndereco(enderecoDTO, ufId));
                 return enderecoBusca;
@@ -41,6 +35,55 @@ public class EnderecoDAOImpl implements EnderecoDAO {
             e.printStackTrace();
         }
         return enderecoBusca;
+    }
+
+    @Override
+    public boolean editarEndereco(EnderecoDTO enderecoDTO, int id) {
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE enderecos SET endereco_cep = ?, endereco_rua = ?, " +
+                    "endereco_numero = ?, endereco_complemento = ?, endereco_bairro = ?, endereco_cidade = ?, uf_id = ? WHERE endereco_id = ?");
+
+            preparedStatement.setString(1, enderecoDTO.getCep());
+            preparedStatement.setString(2, enderecoDTO.getRua());
+            preparedStatement.setString(3, enderecoDTO.getNumero());
+            preparedStatement.setString(4, enderecoDTO.getComplemento());
+            preparedStatement.setString(5, enderecoDTO.getBairro());
+            preparedStatement.setString(6, enderecoDTO.getCidade());
+            preparedStatement.setInt(7, enderecoDTO.getUfDTO().getId());
+            preparedStatement.setInt(8, id);
+
+            int resultado = preparedStatement.executeUpdate();
+
+            if (resultado != 0){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public int buscaIdEndereco(EnderecoDTO enderecoDTO) {
+        try (Connection connection = MySqlConnectionProvider.abrirConexao()){
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM enderecos WHERE endereco_cep = ?");
+
+            preparedStatement.setString(1, enderecoDTO.getCep());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                EnderecoDTO enderecoBusca = fillEndereco(resultSet);
+                return enderecoBusca.getId();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private int criaEndereco(EnderecoDTO enderecoDTO, int ufId) throws SQLException, ClassNotFoundException {
@@ -65,5 +108,17 @@ public class EnderecoDAOImpl implements EnderecoDAO {
             }
         }
         return id;
+    }
+
+    private EnderecoDTO fillEndereco(ResultSet resultSet) throws SQLException {
+        EnderecoDTO enderecoBusca = new EnderecoDTO();
+        enderecoBusca.setId(resultSet.getInt("endereco_id"));
+        enderecoBusca.setCep(resultSet.getString("endereco_cep"));
+        enderecoBusca.setRua(resultSet.getString("endereco_rua"));
+        enderecoBusca.setNumero(resultSet.getString("endereco_numero"));
+        enderecoBusca.setComplemento(resultSet.getString("endereco_complemento"));
+        enderecoBusca.setBairro(resultSet.getString("endereco_bairro"));
+        enderecoBusca.setCidade(resultSet.getString("endereco_cidade"));
+        return enderecoBusca;
     }
 }

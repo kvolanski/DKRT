@@ -15,6 +15,7 @@ public class ClienteMapperImpl implements BaseMapper<HttpServletRequest, Cliente
 
     @Override
     public ClienteDTO doMap(HttpServletRequest req) {
+        String tipoAcao = req.getParameter("tipoAcao");
         String nome = req.getParameter("nomeCliente");
         String rg = req.getParameter("rgCliente");
         String cpf = req.getParameter("cpfCliente");
@@ -56,7 +57,12 @@ public class ClienteMapperImpl implements BaseMapper<HttpServletRequest, Cliente
         clienteDTO.setAtivo(1);
         String hoje = dateFormat.format(new Date());
         try {
-            clienteDTO.setDataCadastro(dateFormat.parse(hoje));
+            if ("cadastro".equalsIgnoreCase(tipoAcao)){
+                clienteDTO.setDataCadastro(dateFormat.parse(hoje));
+            } else {
+                clienteDTO.setDataAlteracao(dateFormat.parse(hoje));
+            }
+
             clienteDTO.setDtNascimento(dateFormat.parse(dtNasc));
         } catch (ParseException e) {
             e.printStackTrace();

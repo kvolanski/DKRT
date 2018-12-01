@@ -34,6 +34,7 @@ public class ImpressaoServlet extends AbstractBaseHttpServlet {
             ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
             ClienteDTO clienteDTO = clienteBusiness.buscarClienteId(Integer.parseInt(idCliente));
             if (impressaoBusiness.gerarPdfFichaCliente(clienteDTO)) {
+                setSessionAttribute(req, "pdfSucesso", "sim");
                 req.getRequestDispatcher("controller?acao=pesquisa&tipo=cliente").forward(req, resp);
             }
         }
@@ -44,6 +45,7 @@ public class ImpressaoServlet extends AbstractBaseHttpServlet {
             ProdutoBusiness produtoBusiness = new ProdutoBusinessImpl();
             ProdutoDTO produtoDTO = produtoBusiness.buscarProdutoId(Integer.parseInt(idProduto));
             if (impressaoBusiness.gerarPdfFichaProduto(produtoDTO)){
+                setSessionAttribute(req, "pdfSucesso", "sim");
                 req.getRequestDispatcher("controller?acao=pesquisa&tipo=produto").forward(req, resp);
             }
         }

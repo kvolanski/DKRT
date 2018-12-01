@@ -19,9 +19,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                usuarioDTO.setId(resultSet.getInt("usuario_id"));
-                usuarioDTO.setEmail(resultSet.getString("usuario_login"));
-                usuarioDTO.setSenha(resultSet.getString("usuario_senha"));
                 return true;
             }
         } catch (SQLException e) {
@@ -30,19 +27,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             e.printStackTrace();
         }
         return false;
-    }
-
-    @Override
-    public int createUsuario(UsuarioDTO usuario) {
-        try (Connection connection = MySqlConnectionProvider.abrirConexao()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO usuarios (usuario_email, usuario_senha)" +
-                    "VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-        } catch (SQLException e) {
-            System.out.println("Falha na conexao");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     @Override

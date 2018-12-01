@@ -8,8 +8,11 @@ import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
 import br.edu.fapi.dkrt.dao.cliente.impl.ClienteDAOImpl;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
+import br.edu.fapi.dkrt.dao.uf.UfDAO;
+import br.edu.fapi.dkrt.dao.uf.impl.UfDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
+import br.edu.fapi.dkrt.model.uf.UfDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 
 import javax.servlet.ServletException;
@@ -24,7 +27,8 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String tipo = req.getParameter("tipo");
+
     }
 
     @Override
@@ -79,6 +83,7 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
             ClienteDAO clienteDAO = new ClienteDAOImpl();
             List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
             setSessionAttribute(req, "listaClientes", listaClientes);
+            setSessionAttribute(req, "pdfSucesso", "nao");
             req.getRequestDispatcher("WEB-INF/pesquisa/pesquisaCliente.jsp").forward(req, resp);
         }
 
@@ -106,6 +111,7 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
             ProdutoDAO produtoDAO = new ProdutoDAOImpl();
             List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
             setSessionAttribute(req, "listaProdutos", listaProdutos);
+            setSessionAttribute(req, "pdfSucesso", "nao");
             req.getRequestDispatcher("WEB-INF/pesquisa/pesquisaProduto.jsp").forward(req, resp);
         }
 
@@ -125,6 +131,17 @@ public class PesquisaServlet extends AbstractBaseHttpServlet {
                 setSessionAttribute(req, "listaClientes", listaClientes);
                 req.getRequestDispatcher("WEB-INF/clientes/listarClientes.jsp").forward(req, resp);
             }
+        }
+
+        if ("editarCliente".equalsIgnoreCase(tipo)){
+            ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
+            UfDAO ufDAO = new UfDAOImpl();
+            String idCliente = req.getParameter("id");
+            ClienteDTO clienteBusca = clienteBusiness.buscarClienteId(Integer.parseInt(idCliente));
+            List<UfDTO> listaUfs = ufDAO.buscarListaUfs();
+            setSessionAttribute(req, "clienteBusca", clienteBusca);
+            setSessionAttribute(req, "listaUfs", listaUfs);
+            req.getRequestDispatcher("WEB-INF/cadastro/clienteCadastro.jsp").forward(req, resp);
         }
     }
 }

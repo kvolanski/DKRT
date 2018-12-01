@@ -89,4 +89,18 @@ public class ClienteBusinessImpl implements ClienteBusiness {
         return false;
     }
 
+    @Override
+    public boolean editarCliente(ClienteDTO clienteDTO) {
+        if (clienteDTO != null){
+            String condicao = clienteValidator.verificarCliente(clienteDTO);
+
+            if ("sucesso".equalsIgnoreCase(condicao)){
+                clienteDAO.editarCliente(clienteDTO);
+                int id = enderecoDAO.buscaIdEndereco(clienteDTO.getEnderecoDTO());
+                enderecoDAO.editarEndereco(clienteDTO.getEnderecoDTO(), id);
+            }
+        }
+        return false;
+    }
+
 }

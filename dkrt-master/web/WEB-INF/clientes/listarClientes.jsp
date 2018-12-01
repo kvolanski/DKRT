@@ -39,7 +39,7 @@
             <td><strong>Bairro</strong></td>
             <td><strong>Cidade</strong></td>
             <td><strong>Estado</strong></td>
-            <td><strong>Ação</strong></td>
+            <td colspan="2"><strong>Ação</strong></td>
         </tr>
         <c:forEach var="cliente" items="${listaClientes}">
             <c:if test="${cliente.ativo != 0}">
@@ -62,6 +62,7 @@
                     <td>${cliente.enderecoDTO.bairro}</td>
                     <td>${cliente.enderecoDTO.cidade}</td>
                     <td>${cliente.enderecoDTO.ufDTO.sigla}</td>
+                    <td class="editar"><a href="controller?acao=pesquisa&tipo=editarCliente&id=${cliente.id}">Editar</a></td>
                     <td class="cancelar"><a href="controller?acao=pesquisa&tipo=excluirCliente&id=${cliente.id}">Excluir</a></td>
                 </tr>
             </c:if>

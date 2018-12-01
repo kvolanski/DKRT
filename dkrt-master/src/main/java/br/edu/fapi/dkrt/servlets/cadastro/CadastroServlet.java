@@ -1,7 +1,10 @@
 package br.edu.fapi.dkrt.servlets.cadastro;
 
+import br.edu.fapi.dkrt.business.cadastro.ClienteBusiness;
 import br.edu.fapi.dkrt.business.cadastro.impl.ClienteBusinessImpl;
 import br.edu.fapi.dkrt.business.cadastro.impl.ProdutoBusinessImpl;
+import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
+import br.edu.fapi.dkrt.dao.cliente.impl.ClienteDAOImpl;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
 import br.edu.fapi.dkrt.dao.uf.UfDAO;
@@ -100,6 +103,18 @@ public class CadastroServlet extends AbstractBaseHttpServlet {
                 req.getRequestDispatcher("WEB-INF/cadastro/erroCadastro.jsp").forward(req, resp);
             }
             req.getRequestDispatcher("WEB-INF/cadastro/produtoCadastro.jsp").forward(req, resp);
+        }
+
+        if ("editarCliente".equalsIgnoreCase(tipo)){
+            String idCliente = req.getParameter("idCliente");
+            ClienteDTO clienteDTO = clienteMapper.doMap(req);
+            clienteDTO.setId(Integer.parseInt(idCliente));
+            ClienteBusiness clienteBusiness = new ClienteBusinessImpl();
+            ClienteDAO clienteDAO = new ClienteDAOImpl();
+            clienteBusiness.editarCliente(clienteDTO);
+            List<ClienteDTO> listaClientes = clienteDAO.listarClientes();
+            setSessionAttribute(req, "listaClientes", listaClientes);
+            req.getRequestDispatcher("WEB-INF/clientes/listarClientes.jsp").forward(req, resp);
         }
 
 

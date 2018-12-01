@@ -24,10 +24,18 @@
 <img src="..\logo.png" class="logo"/>
 <div class="login">
     <form method="post" action="controller?acao=login">
+        <input type="hidden" value="${erro}" id="msgErro">
         <label>USUÁRIO<input type="text" name="loginUsuario" placeholder="Usuário" required class="form-control"></label><br><br>
         <label>SENHA<input type="password" name="senhaUsuario" placeholder="Senha" required CLASS="form-control"></label><br><br>
         <input value="Logar" type="submit" class="btn btn-success"/><br>
     </form>
 </div>
+
+<script>
+    var erro = document.getElementById("msgErro").value;
+    if (erro == "sim"){
+        alert("Usuário e/ou senha inválido(s)");
+    }
+</script>
 </body>
 </html>
