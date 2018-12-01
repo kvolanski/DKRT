@@ -81,7 +81,7 @@
             <label class="formInterno" style="width: 300px;">Data da Última Alteração: <fmt:formatDate value="${produtoBusca.dataAlteracao}"
                                                              pattern="dd/MM/yyyy"/></label><br>
         </fieldset>
-       <a class="btn btn-success" href="controller?acao=impressao&tipo=fichaProduto&id=${produtoBusca.id}">IMPRIMIR</a>
+       <a class="btn btn-success" href="controller?acao=impressao&tipo=fichaProduto&id=${produtoBusca.id}">GERAR PDF</a>
     </center>
 </c:if>
 

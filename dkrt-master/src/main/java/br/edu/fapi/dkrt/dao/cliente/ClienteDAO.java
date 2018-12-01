@@ -15,4 +15,6 @@ public interface ClienteDAO {
     List<ClienteDTO> listarClientePesquisa(String sql);
 
     boolean adicionaCompraCliente(ClienteDTO clienteDTO);
+
+    boolean excluirCliente(int id);
 }

@@ -4,8 +4,11 @@ import br.edu.fapi.dkrt.business.cadastro.ProdutoBusiness;
 import br.edu.fapi.dkrt.business.cadastro.impl.ProdutoBusinessImpl;
 import br.edu.fapi.dkrt.business.estoque.EstoqueBusiness;
 import br.edu.fapi.dkrt.business.estoque.impl.EstoqueBusinessImpl;
+import br.edu.fapi.dkrt.dao.cliente.ClienteDAO;
+import br.edu.fapi.dkrt.dao.cliente.impl.ClienteDAOImpl;
 import br.edu.fapi.dkrt.dao.produto.ProdutoDAO;
 import br.edu.fapi.dkrt.dao.produto.impl.ProdutoDAOImpl;
+import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
 import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 import br.edu.fapi.dkrt.servlets.mapper.BaseMapper;
@@ -33,7 +36,7 @@ public class EstoqueServlet extends AbstractBaseHttpServlet {
             String idProduto = req.getParameter("idProduto");
             ProdutoDTO produtoDTO = produtoMapper.doMap(req);
             produtoDTO.setId(Integer.parseInt(idProduto));
-            if (estoqueBusiness.atualizaProduto(produtoDTO)){
+            if (estoqueBusiness.atualizaProduto(produtoDTO)) {
                 List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
                 setSessionAttribute(req, "listaProdutos", listaProdutos);
                 req.getRequestDispatcher("WEB-INF/estoque/listarEstoque.jsp").forward(req, resp);
@@ -60,11 +63,11 @@ public class EstoqueServlet extends AbstractBaseHttpServlet {
             req.getRequestDispatcher("WEB-INF/estoque/edicaoProduto.jsp").forward(req, resp);
         }
 
-        if ("excluiProduto".equalsIgnoreCase(tipo)){
+        if ("excluiProduto".equalsIgnoreCase(tipo)) {
             ProdutoBusiness produtoBusiness = new ProdutoBusinessImpl();
             ProdutoDAO produtoDAO = new ProdutoDAOImpl();
             String idProduto = req.getParameter("idProduto");
-            if (produtoBusiness.excluirProduto(Integer.parseInt(idProduto))){
+            if (produtoBusiness.excluirProduto(Integer.parseInt(idProduto))) {
                 List<ProdutoDTO> listaProdutos = produtoDAO.listarProdutos();
                 setSessionAttribute(req, "listaProdutos", listaProdutos);
                 req.getRequestDispatcher("WEB-INF/estoque/listarEstoque.jsp").forward(req, resp);

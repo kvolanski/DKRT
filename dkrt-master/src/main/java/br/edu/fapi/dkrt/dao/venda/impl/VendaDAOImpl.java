@@ -281,8 +281,7 @@ public class VendaDAOImpl implements VendaDAO {
         clienteDTO.setDtNascimento(resultSet.getTimestamp("cliente_dtNasc"));
         clienteDTO.setCelular(resultSet.getString("cliente_celular"));
         clienteDTO.setTelefone(resultSet.getString("cliente_telefone"));
-        int ativo = resultSet.getInt("cliente_ativo");
-        clienteDTO.setAtivo(ativo == 1);
+        clienteDTO.setAtivo(resultSet.getInt("cliente_ativo"));
         clienteDTO.setObservacao(resultSet.getString("cliente_observacao"));
         VendaDTO vendaBusca = new VendaDTO();
         vendaBusca.setClienteDTO(clienteDTO);

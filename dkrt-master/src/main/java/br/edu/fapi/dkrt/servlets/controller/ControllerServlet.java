@@ -189,13 +189,17 @@ public class ControllerServlet extends HttpServlet {
                 req.getRequestDispatcher("pesquisa?tipo=pesquisaCliente").forward(req, resp);
             } else if ("produtoPesquisa".equalsIgnoreCase(tipo)){
                 req.getRequestDispatcher("pesquisa?tipo=pesquisaProduto").forward(req, resp);
+            } else if ("listarClientes".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("pesquisa?tipo=listarClientes").forward(req, resp);
+            } else if ("excluirCliente".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("pesquisa?tipo=excluirCliente").forward(req, resp);
             }
         }
 
         if ("login".equalsIgnoreCase(acao)){
             String tipo = req.getParameter("tipo");
             if ("deslogar".equalsIgnoreCase(tipo)){
-
+                req.getRequestDispatcher("login?tipo=deslogar").forward(req, resp);
             }
         }
 

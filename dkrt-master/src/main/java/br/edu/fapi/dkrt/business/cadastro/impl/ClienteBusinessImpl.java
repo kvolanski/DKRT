@@ -79,4 +79,14 @@ public class ClienteBusinessImpl implements ClienteBusiness {
         return listaClientes;
     }
 
+    @Override
+    public boolean excluirCliente(int id) {
+        if (id != 0){
+            if (clienteDAO.excluirCliente(id)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

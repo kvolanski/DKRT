@@ -21,7 +21,7 @@
 </head>
 <body>
 
-<img src="logo.png" class="logo"/>
+<img src="..\logo.png" class="logo"/>
 <div class="login">
     <form method="post" action="controller?acao=login">
         <label>USUÁRIO<input type="text" name="loginUsuario" placeholder="Usuário" required class="form-control"></label><br><br>

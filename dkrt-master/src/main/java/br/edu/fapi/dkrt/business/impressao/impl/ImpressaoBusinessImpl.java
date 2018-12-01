@@ -48,7 +48,8 @@ public class ImpressaoBusinessImpl implements ImpressaoBusiness {
     public boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO) {
         if (produtoDTO != null){
             try {
-                if (geraPDFService.gerarPdfFichaProduto(produtoDTO, caminho)){
+                float valorTotal = (float) produtoDTO.getPrecoVenda()*produtoDTO.getQtdEstoque();
+                if (geraPDFService.gerarPdfFichaProduto(produtoDTO, caminho, valorTotal)){
                     return true;
                 }
             } catch (IOException e) {

@@ -48,6 +48,7 @@
                 <td><strong>Preço de Venda</strong></td>
                 <td><strong>Preço de Custo</strong></td>
                 <td><strong>Qtd. em Estoque</strong></td>
+                <td><strong>Imprimir</strong></td>
             </tr>
             <c:forEach var="produto" items="${listaProdutosLike}">
                 <tr style="text-align: center; background-color: gainsboro;" class="border_bottom">
@@ -60,6 +61,7 @@
                 </tr>
             </c:forEach>
         </table>
+
         <form method="post" action="controller">
 
         </form>
@@ -79,7 +81,7 @@
             <label class="formInterno" style="width: 300px;">Data da Última Alteração: <fmt:formatDate value="${produtoBusca.dataAlteracao}"
                                                              pattern="dd/MM/yyyy"/></label><br>
         </fieldset>
-        <button><a href="controller?acao=impressao&tipo=fichaProduto&id=${produtoBusca.id}">IMPRIMIR</a></button>
+       <a class="btn btn-success" href="controller?acao=impressao&tipo=fichaProduto&id=${produtoBusca.id}">GERAR PDF</a>
     </center>
 </c:if>
 
