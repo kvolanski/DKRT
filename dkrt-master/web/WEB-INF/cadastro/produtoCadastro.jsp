@@ -23,6 +23,7 @@
 <%@include file="/WEB-INF/navbar/navbar.jsp" %>
 
 <h1 class="geral">PRODUTOS</h1>
+<center>
 <span class="geral">
     <c:if test="${alteraForm == 'nao'}">
 	    <form method="post" action="controller?acao=cadastro&tipo=produto">
@@ -59,7 +60,7 @@
             <a href="controller?acao=cadastro&tipo=alteraProduto&nomeProduto=${nomeProduto}"><button>Sim</button></a>
         </center>
     </c:if>
-
+</center>
     <script>
             var condicao = document.getElementById("condicao").value;
 
