@@ -27,7 +27,7 @@
 <span class="geral">
 	 <form method="post" action="controller">
          <c:choose>
-             <c:when test="">
+             <c:when test="${clienteBusca.id == null}">
                  <input type="hidden" value="cadastro" name="acao">
                  <input type="hidden" value="cliente" name="tipo">
                  <input type="hidden" value="cadastro" name="tipoAcao">
@@ -38,7 +38,7 @@
                  <input type="hidden" value="edicao" name="tipoAcao">
              </c:otherwise>
          </c:choose>
-				<label>Codigo: <input type="hidden" name="idCliente" value="${clienteBusca.id}"/></label><br>
+				<label><input type="hidden" name="idCliente" value="${clienteBusca.id}"/></label><br>
 				<label>Nome *: <input type="text" id="nomeCliente" name="nomeCliente" class="form-control"
                                       value="${clienteBusca.nome}" required/></label>
 				<label>RG *: <input type="text" id="rgCliente" name="rgCliente" class="form-control"
@@ -66,19 +66,19 @@
                                         value="${clienteBusca.enderecoDTO.numero}" class="form-control"
                                         required/></label><br>
 				<label>Complemento: <input type="text" name="complementoEnderecoCliente"
-                                           class="form-control"/></label><br>
+                                           class="form-control" value="${clienteBusca.enderecoDTO.complemento}" /></label><br>
 				<label>Bairro *: <input type="text" name="bairroEnderecoCliente" id="bairro"
                                         class="form-control" required/></label>
 				<label>Cidade*: <input type="text" name="cidadeEnderecoCliente" id="cidade"
                                        class="form-control" required/></label>
-                <label>Observação: <input type="text" name="observacaoCliente" class="form-control"/></label>
+                <label>Observação: <input type="text" name="observacaoCliente" value="${clienteBusca.observacao}" class="form-control"/></label>
 				<%--<label>Estado: <input type="text" name="estadoEnderecoCliente" id="uf" class="form-control"/></label>--%>
          <%--<br><br><label>Uf *:--%>
                 <%--<input type="text" name="uf" style="width:44px;font-size:13px"  id="uf" disabled class="form-control"/></label>--%>
          <center>
          <select name="clienteUfId" class="form-control" style="width: 300px;">
              <c:choose>
-                 <c:when test="${clienteBusca.id != 0}">
+                 <c:when test="${clienteBusca.id != null}">
                      <option value="${clienteBusca.enderecoDTO.ufDTO.id}">${clienteBusca.enderecoDTO.ufDTO.sigla}</option>
                  </c:when>
                  <c:otherwise>
