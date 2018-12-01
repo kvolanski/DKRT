@@ -203,6 +203,8 @@ public class ControllerServlet extends HttpServlet {
             String tipo = req.getParameter("tipo");
             if ("fichaCliente".equalsIgnoreCase(tipo)){
                 req.getRequestDispatcher("impressao?tipo=clienteFicha").forward(req, resp);
+            } if ("fichaProduto".equalsIgnoreCase(tipo)){
+                req.getRequestDispatcher("impressao?tipo=produtoFicha").forward(req, resp);
             }
         }
     }

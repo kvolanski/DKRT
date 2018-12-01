@@ -1,10 +1,13 @@
 package br.edu.fapi.dkrt.servlets.impressao;
 
 import br.edu.fapi.dkrt.business.cadastro.ClienteBusiness;
+import br.edu.fapi.dkrt.business.cadastro.ProdutoBusiness;
 import br.edu.fapi.dkrt.business.cadastro.impl.ClienteBusinessImpl;
+import br.edu.fapi.dkrt.business.cadastro.impl.ProdutoBusinessImpl;
 import br.edu.fapi.dkrt.business.impressao.ImpressaoBusiness;
 import br.edu.fapi.dkrt.business.impressao.impl.ImpressaoBusinessImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
+import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.servlets.AbstractBaseHttpServlet;
 
 import javax.servlet.ServletException;
@@ -38,6 +41,11 @@ public class ImpressaoServlet extends AbstractBaseHttpServlet {
         if ("produtoFicha".equalsIgnoreCase(tipo)){
             String idProduto = req.getParameter("id");
             ImpressaoBusiness impressaoBusiness = new ImpressaoBusinessImpl();
+            ProdutoBusiness produtoBusiness = new ProdutoBusinessImpl();
+            ProdutoDTO produtoDTO = produtoBusiness.buscarProdutoId(Integer.parseInt(idProduto));
+            if (impressaoBusiness.gerarPdfFichaProduto(produtoDTO)){
+                req.getRequestDispatcher("controller?acao=pesquisa&tipo=produto").forward(req, resp);
+            }
         }
 
     }
