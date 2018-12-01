@@ -260,7 +260,7 @@ public class GeraPDFServiceImpl implements GeraPDFService {
                         Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"));
                     }
                 }
-                document.save(caminho + "\\PdfsDKRT\\PDFs\\Clientes\\Relatorio_Cliente_" + nome + "_" + data + ".pdf");
+                document.save(caminho + "\\PdfsDKRT\\PDFs\\Produtos\\Relatorio_Produto_" + nome + "_" + data + ".pdf");
             } catch (IOException e) {
                 e.printStackTrace();
             }
