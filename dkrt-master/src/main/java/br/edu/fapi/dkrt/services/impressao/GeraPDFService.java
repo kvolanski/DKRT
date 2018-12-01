@@ -9,6 +9,6 @@ public interface GeraPDFService {
 
     boolean gerarPdfFichaCliente(ClienteDTO clienteDTO, String caminho, float maiorCompra) throws IOException;
 
-    boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO, String caminho);
+    boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO, String caminho) throws IOException;
 
 }

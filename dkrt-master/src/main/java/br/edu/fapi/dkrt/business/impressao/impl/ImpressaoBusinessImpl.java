@@ -4,6 +4,7 @@ import br.edu.fapi.dkrt.business.impressao.ImpressaoBusiness;
 import br.edu.fapi.dkrt.dao.venda.VendaDAO;
 import br.edu.fapi.dkrt.dao.venda.impl.VendaDAOImpl;
 import br.edu.fapi.dkrt.model.cliente.ClienteDTO;
+import br.edu.fapi.dkrt.model.produto.ProdutoDTO;
 import br.edu.fapi.dkrt.model.venda.VendaDTO;
 import br.edu.fapi.dkrt.services.impressao.GeraPDFService;
 import br.edu.fapi.dkrt.services.impressao.impl.GeraPDFServiceImpl;
@@ -38,6 +39,16 @@ public class ImpressaoBusinessImpl implements ImpressaoBusiness {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO) {
+        if (produtoDTO != null){
+            if (geraPDFService.gerarPdfFichaProduto(produtoDTO, caminho)){
+                return true;
             }
         }
         return false;

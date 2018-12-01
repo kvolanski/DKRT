@@ -10,7 +10,6 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,7 +43,7 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             int tamFonte = 8;
             int tamFonteTitulo = 10;
 
-            PDImageXObject pdImage = PDImageXObject.createFromFile(caminho+"\\PdfsDKRT\\Logo\\logo.png", document);
+            PDImageXObject pdImage = PDImageXObject.createFromFile(caminho + "\\PdfsDKRT\\Logo\\logo.png", document);
 
             //Logo
             contentStream.drawXObject(pdImage, 230, 660, 160, 160);
@@ -218,10 +217,10 @@ public class GeraPDFServiceImpl implements GeraPDFService {
             try {
                 if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT"))) {
                     Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT"));
-                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\PDFs\\Clientes"))){
+                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\PDFs\\Clientes"))) {
                         Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\PDFs\\Clientes"));
                     }
-                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"))){
+                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"))) {
                         Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"));
                     }
                 }
@@ -237,7 +236,38 @@ public class GeraPDFServiceImpl implements GeraPDFService {
     }
 
     @Override
-    public boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO, String caminho) {
+    public boolean gerarPdfFichaProduto(ProdutoDTO produtoDTO, String caminho) throws IOException {
+        if (produtoDTO != null) {
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+            String data = dateFormat.format(new Date());
+            String nome = produtoDTO.getNome();
+            nome = nome.replaceAll(" ", "_");
+            PDDocument document = new PDDocument();
+
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            PDFont pdFont = PDType1Font.COURIER;
+            PDFont pdFontTitulo = PDType1Font.COURIER_BOLD;
+
+            try {
+                if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT"))) {
+                    Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT"));
+                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\PDFs\\Produtos"))) {
+                        Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\PDFs\\Produtos"));
+                    }
+                    if (!Files.isDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"))) {
+                        Files.createDirectory(Paths.get(caminho + "\\PdfsDKRT\\Logo"));
+                    }
+                }
+                document.save(caminho + "\\PdfsDKRT\\PDFs\\Clientes\\Relatorio_Cliente_" + nome + "_" + data + ".pdf");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            document.close();
+            return true;
+        }
         return false;
     }
 }
